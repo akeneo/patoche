@@ -28,7 +28,7 @@ jobs:
                     - composer-v1-
             - run:
                 name: Install dependencies
-                command: docker-compose run --rm php composer install --prefer-dist --optimize-autoloader --no-interaction --no-scripts
+                command: docker-compose run --rm -T php composer install --prefer-dist --optimize-autoloader --no-interaction --no-scripts
             - save_cache:
                 name: Save Composer cache
                 key: composer-v1-{{ checksum "composer.lock" }}
@@ -52,8 +52,11 @@ jobs:
             - attach_workspace:
                 at: ~/
             - run:
+                name: Execute static analysis
+                command: docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+            - run:
                 name: Run phpspec
-                command: docker-compose run --rm php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
+                command: docker-compose run --rm -T php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
             - store_test_results:
                 path: var/tests
             - store_artifacts:
