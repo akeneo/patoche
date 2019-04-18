@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    php:
+        build: './docker/php/'
+        image: 'akeneo/onboarder-tagging/php:7.3'
+        environment:
+            PHP_IDE_CONFIG: 'serverName=onboarder-tagging'
+            XDEBUG_CONFIG: 'remote_host=172.17.0.1'
+        user: '${CURRENT_IDS:-1000:1000}'
+        volumes:
+            - './:/srv/app'
+        working_dir: '/srv/app'

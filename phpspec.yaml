@@ -1,0 +1,6 @@
+suites:
+    app_suite:
+        namespace: Akeneo
+        psr4_prefix: Akeneo
+        src_path: src
+        spec_path: tests

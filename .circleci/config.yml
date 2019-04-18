@@ -5,8 +5,65 @@ jobs:
         machine:
             enabled: true
             docker_layer_caching: true
+        environment:
+            CURRENT_IDS: "1001:1002"
         steps:
             - checkout
+            - run:
+                name: Build Docker image
+                command: docker-compose build --pull
+            - run:
+                name: Copy Docker Compose override
+                command: cp docker-compose.override.yaml.dist docker-compose.override.yaml
+            - run:
+                name: Create cache directory for composer dependencies
+                command: mkdir -p ~/.cache/composer
+            - run:
+                name: Create configuration directory for composer dependencies
+                command: mkdir -p ~/.config/composer
+            - restore_cache:
+                name: Restore Composer cache
+                keys:
+                    - composer-v1-{{ checksum "composer.lock" }}
+                    - composer-v1-
+            - run:
+                name: Install dependencies
+                command: docker-compose run --rm -T php composer install --prefer-dist --optimize-autoloader --no-interaction --no-scripts
+            - save_cache:
+                name: Save Composer cache
+                key: composer-v1-{{ checksum "composer.lock" }}
+                paths:
+                    - ~/.cache/composer
+            - run:
+                name: Create directories for tests results
+                command: mkdir -p var/tests/phpspec
+            - persist_to_workspace:
+                root: ~/
+                paths:
+                    - project
+
+    test:
+        machine:
+            enabled: true
+            docker_layer_caching: true
+        environment:
+            CURRENT_IDS: "1001:1002"
+        steps:
+            - attach_workspace:
+                at: ~/
+            - run:
+                name: Execute static analysis
+                command: docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+            - run:
+                name: PHPStan
+                command: docker-compose run --rm -T php vendor/bin/phpstan analyse src -l 7
+            - run:
+                name: Run phpspec
+                command: docker-compose run --rm -T php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
+            - store_test_results:
+                path: var/tests
+            - store_artifacts:
+                path: var/tests
 
 workflows:
     version: 2
@@ -21,6 +78,9 @@ workflows:
             - setup:
                 requires:
                     - wait_for_user_approval
+            - test:
+                requires:
+                    - setup
 
     nightly:
         triggers:
@@ -32,3 +92,6 @@ workflows:
                             - "master"
         jobs:
             - setup
+            - test:
+                requires:
+                    - setup

@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+    php:
+        environment:
+            COMPOSER_CACHE_DIR: '/home/composer/.cache/composer'
+            COMPOSER_HOME: '/home/composer/.config/composer'
+            XDEBUG_ENABLED: 0
+        volumes:
+            - '~/.cache/composer:/home/composer/.cache/composer'
+            - '~/.config/composer:/home/composer/.config/composer'
