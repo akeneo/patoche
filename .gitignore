@@ -1,4 +1,5 @@
 docker-compose.override.yaml
+*workflow.png
 
 ###> symfony/framework-bundle ###
 /.env.local

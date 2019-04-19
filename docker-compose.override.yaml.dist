@@ -1,11 +1,28 @@
 version: '3'
 
+# Composer can be configured in 2 different ways.
+# Most Linux distributions are using 2 separate directories for cache and configuration: "~/.cache/composer" and "~/.config/composer" respectively.
+# This is the configuration n°1 below.
+# However, Mac OS and a few Linux distributions are using a single directory "~/.composer" for both.
+# This is configuration n°2.
+# Choose the one you need depending on what is on your host to share composer cache and configuration with the PHP
+# container, for both the volumes and the environment variables.
+
 services:
     php:
         environment:
+            # Configuration n°1
             COMPOSER_CACHE_DIR: '/home/composer/.cache/composer'
             COMPOSER_HOME: '/home/composer/.config/composer'
-            XDEBUG_ENABLED: 0
+            # Configuration n°2
+            COMPOSER_HOME: '/home/composer/.composer'
+
+            # XDEBUG configuration. Default parameters are already set in docker-compose.yaml
+            # Please read this documentation for more information about debugging with Docker: https://github.com/akeneo/Dockerfiles/blob/master/Docs/debugging.md
+            XDEBUG_ENABLED: 0 # Set to 1 to activate XDebug.
         volumes:
+            # Configuration n°1
             - '~/.cache/composer:/home/composer/.cache/composer'
             - '~/.config/composer:/home/composer/.config/composer'
+            # Configuration n°2
+            - '~/.composer:/home/composer/.composer'

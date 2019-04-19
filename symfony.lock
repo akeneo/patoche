@@ -196,6 +196,9 @@
     "symfony/http-kernel": {
         "version": "v4.2.5"
     },
+    "symfony/inflector": {
+        "version": "v4.2.7"
+    },
     "symfony/options-resolver": {
         "version": "v4.2.7"
     },
@@ -206,6 +209,9 @@
         "version": "v1.11.0"
     },
     "symfony/process": {
+        "version": "v4.2.7"
+    },
+    "symfony/property-access": {
         "version": "v4.2.7"
     },
     "symfony/routing": {
@@ -228,6 +234,18 @@
     },
     "symfony/var-exporter": {
         "version": "v4.2.5"
+    },
+    "symfony/workflow": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "7c8798612bf94fbe4cb75056a4cd7ea3a9183698"
+        },
+        "files": [
+            "config/packages/workflow.yaml"
+        ]
     },
     "symfony/yaml": {
         "version": "v4.2.5"
