@@ -1,13 +1,13 @@
 framework:
     workflows:
         tagging:
-            type: 'state_machine'
+            type: 'workflow'
             marking_store:
-                type: 'single_state'
+                type: 'multiple_state'
                 arguments:
-                    - 'state'
+                    - 'states'
             supports:
-                - 'Akeneo\Domain\Model\TaggingProcess'
+                - 'Akeneo\Domain\Tagging\TaggingProcess'
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'
