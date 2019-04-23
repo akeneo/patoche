@@ -11,44 +11,56 @@ framework:
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'
-                - 'helm_onboarder_pull_request_opened'
-                - 'helm_onboarder_pull_request_closed'
+                - 'pim_enterprise_cloud_prepared_for_dev'
+                - 'middleware_docker_image_built_for_dev'
+                - 'overseer_docker_image_built_for_dev'
+                - 'supplier_onboarder_docker_image_built_for_dev'
+                - 'pim_enterprise_cloud_preparation_aborted'
                 - 'dev_environment_deployed'
                 - 'dev_environment_rejected'
                 - 'dev_environment_validated'
                 - 'pim_onboarder_bundle_tagged'
-                - 'pim_enterprise_cloud_updated'
+                - 'pim_enterprise_cloud_updated_for_production'
                 - 'middleware_tagged'
                 - 'overseer_tagged'
                 - 'supplier_onboarder_tagged'
-                - 'middleware_docker_image_built'
-                - 'overseer_docker_image_built'
-                - 'supplier_onboarder_docker_image_built'
+                - 'middleware_docker_image_tagged_for_prod'
+                - 'overseer_docker_image_tagged_for_prod'
+                - 'supplier_onboarder_docker_image_tagged_for_prod'
                 - 'helm_onboarder_values_updated'
                 - 'helm_onboarder_tagged'
                 - 'helm_onboarder_chart_packaged'
             transitions:
-                open_helm_onboarder_pull_request:
+                prepare_pim_enterprise_cloud_for_dev:
                     from: 'tagging_process_started'
-                    to: 'helm_onboarder_pull_request_opened'
+                    to: 'pim_enterprise_cloud_prepared_for_dev'
+                build_middleware_docker_image_for_dev:
+                    from: 'tagging_process_started'
+                    to: 'middleware_docker_image_built_for_dev'
+                build_overseer_docker_image_for_dev:
+                    from: 'tagging_process_started'
+                    to: 'overseer_docker_image_built_for_dev'
+                build_supplier_onboarder_docker_image_for_dev:
+                    from: 'tagging_process_started'
+                    to: 'supplier_onboarder_docker_image_built_for_dev'
                 deploy_dev_environment:
-                    from: 'helm_onboarder_pull_request_opened'
+                    from: ['pim_enterprise_cloud_prepared_for_dev', 'middleware_docker_image_built_for_dev', 'overseer_docker_image_built_for_dev', 'supplier_onboarder_docker_image_built_for_dev']
                     to: 'dev_environment_deployed'
                 reject_dev_environment:
                     from: 'dev_environment_deployed'
                     to: 'dev_environment_rejected'
-                close_helm_onboarder_pull_request:
+                abort_pim_enterprise_cloud_preparation:
                     from: 'dev_environment_rejected'
-                    to: 'helm_onboarder_pull_request_closed'
+                    to: 'pim_enterprise_cloud_preparation_aborted'
                 validate_dev_environment:
                     from: 'dev_environment_deployed'
                     to: 'dev_environment_validated'
                 tag_pim_onboarder_bundle:
                     from: 'dev_environment_validated'
                     to: 'pim_onboarder_bundle_tagged'
-                update_pim_enterprise_cloud:
+                update_pim_enterprise_cloud_for_prod:
                     from: 'pim_onboarder_bundle_tagged'
-                    to: 'pim_enterprise_cloud_updated'
+                    to: 'pim_enterprise_cloud_updated_for_production'
                 tag_middleware:
                     from: 'dev_environment_validated'
                     to: 'middleware_tagged'
@@ -58,17 +70,17 @@ framework:
                 tag_supplier_onboarder:
                     from: 'dev_environment_validated'
                     to: 'supplier_onboarder_tagged'
-                build_middleware_docker_image:
+                tag_middleware_docker_image_for_prod:
                     from: 'middleware_tagged'
-                    to: 'middleware_docker_image_built'
-                build_overseer_docker_image:
+                    to: 'middleware_docker_image_tagged_for_prod'
+                tag_overseer_docker_image_for_prod:
                     from: 'overseer_tagged'
-                    to: 'overseer_docker_image_built'
-                build_supplier_onboarder_docker_image:
+                    to: 'overseer_docker_image_tagged_for_prod'
+                tag_supplier_onboarder_docker_image_for_prod:
                     from: 'supplier_onboarder_tagged'
-                    to: 'supplier_onboarder_docker_image_built'
+                    to: 'supplier_onboarder_docker_image_tagged_for_prod'
                 update_helm_onboarder_values:
-                    from: ['middleware_docker_image_built', 'overseer_docker_image_built', 'supplier_onboarder_docker_image_built']
+                    from: ['pim_enterprise_cloud_updated_for_production', 'middleware_docker_image_tagged_for_prod', 'overseer_docker_image_tagged_for_prod', 'supplier_onboarder_docker_image_tagged_for_prod']
                     to: 'helm_onboarder_values_updated'
                 tag_helm_onboarder:
                     from: 'helm_onboarder_values_updated'
