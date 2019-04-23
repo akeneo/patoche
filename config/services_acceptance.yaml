@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+
+    Akeneo\Tests\Acceptance\:
+        resource: '../tests/acceptance/*'

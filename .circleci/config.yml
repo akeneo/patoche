@@ -36,7 +36,7 @@ jobs:
                     - ~/.cache/composer
             - run:
                 name: Create directories for tests results
-                command: mkdir -p var/tests/phpspec
+                command: mkdir -p var/tests/phpspec var/tests/behat
             - persist_to_workspace:
                 root: ~/
                 paths:
@@ -58,8 +58,11 @@ jobs:
                 name: PHPStan
                 command: docker-compose run --rm -T php vendor/bin/phpstan analyse src -l 7
             - run:
-                name: Run phpspec
+                name: Run phpspec tests
                 command: docker-compose run --rm -T php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
+            - run:
+                name: Run acceptance tests
+                command: docker-compose run --rm php sh -c "APP_ENV=acceptance vendor/bin/behat -p acceptance -f junit -o var/tests/behat -f pretty -o std --colors"
             - store_test_results:
                 path: var/tests
             - store_artifacts:

@@ -61,3 +61,8 @@ Everything listed here is ran on the CI.
   ```bash
   $ docker-compose run --rm php vendor/bin/phpspec run
   ```
+
+- Acceptance tests
+  ```bash
+  $ docker-compose run --rm php vendor/bin/behat -p acceptance
+  ```

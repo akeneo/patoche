@@ -20,6 +20,7 @@
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
+        "friends-of-behat/symfony-extension": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpspec/phpspec": "^5.1",
         "phpstan/phpstan": "^0.11.5"
@@ -37,7 +38,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Akeneo\\Tests\\": "tests/"
+            "Akeneo\\Tests\\Acceptance\\": "tests/acceptance"
         }
     },
     "replace": {
@@ -65,7 +66,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "4.2.*"
         }
     }

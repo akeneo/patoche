@@ -1,0 +1,12 @@
+acceptance:
+    suites:
+        default:
+            paths:
+                - '%paths.base%/tests/features'
+            contexts: []
+
+    extensions:
+        FriendsOfBehat\SymfonyExtension:
+            kernel:
+                class: Akeneo\Kernel
+                environment: acceptance
