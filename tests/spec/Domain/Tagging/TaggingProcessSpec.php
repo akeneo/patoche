@@ -9,16 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Domain\Model;
+namespace spec\Akeneo\Domain\Tagging;
 
-use Akeneo\Domain\Model\TaggingProcess;
+use Akeneo\Domain\Tagging\TaggingProcess;
 use PhpSpec\ObjectBehavior;
 
 class TaggingProcessSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('original_state');
+        $this->beConstructedWith(['original_state']);
     }
 
     function it_is_initializable()
@@ -28,13 +28,13 @@ class TaggingProcessSpec extends ObjectBehavior
 
     function it_has_a_state()
     {
-        $this->getState()->shouldReturn('original_state');
+        $this->getStates()->shouldReturn(['original_state']);
     }
 
     function it_can_change_state()
     {
-        $this->setState('next_state');
+        $this->setStates(['next_state_1', 'next_state_2']);
 
-        $this->getState()->shouldReturn('next_state');
+        $this->getStates()->shouldReturn(['next_state_1', 'next_state_2']);
     }
 }
