@@ -18,7 +18,7 @@ class TaggingProcessSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(['original_state']);
+        $this->beConstructedWith('1.0', '1.0.0', 'akeneo');
     }
 
     function it_is_initializable()
@@ -26,15 +26,30 @@ class TaggingProcessSpec extends ObjectBehavior
         $this->shouldHaveType(TaggingProcess::class);
     }
 
-    function it_has_a_state()
+    function it_has_a_branch_to_work_on()
     {
-        $this->getStates()->shouldReturn(['original_state']);
+        $this->getBranch()->shouldReturn('1.0');
     }
 
-    function it_can_change_state()
+    function it_returns_a_tag_to_create()
     {
-        $this->setStates(['next_state_1', 'next_state_2']);
+        $this->getTag()->shouldReturn('1.0.0');
+    }
 
-        $this->getStates()->shouldReturn(['next_state_1', 'next_state_2']);
+    function it_returns_the_organization_to_tag_on()
+    {
+        $this->getOrganization()->shouldReturn('akeneo');
+    }
+
+    function it_starts_with_an_empty_list_of_place()
+    {
+        $this->getPlaces()->shouldReturn([]);
+    }
+
+    function it_can_change_places()
+    {
+        $this->setPlaces(['next_place_1', 'next_place_2']);
+
+        $this->getPlaces()->shouldReturn(['next_place_1', 'next_place_2']);
     }
 }

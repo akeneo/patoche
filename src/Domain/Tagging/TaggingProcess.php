@@ -13,20 +13,41 @@ namespace Akeneo\Domain\Tagging;
 
 class TaggingProcess
 {
-    private $states;
+    private $branch;
+    private $tag;
+    private $organization;
+    private $places;
 
-    public function __construct(array $states)
+    public function __construct(string $branch, string $tag, string $organization)
     {
-        $this->states = $states;
+        $this->branch = $branch;
+        $this->tag = $tag;
+        $this->organization = $organization;
+        $this->places = [];
     }
 
-    public function setStates(array $states): void
+    public function getBranch(): string
     {
-        $this->states = $states;
+        return $this->branch;
     }
 
-    public function getStates(): array
+    public function getTag(): string
     {
-        return $this->states;
+        return $this->tag;
+    }
+
+    public function getOrganization(): string
+    {
+        return $this->organization;
+    }
+
+    public function getPlaces(): array
+    {
+        return $this->places;
+    }
+
+    public function setPlaces(array $places): void
+    {
+        $this->places = $places;
     }
 }

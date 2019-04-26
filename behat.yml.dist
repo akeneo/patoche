@@ -3,7 +3,8 @@ acceptance:
         default:
             paths:
                 - '%paths.base%/tests/features'
-            contexts: []
+            contexts:
+                - Akeneo\Tests\Acceptance\Context\GitContext
 
     extensions:
         FriendsOfBehat\SymfonyExtension:
