@@ -5,3 +5,15 @@ services:
 
     Akeneo\Tests\Acceptance\:
         resource: '../tests/acceptance/*'
+
+    # - APPLICATION SERVICES OVERRIDDEN FOR ACCEPTANCE TESTS - #
+
+    Akeneo\Infrastructure\Vcs\Api\FakeClient: ~
+    Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\FakeClient'
+
+    # - BEHAT CONTEXTS FOR ACCEPTANCE TESTS - #
+
+    Akeneo\Tests\Acceptance\Context\VcsContext:
+        public: true
+        arguments:
+            - '@Akeneo\Application\Vcs\CloneRepositoryHandler'

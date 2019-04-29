@@ -16,6 +16,7 @@ class TaggingProcess
     private $branch;
     private $tag;
     private $organization;
+    private $workingDirectory;
     private $places;
 
     public function __construct(string $branch, string $tag, string $organization)
@@ -23,6 +24,9 @@ class TaggingProcess
         $this->branch = $branch;
         $this->tag = $tag;
         $this->organization = $organization;
+
+        $this->workingDirectory = uniqid(sprintf('release-%s-', $tag));
+
         $this->places = [];
     }
 
@@ -39,6 +43,11 @@ class TaggingProcess
     public function getOrganization(): string
     {
         return $this->organization;
+    }
+
+    public function getWorkingDirectory(): string
+    {
+        return $this->workingDirectory;
     }
 
     public function getPlaces(): array

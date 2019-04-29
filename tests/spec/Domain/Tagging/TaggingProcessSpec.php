@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace spec\Akeneo\Domain\Tagging;
 
 use Akeneo\Domain\Tagging\TaggingProcess;
+use Akeneo\Domain\Tagging\WorkingDirectory;
 use PhpSpec\ObjectBehavior;
 
 class TaggingProcessSpec extends ObjectBehavior
@@ -39,6 +40,13 @@ class TaggingProcessSpec extends ObjectBehavior
     function it_returns_the_organization_to_tag_on()
     {
         $this->getOrganization()->shouldReturn('akeneo');
+    }
+
+    function it_returns_a_working_directory()
+    {
+        $workingDirectory = $this->getWorkingDirectory();
+        $workingDirectory->shouldBeString();
+        $workingDirectory->shouldMatch('/^release-[0-9].[0-9].[0-9]-[a-z,0-9]{13}$/');
     }
 
     function it_starts_with_an_empty_list_of_place()
