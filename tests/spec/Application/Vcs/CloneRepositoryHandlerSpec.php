@@ -40,7 +40,7 @@ class CloneRepositoryHandlerSpec extends ObjectBehavior
             new WorkingDirectory('release-4.2.0-5cc30e180c6fb')
         );
 
-        $vcsApiClient->clone('akeneo/onboarder', '4.2', 'release-4.2.0-5cc30e180c6fb')->shouldBeCalled();
+        $vcsApiClient->clone('akeneo', 'onboarder', '4.2', 'release-4.2.0-5cc30e180c6fb')->shouldBeCalled();
 
         $this->__invoke($cloneRepository);
     }

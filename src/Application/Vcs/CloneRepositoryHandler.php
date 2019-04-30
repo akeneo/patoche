@@ -22,14 +22,11 @@ class CloneRepositoryHandler
 
     public function __invoke(CloneRepository $cloneRepository): void
     {
-        $repositoryName = sprintf(
-            '%s/%s',
-            (string) $cloneRepository->getRepository()->getOrganization(),
-            (string) $cloneRepository->getRepository()->getProject()
-        );
-        $repositoryBranch = (string) $cloneRepository->getRepository()->getBranch();
-        $cloneDestination = (string) $cloneRepository->getWorkingDirectory();
+        $organization = (string) $cloneRepository->getRepository()->getOrganization();
+        $project = (string) $cloneRepository->getRepository()->getProject();
+        $branch = (string) $cloneRepository->getRepository()->getBranch();
+        $destination = (string) $cloneRepository->getWorkingDirectory();
 
-        $this->vcsApiClient->clone($repositoryName, $repositoryBranch, $cloneDestination);
+        $this->vcsApiClient->clone($organization, $project, $branch, $destination);
     }
 }

@@ -65,6 +65,12 @@
     "jean85/pretty-package-versions": {
         "version": "1.2"
     },
+    "league/flysystem": {
+        "version": "1.0.51"
+    },
+    "league/flysystem-memory": {
+        "version": "1.0.1"
+    },
     "nette/bootstrap": {
         "version": "v3.0.0"
     },
@@ -97,6 +103,18 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.2"
+    },
+    "oneup/flysystem-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "0eb87bba411c227da027fe5f7c1dc7954b02f242"
+        },
+        "files": [
+            "config/packages/oneup_flysystem.yaml"
+        ]
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.0"

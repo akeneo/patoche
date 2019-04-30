@@ -1,3 +1,5 @@
+/data/*
+!/data/.gitkeep
 docker-compose.override.yaml
 *workflow.png
 

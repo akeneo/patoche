@@ -12,6 +12,8 @@
         "php": "7.3.*",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "league/flysystem-memory": "^1.0",
+        "oneup/flysystem-bundle": "^3.1",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
@@ -23,7 +25,8 @@
         "friends-of-behat/symfony-extension": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpspec/phpspec": "^5.1",
-        "phpstan/phpstan": "^0.11.5"
+        "phpstan/phpstan": "^0.11.5",
+        "webmozart/assert": "^1.4"
     },
     "config": {
         "preferred-install": {

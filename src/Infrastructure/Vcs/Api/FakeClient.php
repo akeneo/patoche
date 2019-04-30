@@ -12,11 +12,30 @@ declare(strict_types=1);
 namespace Akeneo\Infrastructure\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
+use League\Flysystem\FilesystemInterface;
 
 class FakeClient implements VcsApiClient
 {
-    public function clone(string $repository, string $branch, string $destination): void
+    public const DATA = [
+        'akeneo' => [
+            'onboarder' => [
+                '4.2' => 'Cloning akeneo/onboarder 4.2',
+            ],
+        ],
+    ];
+
+    private $filesystem;
+
+    public function __construct(FilesystemInterface $filesystem)
     {
-        throw new \LogicException('Not implemented step!');
+        $this->filesystem = $filesystem;
+    }
+
+    public function clone(string $organization, string $project, string $branch, string $destination): void
+    {
+        $this->filesystem->write(
+            sprintf('%s/%s/README.md', $destination, $project),
+            static::DATA[$organization][$project][$branch]
+        );
     }
 }

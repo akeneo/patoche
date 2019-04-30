@@ -19,19 +19,23 @@ use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Infrastructure\Vcs\Api\FakeClient;
 use Behat\Behat\Context\Context;
+use League\Flysystem\FilesystemInterface;
+use Webmozart\Assert\Assert;
 
 class VcsContext implements Context
 {
+    private $cloneRepositoryHandler;
+    private $filesystem;
+
     /** @var TaggingProcess */
     private $taggingProcess;
 
-    /** @var CloneRepositoryHandler */
-    private $cloneRepositoryHandler;
-
-    public function __construct(CloneRepositoryHandler $cloneRepositoryHandler)
+    public function __construct(CloneRepositoryHandler $cloneRepositoryHandler, FilesystemInterface $filesystem)
     {
         $this->cloneRepositoryHandler = $cloneRepositoryHandler;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -39,7 +43,7 @@ class VcsContext implements Context
      */
     public function newOnboarderRelease(): void
     {
-        $this->taggingProcess = new TaggingProcess('1.0', '1.1.1', 'akeneo');
+        $this->taggingProcess = new TaggingProcess('4.2', '4.2.0', 'akeneo');
     }
 
     /**
@@ -63,6 +67,16 @@ class VcsContext implements Context
      */
     public function projectAvailableLocally(string $projectName): void
     {
-        throw new \LogicException('Not implemented step!');
+        $readContent = $this->filesystem->read(sprintf(
+            '%s/%s/README.md',
+            $this->taggingProcess->getWorkingDirectory(),
+            $projectName
+        ));
+
+        $organization = $this->taggingProcess->getOrganization();
+        $branch = $this->taggingProcess->getBranch();
+        $expectedContent = FakeClient::DATA[$organization][$projectName][$branch];
+
+        Assert::same($readContent, $expectedContent);
     }
 }

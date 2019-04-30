@@ -13,5 +13,5 @@ namespace Akeneo\Application\Vcs;
 
 interface VcsApiClient
 {
-    public function clone(string $repository, string $branch, string $destination): void;
+    public function clone(string $organization, string $project, string $branch, string $destination): void;
 }

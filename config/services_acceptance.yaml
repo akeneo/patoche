@@ -8,7 +8,9 @@ services:
 
     # - APPLICATION SERVICES OVERRIDDEN FOR ACCEPTANCE TESTS - #
 
-    Akeneo\Infrastructure\Vcs\Api\FakeClient: ~
+    Akeneo\Infrastructure\Vcs\Api\FakeClient:
+        arguments:
+            - '@League\Flysystem\Filesystem'
     Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\FakeClient'
 
     # - BEHAT CONTEXTS FOR ACCEPTANCE TESTS - #
@@ -17,3 +19,4 @@ services:
         public: true
         arguments:
             - '@Akeneo\Application\Vcs\CloneRepositoryHandler'
+            - '@League\Flysystem\Filesystem'
