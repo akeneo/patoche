@@ -15,6 +15,9 @@ use Akeneo\Application\Vcs\CloneRepository;
 use Akeneo\Application\Vcs\CloneRepositoryHandler;
 use Akeneo\Domain\Tagging\TaggingProcess;
 use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
 use Behat\Behat\Context\Context;
 
@@ -45,9 +48,9 @@ class VcsContext implements Context
     public function cloneRepository(string $projectName): void
     {
         $repository = new Repository(
-            $this->taggingProcess->getOrganization(),
-            $projectName,
-            $this->taggingProcess->getBranch()
+            new Organization($this->taggingProcess->getOrganization()),
+            new Project($projectName),
+            new Branch($this->taggingProcess->getBranch())
         );
 
         $workingDirectory = new WorkingDirectory($this->taggingProcess->getWorkingDirectory());

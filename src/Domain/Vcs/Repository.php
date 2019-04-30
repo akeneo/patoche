@@ -17,19 +17,24 @@ class Repository
     private $project;
     private $branch;
 
-    public function __construct(string $organization, string $project, string $branch)
+    public function __construct(Organization $organization, Project $project, Branch $branch)
     {
         $this->organization = $organization;
         $this->project = $project;
         $this->branch = $branch;
     }
 
-    public function getName(): string
+    public function getOrganization(): Organization
     {
-        return sprintf('%s/%s', $this->organization, $this->project);
+        return $this->organization;
     }
 
-    public function getBranch(): string
+    public function getProject(): Project
+    {
+        return $this->project;
+    }
+
+    public function getBranch(): Branch
     {
         return $this->branch;
     }

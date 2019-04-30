@@ -11,14 +11,25 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Domain\Vcs;
 
+use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
 use PhpSpec\ObjectBehavior;
 
 class RepositorySpec extends ObjectBehavior
 {
+    private $organization;
+    private $project;
+    private $branch;
+
     function let()
     {
-        $this->beConstructedWith('akeneo', 'onboarder', '4.2');
+        $this->organization = new Organization('akeneo');
+        $this->project = new Project('onboarder');
+        $this->branch = new Branch('4.2');
+
+        $this->beConstructedWith($this->organization, $this->project, $this->branch);
     }
 
     function it_is_initializable()
@@ -26,13 +37,18 @@ class RepositorySpec extends ObjectBehavior
         $this->shouldHaveType(Repository::class);
     }
 
-    function it_returns_the_name_of_the_repository()
+    function it_returns_the_organization_of_the_repository()
     {
-        $this->getName()->shouldReturn('akeneo/onboarder');
+        $this->getOrganization()->shouldReturn($this->organization);
+    }
+
+    function it_returns_the_project_of_the_repository()
+    {
+        $this->getProject()->shouldReturn($this->project);
     }
 
     function it_returns_the_branch_of_the_repository()
     {
-        $this->getBranch()->shouldReturn('4.2');
+        $this->getBranch()->shouldReturn($this->branch);
     }
 }
