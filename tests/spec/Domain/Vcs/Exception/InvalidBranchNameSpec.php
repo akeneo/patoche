@@ -16,6 +16,11 @@ use PhpSpec\ObjectBehavior;
 
 class InvalidBranchNameSpec extends ObjectBehavior
 {
+    function let()
+    {
+        $this->beConstructedWith('foobar');
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(InvalidBranchName::class);
@@ -23,8 +28,6 @@ class InvalidBranchNameSpec extends ObjectBehavior
 
     function it_returns_a_dedicated_message()
     {
-        $this->beConstructedThrough('build', ['foobar']);
-
         $this->getMessage()->shouldReturn(
             'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "foobar" provided.'
         );

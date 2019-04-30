@@ -35,18 +35,18 @@ class BranchSpec extends ObjectBehavior
     function it_throws_an_exception_if_the_branch_name_is_not_a_version_number()
     {
         $this->beConstructedWith('foobar');
-        $this->shouldThrow(InvalidBranchName::build('foobar'))->duringInstantiation();
+        $this->shouldThrow(new InvalidBranchName('foobar'))->duringInstantiation();
     }
 
     function it_throws_an_exception_if_the_branch_name_is_only_a_major_version_number()
     {
         $this->beConstructedWith('10');
-        $this->shouldThrow(InvalidBranchName::build('10'))->duringInstantiation();
+        $this->shouldThrow(new InvalidBranchName('10'))->duringInstantiation();
     }
 
     function it_throws_an_exception_if_the_branch_name_is_a_patch_version_number()
     {
         $this->beConstructedWith('4.2.1');
-        $this->shouldThrow(InvalidBranchName::build('4.2.1'))->duringInstantiation();
+        $this->shouldThrow(new InvalidBranchName('4.2.1'))->duringInstantiation();
     }
 }

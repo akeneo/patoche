@@ -13,13 +13,13 @@ namespace Akeneo\Domain\Vcs\Exception;
 
 class InvalidBranchName extends \InvalidArgumentException
 {
-    public static function build(string $branchName): self
+    public function __construct(string $branchName)
     {
         $message = sprintf(
             'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "%s" provided.',
             $branchName
         );
 
-        return new self($message);
+        parent::__construct($message);
     }
 }

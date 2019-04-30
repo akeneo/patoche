@@ -20,7 +20,7 @@ class Branch
     public function __construct(string $branchName)
     {
         if (0 === preg_match('/^\d+.\d+$/', $branchName)) {
-            throw InvalidBranchName::build($branchName);
+            throw new InvalidBranchName($branchName);
         }
 
         $this->branchName = $branchName;
