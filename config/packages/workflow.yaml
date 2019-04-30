@@ -26,6 +26,7 @@ framework:
                 - 'dev_environment_deployed'
                 - 'dev_environment_rejected'
                 - 'dev_environment_validated'
+                - 'pim_onboarder_bundle_git_repository_cloned'
                 - 'pim_onboarder_bundle_tagged'
                 - 'pim_enterprise_cloud_updated_for_production'
                 - 'middleware_tagged'
@@ -58,7 +59,7 @@ framework:
                     to: 'dev_middleware_docker_image_built'
                 build_dev_overseer_docker_image:
                     from: 'overseer_git_repository_cloned'
-                    to: 'dev_overseer_docker_image_pushed'
+                    to: 'dev_overseer_docker_image_built'
                 build_dev_supplier_onboarder_docker_image:
                     from: 'supplier_onboarder_git_repository_cloned'
                     to: 'dev_supplier_onboarder_docker_image_built'
@@ -83,11 +84,14 @@ framework:
                 validate_dev_environment:
                     from: 'dev_environment_deployed'
                     to: 'dev_environment_validated'
-                tag_pim_onboarder_bundle:
+                clone_pim_onboarder_bundle_git_repository:
                     from: 'dev_environment_validated'
+                    to: 'pim_onboarder_bundle_git_repository_cloned'
+                tag_pim_onboarder_bundle:
+                    from: 'pim_onboarder_bundle_git_repository_cloned'
                     to: 'pim_onboarder_bundle_tagged'
                 update_pim_enterprise_cloud_for_prod:
-                    from: 'pim_onboarder_bundle_tagged'
+                    from: ['pim_onboarder_bundle_tagged', 'pim_enterprise_cloud_prepared_for_dev']
                     to: 'pim_enterprise_cloud_updated_for_production'
                 tag_middleware:
                     from: 'dev_environment_validated'
