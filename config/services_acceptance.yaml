@@ -3,15 +3,12 @@ services:
         autowire: false
         autoconfigure: false
 
-    Akeneo\Tests\Acceptance\:
-        resource: '../tests/acceptance/*'
-
     # - APPLICATION SERVICES OVERRIDDEN FOR ACCEPTANCE TESTS - #
 
-    Akeneo\Infrastructure\Vcs\Api\FakeClient:
+    Akeneo\Tests\Acceptance\Vcs\Api\FakeClient:
         arguments:
             - '@League\Flysystem\Filesystem'
-    Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\FakeClient'
+    Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Tests\Acceptance\Vcs\Api\FakeClient'
 
     # - BEHAT CONTEXTS FOR ACCEPTANCE TESTS - #
 

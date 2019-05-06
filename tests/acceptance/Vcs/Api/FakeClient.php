@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Infrastructure\Vcs\Api;
+namespace Akeneo\Tests\Acceptance\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Tagging\WorkingDirectory;

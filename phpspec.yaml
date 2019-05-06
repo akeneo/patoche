@@ -1,5 +1,11 @@
 suites:
-    app_suite:
+    acceptance:
+        namespace: Akeneo\Tests\Acceptance
+        psr4_prefix: Akeneo\Tests\Acceptance
+        src_path: tests/acceptance
+        spec_path: tests/acceptance
+
+    akeneo:
         namespace: Akeneo
         psr4_prefix: Akeneo
         src_path: src

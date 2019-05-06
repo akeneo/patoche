@@ -9,14 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Infrastructure\Vcs\Api;
+namespace spec\Akeneo\Tests\Acceptance\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Tagging\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
-use Akeneo\Infrastructure\Vcs\Api\FakeClient;
+use Akeneo\Tests\Acceptance\Vcs\Api\FakeClient;
 use League\Flysystem\FilesystemInterface;
 use PhpSpec\ObjectBehavior;
 

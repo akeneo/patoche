@@ -19,7 +19,7 @@ use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
-use Akeneo\Infrastructure\Vcs\Api\FakeClient;
+use Akeneo\Tests\Acceptance\Vcs\Api\FakeClient;
 use Behat\Behat\Context\Context;
 use League\Flysystem\FilesystemInterface;
 use Webmozart\Assert\Assert;
