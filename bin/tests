@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
-docker-compose run --rm -T php vendor/bin/phpstan analyse src -l 7
-docker-compose run --rm -T php vendor/bin/phpspec run
-docker-compose run --rm php sh -c "APP_ENV=acceptance vendor/bin/behat -p acceptance -f pretty -o std --colors"

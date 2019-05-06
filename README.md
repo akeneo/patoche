@@ -45,24 +45,18 @@ $ docker-compose run --rm php bin/console workflow:dump tagging | dot -Tpng -o t
 
 ### Testing the application
 
-Everything listed here is ran on the CI.
+You can run the full test suite by running:
+```bash
+$ docker-compose run --rm php composer tests
+```
 
-- Code style
-  ```bash
-  $ docker-compose run --rm php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
-  ```
+Each kind of test can be also run individually, please look at the list in [composer.json](https://github.com/akeneo/patrick-tag/blob/master/composer.json).
+For instance, to run only `php-cs-fixer`, run:
+```bash
+$ docker-compose run --rm php composer php-cs-fixer
+```
 
-- Static Analysis
-  ```bash
-  $ docker-compose run --rm php vendor/bin/phpstan analyse src -l 7
-  ```
-
-- Specifications
-  ```bash
-  $ docker-compose run --rm php vendor/bin/phpspec run
-  ```
-
-- Acceptance tests
-  ```bash
-  $ docker-compose run --rm php vendor/bin/behat -p acceptance
-  ```
+There is also a script to apply `php-cs-fixer` fixes (no dry-run) that is not ran by `composer tests`:
+```bash
+$ docker-compose run --rm php composer php-cs-fixer-fix
+```
