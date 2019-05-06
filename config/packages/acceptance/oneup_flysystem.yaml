@@ -3,7 +3,3 @@ oneup_flysystem:
     adapters:
         default_adapter:
             memory: ~
-    filesystems:
-        default_filesystem:
-            adapter: default_adapter
-            alias: League\Flysystem\Filesystem
