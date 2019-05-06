@@ -27,7 +27,7 @@ class CloneRepositorySpec extends ObjectBehavior
     function let()
     {
         $this->repository = new Repository(new Organization('akeneo'), new Project('onboarder'), new Branch('4.2'));
-        $this->workingDirectory = new WorkingDirectory('release-4.2.0-5cc30e180c6fb');
+        $this->workingDirectory = new WorkingDirectory('release-4.2.0');
 
         $this->beConstructedWith($this->repository, $this->workingDirectory);
     }

@@ -25,7 +25,7 @@ final class TaggingProcess
         $this->tag = $tag;
         $this->organization = $organization;
 
-        $this->workingDirectory = uniqid(sprintf('release-%s-', $tag));
+        $this->workingDirectory = sprintf('release-%s', $tag);
 
         $this->places = [];
     }

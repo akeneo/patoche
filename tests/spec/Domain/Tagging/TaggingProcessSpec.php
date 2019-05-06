@@ -46,7 +46,7 @@ class TaggingProcessSpec extends ObjectBehavior
     {
         $workingDirectory = $this->getWorkingDirectory();
         $workingDirectory->shouldBeString();
-        $workingDirectory->shouldMatch('/^release-[0-9].[0-9].[0-9]-[a-z,0-9]{13}$/');
+        $workingDirectory->shouldMatch('/^release-[0-9].[0-9].[0-9]$/');
     }
 
     function it_starts_with_an_empty_list_of_place()

@@ -18,7 +18,7 @@ class WorkingDirectorySpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('release-4.2.0-5cc30e180c6fb');
+        $this->beConstructedWith('release-4.2.0');
     }
 
     function it_is_initializable()
@@ -28,6 +28,6 @@ class WorkingDirectorySpec extends ObjectBehavior
 
     function it_returns_the_working_directory_name()
     {
-        $this->__toString()->shouldReturn('release-4.2.0-5cc30e180c6fb');
+        $this->__toString()->shouldReturn('release-4.2.0');
     }
 }
