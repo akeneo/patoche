@@ -9,15 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace %namespace%;
+namespace spec\Akeneo\Infrastructure\Vcs\Api;
 
-use %subject%;
+use Akeneo\Infrastructure\Vcs\Api\GitHubClient;
 use PhpSpec\ObjectBehavior;
 
-class %name% extends ObjectBehavior
+class GitHubClientSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(%subject_class%::class);
+        $this->shouldHaveType(GitHubClient::class);
     }
 }
