@@ -13,7 +13,7 @@ namespace Akeneo\Domain\Vcs;
 
 use Akeneo\Domain\Vcs\Exception\InvalidBranchName;
 
-class Branch
+final class Branch
 {
     private $branchName;
 

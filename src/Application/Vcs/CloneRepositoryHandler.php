@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Application\Vcs;
 
-class CloneRepositoryHandler
+final class CloneRepositoryHandler
 {
     private $vcsApiClient;
 

@@ -14,7 +14,7 @@ namespace Akeneo\Infrastructure\Vcs\Api;
 use Akeneo\Application\Vcs\VcsApiClient;
 use League\Flysystem\FilesystemInterface;
 
-class FakeClient implements VcsApiClient
+final class FakeClient implements VcsApiClient
 {
     public const DATA = [
         'akeneo' => [

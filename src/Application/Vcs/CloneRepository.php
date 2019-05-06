@@ -14,7 +14,7 @@ namespace Akeneo\Application\Vcs;
 use Akeneo\Domain\Tagging\WorkingDirectory;
 use Akeneo\Domain\Vcs\Repository;
 
-class CloneRepository
+final class CloneRepository
 {
     private $repository;
     private $workingDirectory;

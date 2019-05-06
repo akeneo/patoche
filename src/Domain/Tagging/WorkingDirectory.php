@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Domain\Tagging;
 
-class WorkingDirectory
+final class WorkingDirectory
 {
     private $directoryName;
 

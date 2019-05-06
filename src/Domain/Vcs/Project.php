@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Domain\Vcs;
 
-class Project
+final class Project
 {
     private $projectName;
 

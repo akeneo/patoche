@@ -13,7 +13,7 @@ namespace Akeneo\Infrastructure\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
 
-class GitHubClient implements VcsApiClient
+final class GitHubClient implements VcsApiClient
 {
     public function clone(string $organization, string $project, string $branch, string $destination): void
     {

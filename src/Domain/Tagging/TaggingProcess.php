@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Domain\Tagging;
 
-class TaggingProcess
+final class TaggingProcess
 {
     private $branch;
     private $tag;

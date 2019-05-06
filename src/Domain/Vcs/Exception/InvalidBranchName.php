@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Domain\Vcs\Exception;
 
-class InvalidBranchName extends \InvalidArgumentException
+final class InvalidBranchName extends \InvalidArgumentException
 {
     public function __construct(string $branchName)
     {
