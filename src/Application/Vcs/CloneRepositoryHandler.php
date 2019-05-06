@@ -22,10 +22,10 @@ final class CloneRepositoryHandler
 
     public function __invoke(CloneRepository $cloneRepository): void
     {
-        $organization = (string) $cloneRepository->getRepository()->getOrganization();
-        $project = (string) $cloneRepository->getRepository()->getProject();
-        $branch = (string) $cloneRepository->getRepository()->getBranch();
-        $destination = (string) $cloneRepository->getWorkingDirectory();
+        $organization = $cloneRepository->getRepository()->getOrganization();
+        $project = $cloneRepository->getRepository()->getProject();
+        $branch = $cloneRepository->getRepository()->getBranch();
+        $destination = $cloneRepository->getWorkingDirectory();
 
         $this->vcsApiClient->clone($organization, $project, $branch, $destination);
     }

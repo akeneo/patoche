@@ -12,6 +12,10 @@ declare(strict_types=1);
 namespace spec\Akeneo\Infrastructure\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
+use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Domain\Vcs\Project;
 use Akeneo\Infrastructure\Vcs\Api\FakeClient;
 use League\Flysystem\FilesystemInterface;
 use PhpSpec\ObjectBehavior;
@@ -40,6 +44,11 @@ class FakeClientSpec extends ObjectBehavior
             'Cloning akeneo/onboarder 4.2'
         )->shouldBeCalled();
 
-        $this->clone('akeneo', 'onboarder', '4.2', 'release-4.2.0-5cc30e180c6fb');
+        $this->clone(
+            new Organization('akeneo'),
+            new Project('onboarder'),
+            new Branch('4.2'),
+            new WorkingDirectory('release-4.2.0-5cc30e180c6fb')
+        );
     }
 }

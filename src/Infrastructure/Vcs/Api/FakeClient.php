@@ -12,11 +12,15 @@ declare(strict_types=1);
 namespace Akeneo\Infrastructure\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
+use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Domain\Vcs\Project;
 use League\Flysystem\FilesystemInterface;
 
 final class FakeClient implements VcsApiClient
 {
-    public const DATA = [
+    private const DATA = [
         'akeneo' => [
             'onboarder' => [
                 '4.2' => 'Cloning akeneo/onboarder 4.2',
@@ -31,11 +35,15 @@ final class FakeClient implements VcsApiClient
         $this->filesystem = $filesystem;
     }
 
-    public function clone(string $organization, string $project, string $branch, string $destination): void
-    {
+    public function clone(
+        Organization $organization,
+        Project $project,
+        Branch $branch,
+        WorkingDirectory $destination
+    ): void {
         $this->filesystem->write(
-            sprintf('%s/%s/README.md', $destination, $project),
-            static::DATA[$organization][$project][$branch]
+            sprintf('%s/%s/README.md', (string) $destination, (string) $project),
+            static::DATA[(string) $organization][(string) $project][(string) $branch]
         );
     }
 }

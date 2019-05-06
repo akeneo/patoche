@@ -26,6 +26,14 @@ use Webmozart\Assert\Assert;
 
 class VcsContext implements Context
 {
+    private const EXPECTED_DATA = [
+        'akeneo' => [
+            'onboarder' => [
+                '4.2' => 'Cloning akeneo/onboarder 4.2',
+            ],
+        ],
+    ];
+
     private $cloneRepositoryHandler;
     private $filesystem;
 
@@ -75,7 +83,7 @@ class VcsContext implements Context
 
         $organization = $this->taggingProcess->getOrganization();
         $branch = $this->taggingProcess->getBranch();
-        $expectedContent = FakeClient::DATA[$organization][$projectName][$branch];
+        $expectedContent = static::EXPECTED_DATA[$organization][$projectName][$branch];
 
         Assert::same($readContent, $expectedContent);
     }

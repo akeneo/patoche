@@ -11,7 +11,17 @@ declare(strict_types=1);
 
 namespace Akeneo\Application\Vcs;
 
+use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Domain\Vcs\Project;
+
 interface VcsApiClient
 {
-    public function clone(string $organization, string $project, string $branch, string $destination): void;
+    public function clone(
+        Organization $organization,
+        Project $project,
+        Branch $branch,
+        WorkingDirectory $destination
+    ): void;
 }

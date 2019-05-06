@@ -35,12 +35,17 @@ class CloneRepositoryHandlerSpec extends ObjectBehavior
 
     function it_clones_a_git_repository($vcsApiClient)
     {
+        $organization = new Organization('akeneo');
+        $project = new Project('onboarder');
+        $branch = new Branch('4.2');
+        $workingDirectory = new WorkingDirectory('release-4.2.0-5cc30e180c6fb');
+
         $cloneRepository = new CloneRepository(
-            new Repository(new Organization('akeneo'), new Project('onboarder'), new Branch('4.2')),
-            new WorkingDirectory('release-4.2.0-5cc30e180c6fb')
+            new Repository($organization, $project, $branch),
+            $workingDirectory
         );
 
-        $vcsApiClient->clone('akeneo', 'onboarder', '4.2', 'release-4.2.0-5cc30e180c6fb')->shouldBeCalled();
+        $vcsApiClient->clone($organization, $project, $branch, $workingDirectory)->shouldBeCalled();
 
         $this->__invoke($cloneRepository);
     }
