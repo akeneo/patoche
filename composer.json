@@ -28,7 +28,8 @@
         "friends-of-behat/symfony-extension": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpspec/phpspec": "^5.1",
-        "phpstan/phpstan": "^0.11.5"
+        "phpstan/phpstan": "^0.11.5",
+        "phpunit/phpunit": "^8.1"
     },
     "config": {
         "preferred-install": {
@@ -43,7 +44,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Akeneo\\Tests\\Acceptance\\": "tests/acceptance"
+            "Akeneo\\Tests\\Acceptance\\": "tests/acceptance",
+            "Akeneo\\Tests\\Integration\\": "tests/integration"
         }
     },
     "replace": {
@@ -69,12 +71,14 @@
             "@php-cs-fixer",
             "@phpstan",
             "@phpspec",
+            "@integration",
             "@acceptance"
         ],
         "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run -v --diff --config=.php_cs.php",
         "php-cs-fixer-fix": "vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.php",
         "phpstan": "vendor/bin/phpstan analyse src -l 7",
         "phpspec": "vendor/bin/phpspec run",
+        "integration": "vendor/bin/phpunit",
         "acceptance": "APP_ENV=acceptance vendor/bin/behat -p acceptance -f pretty -o std --colors"
     },
     "conflict": {

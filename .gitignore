@@ -20,3 +20,8 @@ docker-compose.override.yaml
 ###> friends-of-behat/symfony-extension ###
 /behat.yml
 ###< friends-of-behat/symfony-extension ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
