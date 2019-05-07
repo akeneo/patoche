@@ -9,10 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Domain\Tagging;
+namespace spec\Akeneo\Application;
 
-use Akeneo\Domain\Tagging\TaggingProcess;
-use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Application\TaggingProcess;
 use PhpSpec\ObjectBehavior;
 
 class TaggingProcessSpec extends ObjectBehavior

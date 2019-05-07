@@ -18,7 +18,7 @@ use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
-use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Domain\Common\WorkingDirectory;
 use PhpSpec\ObjectBehavior;
 
 class CloneRepositoryHandlerSpec extends ObjectBehavior

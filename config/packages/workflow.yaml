@@ -7,7 +7,7 @@ framework:
                 arguments:
                     - 'places'
             supports:
-                - 'Akeneo\Domain\Tagging\TaggingProcess'
+                - 'Akeneo\Application\TaggingProcess'
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'

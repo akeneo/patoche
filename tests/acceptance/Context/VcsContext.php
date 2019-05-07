@@ -13,8 +13,8 @@ namespace Akeneo\Tests\Acceptance\Context;
 
 use Akeneo\Application\Vcs\CloneRepository;
 use Akeneo\Application\Vcs\CloneRepositoryHandler;
-use Akeneo\Domain\Tagging\TaggingProcess;
-use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Application\TaggingProcess;
+use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;

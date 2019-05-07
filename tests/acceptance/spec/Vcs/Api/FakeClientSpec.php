@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace spec\Akeneo\Tests\Acceptance\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
-use Akeneo\Domain\Tagging\WorkingDirectory;
+use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;

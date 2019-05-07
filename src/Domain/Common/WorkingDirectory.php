@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Domain\Tagging;
+namespace Akeneo\Domain\Common;
 
 use Webmozart\Assert\Assert;
 
