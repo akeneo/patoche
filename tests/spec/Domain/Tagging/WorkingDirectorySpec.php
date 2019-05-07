@@ -30,4 +30,13 @@ class WorkingDirectorySpec extends ObjectBehavior
     {
         $this->__toString()->shouldReturn('release-4.2.0');
     }
+
+    function it_throws_an_exception_if_the_directory_name_is_empty()
+    {
+        $this->beConstructedWith('');
+
+        $this
+            ->shouldThrow(new \InvalidArgumentException('You must specify a working directory.'))
+            ->duringInstantiation();
+    }
 }

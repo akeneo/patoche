@@ -11,12 +11,16 @@ declare(strict_types=1);
 
 namespace Akeneo\Domain\Vcs;
 
+use Webmozart\Assert\Assert;
+
 final class Organization
 {
     private $organizationName;
 
     public function __construct(string $organizationName)
     {
+        Assert::notEmpty($organizationName, 'You must specify a GitHub organization.');
+
         $this->organizationName = $organizationName;
     }
 

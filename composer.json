@@ -19,14 +19,14 @@
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.2.*",
         "symfony/workflow": "4.2.*",
-        "symfony/yaml": "4.2.*"
+        "symfony/yaml": "4.2.*",
+        "webmozart/assert": "^1.4"
     },
     "require-dev": {
         "friends-of-behat/symfony-extension": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpspec/phpspec": "^5.1",
-        "phpstan/phpstan": "^0.11.5",
-        "webmozart/assert": "^1.4"
+        "phpstan/phpstan": "^0.11.5"
     },
     "config": {
         "preferred-install": {

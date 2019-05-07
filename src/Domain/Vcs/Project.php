@@ -11,12 +11,16 @@ declare(strict_types=1);
 
 namespace Akeneo\Domain\Vcs;
 
+use Webmozart\Assert\Assert;
+
 final class Project
 {
     private $projectName;
 
     public function __construct(string $projectName)
     {
+        Assert::notEmpty($projectName, 'You must specify a project name.');
+
         $this->projectName = $projectName;
     }
 

@@ -30,4 +30,13 @@ class OrganizationSpec extends ObjectBehavior
     {
         $this->__toString()->shouldReturn('akeneo');
     }
+
+    function it_throws_an_exception_if_the_orgnanization_name_is_empty()
+    {
+        $this->beConstructedWith('');
+
+        $this
+            ->shouldThrow(new \InvalidArgumentException('You must specify a GitHub organization.'))
+            ->duringInstantiation();
+    }
 }

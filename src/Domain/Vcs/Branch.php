@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Domain\Vcs;
 
-use Akeneo\Domain\Vcs\Exception\InvalidBranchName;
+use Webmozart\Assert\Assert;
 
 final class Branch
 {
@@ -19,9 +19,11 @@ final class Branch
 
     public function __construct(string $branchName)
     {
-        if (0 === preg_match('/^\d+.\d+$/', $branchName)) {
-            throw new InvalidBranchName($branchName);
-        }
+        Assert::notEmpty($branchName, 'You must specify a branch to work on.');
+        Assert::regex($branchName, '/^\d+.\d+$/', sprintf(
+            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "%s" provided.',
+            $branchName
+        ));
 
         $this->branchName = $branchName;
     }

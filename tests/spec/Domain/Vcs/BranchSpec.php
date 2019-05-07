@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace spec\Akeneo\Domain\Vcs;
 
 use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Exception\InvalidBranchName;
 use PhpSpec\ObjectBehavior;
 
 class BranchSpec extends ObjectBehavior
@@ -32,21 +31,35 @@ class BranchSpec extends ObjectBehavior
         $this->__toString()->shouldReturn('4.2');
     }
 
+    function it_throws_an_exception_if_branch_name_is_empty()
+    {
+        $this->beConstructedWith('');
+        $this
+            ->shouldThrow(new \InvalidArgumentException('You must specify a branch to work on.'))
+            ->duringInstantiation();
+    }
+
     function it_throws_an_exception_if_the_branch_name_is_not_a_version_number()
     {
         $this->beConstructedWith('foobar');
-        $this->shouldThrow(new InvalidBranchName('foobar'))->duringInstantiation();
+        $this->shouldThrow(new \InvalidArgumentException(
+            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "foobar" provided.'
+        ))->duringInstantiation();
     }
 
     function it_throws_an_exception_if_the_branch_name_is_only_a_major_version_number()
     {
         $this->beConstructedWith('10');
-        $this->shouldThrow(new InvalidBranchName('10'))->duringInstantiation();
+        $this->shouldThrow(new \InvalidArgumentException(
+            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "10" provided.'
+        ))->duringInstantiation();
     }
 
     function it_throws_an_exception_if_the_branch_name_is_a_patch_version_number()
     {
         $this->beConstructedWith('4.2.1');
-        $this->shouldThrow(new InvalidBranchName('4.2.1'))->duringInstantiation();
+        $this->shouldThrow(new \InvalidArgumentException(
+            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "4.2.1" provided.'
+        ))->duringInstantiation();
     }
 }
