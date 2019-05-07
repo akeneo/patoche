@@ -38,7 +38,7 @@ class CloneRepositoryHandlerSpec extends ObjectBehavior
         $organization = new Organization('akeneo');
         $project = new Project('onboarder');
         $branch = new Branch('4.2');
-        $workingDirectory = new WorkingDirectory('release-4.2.0');
+        $workingDirectory = new WorkingDirectory('release-v4.2.0');
 
         $cloneRepository = new CloneRepository(
             new Repository($organization, $project, $branch),

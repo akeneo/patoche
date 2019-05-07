@@ -14,6 +14,7 @@ namespace Akeneo\Tests\Acceptance\Context;
 use Akeneo\Application\Vcs\CloneRepository;
 use Akeneo\Application\Vcs\CloneRepositoryHandler;
 use Akeneo\Application\TaggingProcess;
+use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
@@ -51,7 +52,11 @@ class VcsContext implements Context
      */
     public function newOnboarderRelease(): void
     {
-        $this->taggingProcess = new TaggingProcess('4.2', '4.2.0', 'akeneo');
+        $this->taggingProcess = new TaggingProcess(
+            new Branch('4.2'),
+            new Tag('4.2.0'),
+            new Organization('akeneo')
+        );
     }
 
     /**
@@ -60,14 +65,15 @@ class VcsContext implements Context
     public function cloneRepository(string $projectName): void
     {
         $repository = new Repository(
-            new Organization($this->taggingProcess->getOrganization()),
+            $this->taggingProcess->getOrganization(),
             new Project($projectName),
-            new Branch($this->taggingProcess->getBranch())
+            $this->taggingProcess->getBranch()
         );
 
-        $workingDirectory = new WorkingDirectory($this->taggingProcess->getWorkingDirectory());
-
-        ($this->cloneRepositoryHandler)(new CloneRepository($repository, $workingDirectory));
+        ($this->cloneRepositoryHandler)(new CloneRepository(
+            $repository,
+            $this->taggingProcess->getWorkingDirectory()
+        ));
     }
 
     /**
@@ -81,8 +87,8 @@ class VcsContext implements Context
             $projectName
         ));
 
-        $organization = $this->taggingProcess->getOrganization();
-        $branch = $this->taggingProcess->getBranch();
+        $organization = (string) $this->taggingProcess->getOrganization();
+        $branch = (string) $this->taggingProcess->getBranch();
         $expectedContent = static::EXPECTED_DATA[$organization][$projectName][$branch];
 
         Assert::same($readContent, $expectedContent);

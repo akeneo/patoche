@@ -40,7 +40,7 @@ class FakeClientSpec extends ObjectBehavior
     function it_fakes_cloning_a_repository($filesystem)
     {
         $filesystem->write(
-            'release-4.2.0/onboarder/README.md',
+            'release-v4.2.0/onboarder/README.md',
             'Cloning akeneo/onboarder 4.2'
         )->shouldBeCalled();
 
@@ -48,7 +48,7 @@ class FakeClientSpec extends ObjectBehavior
             new Organization('akeneo'),
             new Project('onboarder'),
             new Branch('4.2'),
-            new WorkingDirectory('release-4.2.0')
+            new WorkingDirectory('release-v4.2.0')
         );
     }
 }

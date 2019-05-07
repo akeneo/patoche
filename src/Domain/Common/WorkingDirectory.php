@@ -20,6 +20,10 @@ final class WorkingDirectory
     public function __construct(string $directoryName)
     {
         Assert::notEmpty($directoryName, 'You must specify a working directory.');
+        Assert::regex($directoryName, '/^release-v\d+.\d+.\d+$/', sprintf(
+            'The working directory must be named using the tag to release, "%s" provided.',
+            $directoryName
+        ));
 
         $this->directoryName = $directoryName;
     }

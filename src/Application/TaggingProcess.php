@@ -11,6 +11,11 @@ declare(strict_types=1);
 
 namespace Akeneo\Application;
 
+use Akeneo\Domain\Common\Tag;
+use Akeneo\Domain\Common\WorkingDirectory;
+use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Organization;
+
 final class TaggingProcess
 {
     private $branch;
@@ -19,33 +24,36 @@ final class TaggingProcess
     private $workingDirectory;
     private $places;
 
-    public function __construct(string $branch, string $tag, string $organization)
+    public function __construct(Branch $branch, Tag $tag, Organization $organization)
     {
         $this->branch = $branch;
         $this->tag = $tag;
         $this->organization = $organization;
 
-        $this->workingDirectory = sprintf('release-%s', $tag);
+        $this->workingDirectory = new WorkingDirectory(sprintf(
+            'release-%s',
+            $tag->getVcsTag()
+        ));
 
         $this->places = [];
     }
 
-    public function getBranch(): string
+    public function getBranch(): Branch
     {
         return $this->branch;
     }
 
-    public function getTag(): string
+    public function getTag(): Tag
     {
         return $this->tag;
     }
 
-    public function getOrganization(): string
+    public function getOrganization(): Organization
     {
         return $this->organization;
     }
 
-    public function getWorkingDirectory(): string
+    public function getWorkingDirectory(): WorkingDirectory
     {
         return $this->workingDirectory;
     }
