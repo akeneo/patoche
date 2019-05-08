@@ -1,3 +1,5 @@
+/data/*
+!/data/.gitkeep
 docker-compose.override.yaml
 *workflow.png
 
@@ -14,3 +16,7 @@ docker-compose.override.yaml
 /.php_cs
 /.php_cs.cache
 ###< friendsofphp/php-cs-fixer ###
+
+###> friends-of-behat/symfony-extension ###
+/behat.yml
+###< friends-of-behat/symfony-extension ###

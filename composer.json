@@ -12,14 +12,18 @@
         "php": "7.3.*",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "league/flysystem-memory": "^1.0",
+        "oneup/flysystem-bundle": "^3.1",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.2.*",
         "symfony/workflow": "4.2.*",
-        "symfony/yaml": "4.2.*"
+        "symfony/yaml": "4.2.*",
+        "webmozart/assert": "^1.4"
     },
     "require-dev": {
+        "friends-of-behat/symfony-extension": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpspec/phpspec": "^5.1",
         "phpstan/phpstan": "^0.11.5"
@@ -37,7 +41,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Akeneo\\Tests\\": "tests/"
+            "Akeneo\\Tests\\Acceptance\\": "tests/acceptance"
         }
     },
     "replace": {
@@ -58,14 +62,25 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "tests": [
+            "@php-cs-fixer",
+            "@phpstan",
+            "@phpspec",
+            "@acceptance"
+        ],
+        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run -v --diff --config=.php_cs.php",
+        "php-cs-fixer-fix": "vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.php",
+        "phpstan": "vendor/bin/phpstan analyse src -l 7",
+        "phpspec": "vendor/bin/phpspec run",
+        "acceptance": "APP_ENV=acceptance vendor/bin/behat -p acceptance -f pretty -o std --colors"
     },
     "conflict": {
         "symfony/symfony": "*"
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "4.2.*"
         }
     }

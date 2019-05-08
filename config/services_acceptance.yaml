@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+
+    # - APPLICATION SERVICES OVERRIDDEN FOR ACCEPTANCE TESTS - #
+
+    Akeneo\Tests\Acceptance\Vcs\Api\FakeClient:
+        arguments:
+            - '@League\Flysystem\Filesystem'
+    Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Tests\Acceptance\Vcs\Api\FakeClient'
+
+    # - BEHAT CONTEXTS FOR ACCEPTANCE TESTS - #
+
+    Akeneo\Tests\Acceptance\Context\VcsContext:
+        public: true
+        arguments:
+            - '@Akeneo\Application\Vcs\CloneRepositoryHandler'
+            - '@League\Flysystem\Filesystem'
