@@ -1,5 +1,4 @@
 services:
     Github\Client:
-        class: Github\Client
         calls:
             - ['authenticate', ['%env(GITHUB_USERNAME)%', '%env(GITHUB_SECRET)%', '%env(GITHUB_AUTH_METHOD)%']]

@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Tests\Acceptance\Context;
 
-use Akeneo\Application\Vcs\CloneRepository;
-use Akeneo\Application\Vcs\CloneRepositoryHandler;
+use Akeneo\Application\Vcs\DownloadArchive;
+use Akeneo\Application\Vcs\DownloadArchiveHandler;
 use Akeneo\Application\TaggingProcess;
 use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
@@ -35,15 +35,15 @@ class VcsContext implements Context
         ],
     ];
 
-    private $cloneRepositoryHandler;
+    private $downloadArchiveHandler;
     private $filesystem;
 
     /** @var TaggingProcess */
     private $taggingProcess;
 
-    public function __construct(CloneRepositoryHandler $cloneRepositoryHandler, FilesystemInterface $filesystem)
+    public function __construct(DownloadArchiveHandler $downloadArchiveHandler, FilesystemInterface $filesystem)
     {
-        $this->cloneRepositoryHandler = $cloneRepositoryHandler;
+        $this->downloadArchiveHandler = $downloadArchiveHandler;
         $this->filesystem = $filesystem;
     }
 
@@ -60,9 +60,9 @@ class VcsContext implements Context
     }
 
     /**
-     * @When I clone the :projectName vcs repository
+     * @When I download the :projectName archive
      */
-    public function cloneRepository(string $projectName): void
+    public function downloadArchive(string $projectName): void
     {
         $repository = new Repository(
             $this->taggingProcess->getOrganization(),
@@ -70,7 +70,7 @@ class VcsContext implements Context
             $this->taggingProcess->getBranch()
         );
 
-        ($this->cloneRepositoryHandler)(new CloneRepository(
+        ($this->downloadArchiveHandler)(new DownloadArchive(
             $repository,
             $this->taggingProcess->getWorkingDirectory()
         ));

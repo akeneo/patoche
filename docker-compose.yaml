@@ -3,11 +3,15 @@ version: '3'
 services:
     php:
         build: './docker/php/'
-        image: 'akeneo/onboarder-tagging/php:7.3'
+        image: 'akeneo/patoche/php:7.3'
         environment:
             PHP_IDE_CONFIG: 'serverName=onboarder-tagging'
             XDEBUG_CONFIG: 'remote_host=172.17.0.1'
+            COMPOSER_CACHE_DIR: '/home/composer/.cache/composer'
+            COMPOSER_HOME: '/home/composer/.config/composer'
         user: '${CURRENT_IDS:-1000:1000}'
         volumes:
             - './:/srv/app'
+            - '~/.cache/composer:/home/composer/.cache/composer'
+            - '~/.config/composer:/home/composer/.config/composer'
         working_dir: '/srv/app'

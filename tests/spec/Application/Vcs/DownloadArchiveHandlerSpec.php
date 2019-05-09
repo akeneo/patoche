@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Application\Vcs;
 
-use Akeneo\Application\Vcs\CloneRepository;
-use Akeneo\Application\Vcs\CloneRepositoryHandler;
+use Akeneo\Application\Vcs\DownloadArchive;
+use Akeneo\Application\Vcs\DownloadArchiveHandler;
 use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
@@ -21,7 +21,7 @@ use Akeneo\Domain\Vcs\Repository;
 use Akeneo\Domain\Common\WorkingDirectory;
 use PhpSpec\ObjectBehavior;
 
-class CloneRepositoryHandlerSpec extends ObjectBehavior
+class DownloadArchiveHandlerSpec extends ObjectBehavior
 {
     function let(VcsApiClient $vcsApiClient)
     {
@@ -30,23 +30,23 @@ class CloneRepositoryHandlerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(CloneRepositoryHandler::class);
+        $this->shouldHaveType(DownloadArchiveHandler::class);
     }
 
-    function it_clones_a_git_repository($vcsApiClient)
+    function it_downloads_a_vcs_repository_archive($vcsApiClient)
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder');
         $branch = new Branch('4.2');
         $workingDirectory = new WorkingDirectory('release-v4.2.0');
 
-        $cloneRepository = new CloneRepository(
+        $downloadArchive = new DownloadArchive(
             new Repository($organization, $project, $branch),
             $workingDirectory
         );
 
-        $vcsApiClient->clone($organization, $project, $branch, $workingDirectory)->shouldBeCalled();
+        $vcsApiClient->download($organization, $project, $branch, $workingDirectory)->shouldBeCalled();
 
-        $this->__invoke($cloneRepository);
+        $this->__invoke($downloadArchive);
     }
 }

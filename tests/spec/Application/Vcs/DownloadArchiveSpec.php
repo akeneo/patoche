@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Application\Vcs;
 
-use Akeneo\Application\Vcs\CloneRepository;
+use Akeneo\Application\Vcs\DownloadArchive;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
@@ -19,7 +19,7 @@ use Akeneo\Domain\Vcs\Repository;
 use Akeneo\Domain\Common\WorkingDirectory;
 use PhpSpec\ObjectBehavior;
 
-class CloneRepositorySpec extends ObjectBehavior
+class DownloadArchiveSpec extends ObjectBehavior
 {
     private $repository;
     private $workingDirectory;
@@ -34,7 +34,7 @@ class CloneRepositorySpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(CloneRepository::class);
+        $this->shouldHaveType(DownloadArchive::class);
     }
 
     function it_returns_a_git_repository()

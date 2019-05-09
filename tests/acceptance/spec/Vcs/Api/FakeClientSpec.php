@@ -44,7 +44,7 @@ class FakeClientSpec extends ObjectBehavior
             'Cloning akeneo/onboarder 4.2'
         )->shouldBeCalled();
 
-        $this->clone(
+        $this->download(
             new Organization('akeneo'),
             new Project('onboarder'),
             new Branch('4.2'),

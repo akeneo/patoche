@@ -12,8 +12,8 @@
         "php": "7.3.*",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-zip": "*",
         "knplabs/github-api": "^2.11",
-        "league/flysystem-memory": "^1.0",
         "oneup/flysystem-bundle": "^3.1",
         "php-http/guzzle6-adapter": "^1.1",
         "symfony/console": "4.2.*",
@@ -27,6 +27,7 @@
     "require-dev": {
         "friends-of-behat/symfony-extension": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.14",
+        "league/flysystem-memory": "^1.0",
         "phpspec/phpspec": "^5.1",
         "phpstan/phpstan": "^0.11.5",
         "phpunit/phpunit": "^8.1"
@@ -71,15 +72,15 @@
             "@php-cs-fixer",
             "@phpstan",
             "@phpspec",
-            "@integration",
-            "@acceptance"
+            "@acceptance",
+            "@integration"
         ],
         "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run -v --diff --config=.php_cs.php",
         "php-cs-fixer-fix": "vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.php",
         "phpstan": "vendor/bin/phpstan analyse src -l 7",
         "phpspec": "vendor/bin/phpspec run",
-        "integration": "vendor/bin/phpunit",
-        "acceptance": "APP_ENV=acceptance vendor/bin/behat -p acceptance -f pretty -o std --colors"
+        "acceptance": "vendor/bin/behat -p acceptance -f pretty -o std --colors",
+        "integration": "vendor/bin/phpunit"
     },
     "conflict": {
         "symfony/symfony": "*"

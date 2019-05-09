@@ -14,7 +14,7 @@ namespace Akeneo\Application\Vcs;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Repository;
 
-final class CloneRepository
+final class DownloadArchive
 {
     private $repository;
     private $workingDirectory;

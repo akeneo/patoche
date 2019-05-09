@@ -14,7 +14,7 @@ jobs:
                 command: docker-compose build --pull
             - run:
                 name: Copy Docker Compose override
-                command: cp docker-compose.override.yaml.dist docker-compose.override.yaml
+                command: cp .circleci/docker-compose.override.yaml.dist docker-compose.override.yaml
             - run:
                 name: Create cache directory for composer dependencies
                 command: mkdir -p ~/.cache/composer
@@ -36,7 +36,7 @@ jobs:
                     - ~/.cache/composer
             - run:
                 name: Create directories for tests results
-                command: mkdir -p var/tests/phpspec var/tests/behat
+                command: mkdir -p var/tests/phpspec var/tests/behat var/tests/integration
             - persist_to_workspace:
                 root: ~/
                 paths:
@@ -63,6 +63,9 @@ jobs:
             - run:
                 name: Run acceptance tests
                 command: docker-compose run --rm php vendor/bin/behat -p acceptance -f junit -o var/tests/behat -f pretty -o std --colors
+            - run:
+                name: Run integration tests
+                command: docker-compose run --rm php vendor/bin/phpunit --log-junit var/tests/integration/phpunit.xml
             - store_test_results:
                 path: var/tests
             - store_artifacts:
