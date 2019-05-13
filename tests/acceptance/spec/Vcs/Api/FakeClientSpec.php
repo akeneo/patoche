@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace spec\Akeneo\Tests\Acceptance\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
-use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
@@ -58,9 +57,8 @@ class FakeClientSpec extends ObjectBehavior
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder');
-        $branch = new Branch('4.2');
 
-        $tags = $this->listTags($organization, $project, $branch);
+        $tags = $this->listTags($organization, $project);
         $tags->shouldBeAnInstanceOf(Tags::class);
     }
 }

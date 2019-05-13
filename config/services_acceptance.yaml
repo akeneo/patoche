@@ -12,8 +12,16 @@ services:
 
     # - BEHAT CONTEXTS FOR ACCEPTANCE TESTS - #
 
+    Akeneo\Tests\Acceptance\Context\CommonContext:
+        public: true
+
     Akeneo\Tests\Acceptance\Context\VcsContext:
         public: true
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
             - '@League\Flysystem\Filesystem'
+
+    Akeneo\Tests\Acceptance\Context\ProposeTagContext:
+        public: true
+        arguments:
+            - '@Akeneo\Application\Vcs\GetNextTagHandler'

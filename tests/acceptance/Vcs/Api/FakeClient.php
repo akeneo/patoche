@@ -21,11 +21,24 @@ use League\Flysystem\FilesystemInterface;
 
 final class FakeClient implements VcsApiClient
 {
-    private const DATA = [
+    private const FAKE_DOWNLOADED_DATA = [
         'akeneo' => [
             'onboarder' => [
                 '4.2' => 'Cloning akeneo/onboarder 4.2',
             ],
+        ],
+    ];
+
+    private const FAKE_PREVIOUS_TAGS = [
+        [
+            'name' => 'v4.2.0',
+            'zipball_url' => 'https://api.github.com/repos/akeneo/onboarder/zipball/v4.2.0',
+            'tarball_url' => 'https://api.github.com/repos/akeneo/onboarder/tarball/v4.2.0',
+            'commit' => [
+                'sha' => 'a1d250fe6e7bd20e93c8c33ffd88ae11d72ceb29',
+                'url' => 'https://api.github.com/repos/akeneo/onboarder/commits/a1d250fe6e7bd20e93c8c33ffd88ae11d72ceb29',
+            ],
+            'node_id' => 'MDM6UmVmMTE1MTIyOTU1OnYxLjAuMC1CRVRBMQ==',
         ],
     ];
 
@@ -44,12 +57,12 @@ final class FakeClient implements VcsApiClient
     ): void {
         $this->filesystem->write(
             sprintf('%s/%s/README.md', $destination, $project),
-            static::DATA[(string) $organization][(string) $project][(string) $branch]
+            static::FAKE_DOWNLOADED_DATA[(string) $organization][(string) $project][(string) $branch]
         );
     }
 
     public function listTags(Organization $organization, Project $project): Tags
     {
-        return Tags::fromListTagsApiResponse([]);
+        return Tags::fromListTagsApiResponse(static::FAKE_PREVIOUS_TAGS);
     }
 }

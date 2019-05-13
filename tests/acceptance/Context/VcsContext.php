@@ -13,19 +13,13 @@ namespace Akeneo\Tests\Acceptance\Context;
 
 use Akeneo\Application\Vcs\DownloadArchive;
 use Akeneo\Application\Vcs\DownloadArchiveHandler;
-use Akeneo\Application\TaggingProcess;
-use Akeneo\Domain\Common\Tag;
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
-use Akeneo\Tests\Acceptance\Vcs\Api\FakeClient;
 use Behat\Behat\Context\Context;
 use League\Flysystem\FilesystemInterface;
 use Webmozart\Assert\Assert;
 
-class VcsContext implements Context
+final class VcsContext implements Context
 {
     private const EXPECTED_DATA = [
         'akeneo' => [
@@ -38,25 +32,10 @@ class VcsContext implements Context
     private $downloadArchiveHandler;
     private $filesystem;
 
-    /** @var TaggingProcess */
-    private $taggingProcess;
-
     public function __construct(DownloadArchiveHandler $downloadArchiveHandler, FilesystemInterface $filesystem)
     {
         $this->downloadArchiveHandler = $downloadArchiveHandler;
         $this->filesystem = $filesystem;
-    }
-
-    /**
-     * @Given a new version of the Onboarder is going to be released
-     */
-    public function newOnboarderRelease(): void
-    {
-        $this->taggingProcess = new TaggingProcess(
-            new Branch('4.2'),
-            Tag::fromGenericTag('4.2.0'),
-            new Organization('akeneo')
-        );
     }
 
     /**
@@ -65,14 +44,14 @@ class VcsContext implements Context
     public function downloadArchive(string $projectName): void
     {
         $repository = new Repository(
-            $this->taggingProcess->getOrganization(),
+            CommonContext::$taggingProcess->getOrganization(),
             new Project($projectName),
-            $this->taggingProcess->getBranch()
+            CommonContext::$taggingProcess->getBranch()
         );
 
         ($this->downloadArchiveHandler)(new DownloadArchive(
             $repository,
-            $this->taggingProcess->getWorkingDirectory()
+            CommonContext::$taggingProcess->getWorkingDirectory()
         ));
     }
 
@@ -83,12 +62,12 @@ class VcsContext implements Context
     {
         $readContent = $this->filesystem->read(sprintf(
             '%s/%s/README.md',
-            $this->taggingProcess->getWorkingDirectory(),
+            CommonContext::$taggingProcess->getWorkingDirectory(),
             $projectName
         ));
 
-        $organization = (string) $this->taggingProcess->getOrganization();
-        $branch = (string) $this->taggingProcess->getBranch();
+        $organization = (string) CommonContext::$taggingProcess->getOrganization();
+        $branch = (string) CommonContext::$taggingProcess->getBranch();
         $expectedContent = static::EXPECTED_DATA[$organization][$projectName][$branch];
 
         Assert::same($readContent, $expectedContent);
