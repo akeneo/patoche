@@ -16,6 +16,8 @@ use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
+use Akeneo\Domain\Vcs\Tags;
+use Github\Api\ApiInterface;
 use Github\Api\Repo;
 use Github\Client;
 use League\Flysystem\FilesystemInterface;
@@ -56,7 +58,15 @@ final class GitHubClient implements VcsApiClient
         $archive->close();
     }
 
-    private function repositoryApi(): Repo
+    public function listTags(Organization $organization, Project $project): Tags
+    {
+        return Tags::fromListTagsApiResponse([]);
+    }
+
+    /**
+     * @return Repo
+     */
+    private function repositoryApi(): ApiInterface
     {
         return $this->client->api('repo');
     }

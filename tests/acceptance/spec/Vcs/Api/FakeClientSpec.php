@@ -12,10 +12,12 @@ declare(strict_types=1);
 namespace spec\Akeneo\Tests\Acceptance\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
+use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
+use Akeneo\Domain\Vcs\Tags;
 use Akeneo\Tests\Acceptance\Vcs\Api\FakeClient;
 use League\Flysystem\FilesystemInterface;
 use PhpSpec\ObjectBehavior;
@@ -40,7 +42,7 @@ class FakeClientSpec extends ObjectBehavior
     function it_fakes_cloning_a_repository($filesystem)
     {
         $filesystem->write(
-            'release-v4.2.0/onboarder/README.md',
+            'release-v4.2.2/onboarder/README.md',
             'Cloning akeneo/onboarder 4.2'
         )->shouldBeCalled();
 
@@ -48,7 +50,17 @@ class FakeClientSpec extends ObjectBehavior
             new Organization('akeneo'),
             new Project('onboarder'),
             new Branch('4.2'),
-            new WorkingDirectory('release-v4.2.0')
+            new WorkingDirectory('release-v4.2.2')
         );
+    }
+
+    function it_gets_the_last_tag()
+    {
+        $organization = new Organization('akeneo');
+        $project = new Project('onboarder');
+        $branch = new Branch('4.2');
+
+        $tags = $this->listTags($organization, $project, $branch);
+        $tags->shouldBeAnInstanceOf(Tags::class);
     }
 }

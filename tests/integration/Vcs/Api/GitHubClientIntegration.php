@@ -15,6 +15,7 @@ use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
+use Akeneo\Domain\Vcs\Tags;
 use Akeneo\Tests\Integration\TestCase;
 use PHPUnit\Framework\Assert;
 
@@ -37,6 +38,18 @@ class GitHubClientIntegration extends TestCase
         $client->download($organization, $project, $branch, $workingDirectory);
 
         $this->assertContentIsDownloaded();
+    }
+
+    /** @test */
+    public function getRepositoryTagList(): void
+    {
+        $organization = new Organization(static::TESTED_ORGANIZATION);
+        $project = new Project(static::TESTED_PROJECT);
+
+        $client = $this->container()->get('Akeneo\Infrastructure\Vcs\Api\GitHubClient');
+        $tags = $client->listTags($organization, $project);
+
+        Assert::assertInstanceOf(Tags::class, $tags);
     }
 
     private function assertContentIsDownloaded(): void

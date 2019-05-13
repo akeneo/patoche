@@ -16,6 +16,7 @@ use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
+use Akeneo\Domain\Vcs\Tags;
 use League\Flysystem\FilesystemInterface;
 
 final class FakeClient implements VcsApiClient
@@ -45,5 +46,10 @@ final class FakeClient implements VcsApiClient
             sprintf('%s/%s/README.md', $destination, $project),
             static::DATA[(string) $organization][(string) $project][(string) $branch]
         );
+    }
+
+    public function listTags(Organization $organization, Project $project): Tags
+    {
+        return Tags::fromListTagsApiResponse([]);
     }
 }

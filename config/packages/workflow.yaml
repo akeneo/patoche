@@ -1,6 +1,6 @@
 framework:
     workflows:
-        tagging:
+        onboarder_release:
             type: 'workflow'
             marking_store:
                 type: 'multiple_state'

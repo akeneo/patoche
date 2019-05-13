@@ -27,7 +27,7 @@ class TaggingProcessSpec extends ObjectBehavior
     function let()
     {
         $this->branch = new Branch('1.0');
-        $this->tag = new Tag('1.0.0');
+        $this->tag = Tag::fromGenericTag('1.0.0');
         $this->organization = new Organization('akeneo');
 
         $this->beConstructedWith($this->branch, $this->tag, $this->organization);

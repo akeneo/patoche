@@ -12,9 +12,17 @@ services:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
 
+    # Application services
+
     Akeneo\Application\Vcs\DownloadArchiveHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
+
+    Akeneo\Application\Vcs\GetNextTagHandler:
+        arguments:
+            - '@Akeneo\Application\Vcs\VcsApiClient'
+
+    # Infrastructure services
 
     Akeneo\Infrastructure\Vcs\Api\GitHubClient:
         arguments:

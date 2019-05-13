@@ -54,7 +54,7 @@ class VcsContext implements Context
     {
         $this->taggingProcess = new TaggingProcess(
             new Branch('4.2'),
-            new Tag('4.2.0'),
+            Tag::fromGenericTag('4.2.0'),
             new Organization('akeneo')
         );
     }
