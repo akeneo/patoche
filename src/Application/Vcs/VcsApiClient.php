@@ -18,7 +18,7 @@ use Akeneo\Domain\Vcs\Project;
 
 interface VcsApiClient
 {
-    public function clone(
+    public function download(
         Organization $organization,
         Project $project,
         Branch $branch,

@@ -16,15 +16,48 @@ use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
+use Github\Api\Repo;
+use Github\Client;
+use League\Flysystem\FilesystemInterface;
 
 final class GitHubClient implements VcsApiClient
 {
-    public function clone(
+    private $client;
+    private $filesystem;
+    private $filesystemDirectory;
+
+    public function __construct(Client $client, FilesystemInterface $filesystem, string $filesystemDirectory)
+    {
+        $this->client = $client;
+        $this->filesystem = $filesystem;
+        $this->filesystemDirectory = $filesystemDirectory;
+    }
+
+    public function download(
         Organization $organization,
         Project $project,
         Branch $branch,
-        WorkingDirectory $destination
+        WorkingDirectory $workingDirectory
     ): void {
-        throw new \LogicException('Not implemented step!');
+        $archiveRelativePath = $workingDirectory . DIRECTORY_SEPARATOR . $project . '.zip';
+
+        $archive = $this->repositoryApi()->contents()->archive(
+            (string) $organization,
+            (string) $project,
+            'zipball',
+            (string) $branch
+        );
+
+        $this->filesystem->write($archiveRelativePath, $archive);
+
+        $archive = new \ZipArchive();
+        $archive->open($this->filesystemDirectory . DIRECTORY_SEPARATOR . $archiveRelativePath, \ZipArchive::CREATE);
+        $archive->extractTo($this->filesystemDirectory . DIRECTORY_SEPARATOR . $workingDirectory);
+        $archive->close();
+    }
+
+    private function repositoryApi(): Repo
+    {
+        return $this->client->api('repo');
     }
 }

@@ -15,5 +15,5 @@ services:
     Akeneo\Tests\Acceptance\Context\VcsContext:
         public: true
         arguments:
-            - '@Akeneo\Application\Vcs\CloneRepositoryHandler'
+            - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
             - '@League\Flysystem\Filesystem'

@@ -35,14 +35,14 @@ final class FakeClient implements VcsApiClient
         $this->filesystem = $filesystem;
     }
 
-    public function clone(
+    public function download(
         Organization $organization,
         Project $project,
         Branch $branch,
         WorkingDirectory $destination
     ): void {
         $this->filesystem->write(
-            sprintf('%s/%s/README.md', (string) $destination, (string) $project),
+            sprintf('%s/%s/README.md', $destination, $project),
             static::DATA[(string) $organization][(string) $project][(string) $branch]
         );
     }

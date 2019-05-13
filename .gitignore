@@ -1,5 +1,8 @@
 /data/*
 !/data/.gitkeep
+!/data/tests
+/data/tests/*
+!/data/tests/.gitkeep
 docker-compose.override.yaml
 *workflow.png
 
@@ -20,3 +23,8 @@ docker-compose.override.yaml
 ###> friends-of-behat/symfony-extension ###
 /behat.yml
 ###< friends-of-behat/symfony-extension ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    akeneo.filesystem.default.directory: '%kernel.project_dir%/data'
 
 services:
     # default configuration for services in *this* file
@@ -12,9 +12,13 @@ services:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
 
-    Akeneo\Application\Vcs\CloneRepositoryHandler:
+    Akeneo\Application\Vcs\DownloadArchiveHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
 
-    Akeneo\Infrastructure\Vcs\Api\GitHubClient: ~
+    Akeneo\Infrastructure\Vcs\Api\GitHubClient:
+        arguments:
+            - '@Github\Client'
+            - '@League\Flysystem\Filesystem'
+            - '%akeneo.filesystem.default.directory%'
     Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\GitHubClient'
