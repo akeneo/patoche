@@ -33,5 +33,4 @@ final class CommonContext implements Context
             new Organization('akeneo')
         );
     }
-
 }

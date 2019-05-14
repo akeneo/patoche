@@ -14,11 +14,11 @@ namespace spec\Akeneo\Application\Vcs;
 use Akeneo\Application\Vcs\DownloadArchive;
 use Akeneo\Application\Vcs\DownloadArchiveHandler;
 use Akeneo\Application\Vcs\VcsApiClient;
+use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
-use Akeneo\Domain\Common\WorkingDirectory;
 use PhpSpec\ObjectBehavior;
 
 class DownloadArchiveHandlerSpec extends ObjectBehavior

@@ -53,10 +53,12 @@ jobs:
                 at: ~/
             - run:
                 name: Execute static analysis
-                command: docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+                command: |
+                    docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
+                    docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.phpspec.php
             - run:
                 name: PHPStan
-                command: docker-compose run --rm -T php vendor/bin/phpstan analyse src -l 7
+                command: docker-compose run --rm -T php vendor/bin/phpstan analyse -c phpstan.neon src tests -l 7
             - run:
                 name: Run phpspec tests
                 command: docker-compose run --rm -T php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml

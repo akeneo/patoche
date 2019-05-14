@@ -129,7 +129,7 @@ JSON;
     function it_is_initializable()
     {
         $this->beConstructedThrough('fromListTagsApiResponse', [
-            json_decode(static::JSON_LIST_TAGS_API_RESPONSE, true)
+            json_decode(static::JSON_LIST_TAGS_API_RESPONSE, true),
         ]);
 
         $this->shouldHaveType(Tags::class);
@@ -145,7 +145,7 @@ JSON;
     function it_returns_the_next_tag_for_a_given_branch()
     {
         $this->beConstructedThrough('fromListTagsApiResponse', [
-            json_decode(static::JSON_LIST_TAGS_API_RESPONSE, true)
+            json_decode(static::JSON_LIST_TAGS_API_RESPONSE, true),
         ]);
 
         $tag = $this->nextTagForBranch(new Branch('1.2'));
@@ -184,7 +184,7 @@ JSON;
     function it_returns_the_first_tag_of_a_new_branch()
     {
         $this->beConstructedThrough('fromListTagsApiResponse', [
-            json_decode(static::JSON_LIST_TAGS_API_RESPONSE, true)
+            json_decode(static::JSON_LIST_TAGS_API_RESPONSE, true),
         ]);
 
         $tag = $this->nextTagForBranch(new Branch('1.3'));
