@@ -14,13 +14,19 @@ services:
 
     # Application services
 
+    Akeneo\Application\Vcs\GetNextTagHandler:
+        arguments:
+            - '@Akeneo\Application\Vcs\VcsApiClient'
+
     Akeneo\Application\Vcs\DownloadArchiveHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
 
-    Akeneo\Application\Vcs\GetNextTagHandler:
+    Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
-            - '@Akeneo\Application\Vcs\VcsApiClient'
+            - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
+        tags: ['kernel.event_subscriber']
+
 
     # Infrastructure services
 

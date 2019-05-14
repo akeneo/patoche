@@ -43,6 +43,32 @@ class ReleaseProcessSpec extends ObjectBehavior
         $this->getBranch()->shouldReturn($this->branch);
     }
 
+    function it_knows_the_corresponding_pim_enterprise_2x_cloud_branch()
+    {
+        $this->branch = new Branch('1.0');
+        $this->tag = Tag::fromGenericTag('1.0.0');
+        $this->organization = new Organization('akeneo');
+
+        $this->beConstructedWith($this->branch, $this->tag, $this->organization);
+
+        $pecBranch = $this->getPecBranch();
+        $pecBranch->shouldBeAnInstanceOf(Branch::class);
+        $pecBranch->__toString()->shouldReturn('2.3');
+    }
+
+    function it_knows_the_corresponding_pim_enterprise_3x_cloud_branch()
+    {
+        $this->branch = new Branch('2.0');
+        $this->tag = Tag::fromGenericTag('2.0.0');
+        $this->organization = new Organization('akeneo');
+
+        $this->beConstructedWith($this->branch, $this->tag, $this->organization);
+
+        $pecBranch = $this->getPecBranch();
+        $pecBranch->shouldBeAnInstanceOf(Branch::class);
+        $pecBranch->__toString()->shouldReturn('3.1');
+    }
+
     function it_returns_a_tag_to_create()
     {
         $this->getTag()->shouldReturn($this->tag);

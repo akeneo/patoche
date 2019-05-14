@@ -18,6 +18,9 @@ use Akeneo\Domain\Vcs\Organization;
 
 final class ReleaseProcess
 {
+    private const PIM_ENTERPRISE_CLOUD_2X_BRANCH = '2.3';
+    private const PIM_ENTERPRISE_CLOUD_3X_BRANCH = '3.1';
+
     private $branch;
     private $tag;
     private $organization;
@@ -41,6 +44,16 @@ final class ReleaseProcess
     public function getBranch(): Branch
     {
         return $this->branch;
+    }
+
+    public function getPecBranch(): Branch
+    {
+        list($major) = explode('.', (string) $this->branch);
+        if ('1' === $major) {
+            return new Branch(static::PIM_ENTERPRISE_CLOUD_2X_BRANCH);
+        }
+
+        return new Branch(static::PIM_ENTERPRISE_CLOUD_3X_BRANCH);
     }
 
     public function getTag(): Tag
