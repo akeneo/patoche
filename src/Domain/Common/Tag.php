@@ -52,9 +52,8 @@ final class Tag
 
     public function nextTag(): self
     {
-        $tagExploded = explode('.', $this->genericTag);
-        $patch = $tagExploded[count($tagExploded) - 1];
-        $nextTag = implode('.', [$tagExploded[0], $tagExploded[1], ((int) $patch) + 1]);
+        list($major, $minor, $patch) = explode('.', $this->genericTag);
+        $nextTag = implode('.', [$major, $minor, ((int) $patch) + 1]);
 
         return new self($nextTag);
     }
