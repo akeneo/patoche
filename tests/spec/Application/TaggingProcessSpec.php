@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Application;
 
-use Akeneo\Application\TaggingProcess;
+use Akeneo\Application\ReleaseProcess;
 use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use PhpSpec\ObjectBehavior;
 
-class TaggingProcessSpec extends ObjectBehavior
+class ReleaseProcessSpec extends ObjectBehavior
 {
     private $branch;
     private $tag;
@@ -35,7 +35,7 @@ class TaggingProcessSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(TaggingProcess::class);
+        $this->shouldHaveType(ReleaseProcess::class);
     }
 
     function it_has_a_branch_to_work_on()

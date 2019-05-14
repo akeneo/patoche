@@ -16,7 +16,7 @@ use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 
-final class TaggingProcess
+final class ReleaseProcess
 {
     private $branch;
     private $tag;
