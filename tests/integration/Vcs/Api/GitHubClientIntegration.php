@@ -50,6 +50,7 @@ class GitHubClientIntegration extends TestCase
         $tags = $client->listTags($organization, $project);
 
         Assert::assertInstanceOf(Tags::class, $tags);
+        Assert::assertSame($tags->nextTagForBranch(new Branch('0.0'))->getVcsTag(), 'v0.0.2');
     }
 
     private function assertContentIsDownloaded(): void

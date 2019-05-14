@@ -19,8 +19,6 @@ use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
-use Beta\B;
 use Webmozart\Assert\Assert;
 
 final class ProposeTagContext implements Context

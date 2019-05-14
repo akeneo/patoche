@@ -60,7 +60,9 @@ final class GitHubClient implements VcsApiClient
 
     public function listTags(Organization $organization, Project $project): Tags
     {
-        return Tags::fromListTagsApiResponse([]);
+        $apiResponse = $this->repositoryApi()->tags((string) $organization, (string) $project);
+
+        return Tags::fromListTagsApiResponse($apiResponse);
     }
 
     /**
