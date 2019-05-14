@@ -25,6 +25,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 final class OnboarderRelease extends Command
 {
@@ -37,14 +38,16 @@ final class OnboarderRelease extends Command
     ];
 
     private $getNextTagHandler;
+    private $workflow;
 
     protected static $defaultName = 'akeneo:patoche:onboarder-release';
 
-    public function __construct(GetNextTagHandler $getNextTagHandler)
+    public function __construct(GetNextTagHandler $getNextTagHandler, WorkflowInterface $onboarderReleaseWorkflow)
     {
-        $this->getNextTagHandler = $getNextTagHandler;
-
         parent::__construct();
+
+        $this->getNextTagHandler = $getNextTagHandler;
+        $this->workflow = $onboarderReleaseWorkflow;
     }
 
     protected function configure(): void
@@ -75,6 +78,17 @@ final class OnboarderRelease extends Command
         $output->writeln(sprintf(
             'Starting release process for version "%s"',
             $releaseProcess->getTag()->getDockerTag()
+        ));
+
+        while ([] !== $enabledTransitions = $this->workflow->getEnabledTransitions($releaseProcess)) {
+            foreach ($enabledTransitions as $transition) {
+                $this->workflow->apply($releaseProcess, $transition->getName());
+            }
+        }
+
+        $output->writeln(sprintf(
+            '<info>Process finished. Onboarder %s is released.</info>',
+            $releaseProcess->getTag()->getVcsTag()
         ));
 
         return 0;
@@ -120,8 +134,8 @@ final class OnboarderRelease extends Command
             try {
                 $nextTag = Tag::fromGenericTag($userDefinedTag);
             } catch (\InvalidArgumentException $exception) {
-                $output->writeln($exception->getMessage());
-                $output->writeln('Aborting release process.');
+                $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
+                $output->writeln('<error>Aborting release process.</error>');
 
                 return null;
             }

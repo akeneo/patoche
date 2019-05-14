@@ -11,10 +11,14 @@ framework:
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'
-                - 'pim_enterprise_cloud_git_repository_cloned'
-                - 'middleware_git_repository_cloned'
-                - 'overseer_git_repository_cloned'
-                - 'supplier_onboarder_git_repository_cloned'
+                - 'pim_enterprise_cloud_download_process_started'
+                - 'middleware_download_process_started'
+                - 'overseer_download_process_started'
+                - 'supplier_onboarder_download_process_started'
+                - 'pim_enterprise_cloud_git_repository_downloaded'
+                - 'middleware_git_repository_downloaded'
+                - 'overseer_git_repository_downloaded'
+                - 'supplier_onboarder_git_repository_downloaded'
                 - 'pim_enterprise_cloud_prepared_for_dev'
                 - 'dev_middleware_docker_image_built'
                 - 'dev_overseer_docker_image_built'
@@ -24,9 +28,15 @@ framework:
                 - 'dev_supplier_onboarder_docker_image_pushed'
                 - 'pim_enterprise_cloud_preparation_aborted'
                 - 'dev_environment_deployed'
+                - 'validation_process_started'
+                - 'rejection_process_started'
                 - 'dev_environment_rejected'
                 - 'dev_environment_validated'
-                - 'pim_onboarder_bundle_git_repository_cloned'
+                - 'pim_onboarder_bundle_tagging_process_started'
+                - 'middleware_tagging_process_started'
+                - 'overseer_tagging_process_started'
+                - 'supplier_onboarder_bundle_tagging_process_started'
+                - 'pim_onboarder_bundle_git_repository_downloaded'
                 - 'pim_onboarder_bundle_tagged'
                 - 'pim_enterprise_cloud_updated_for_production'
                 - 'middleware_tagged'
@@ -39,29 +49,36 @@ framework:
                 - 'helm_onboarder_tagged'
                 - 'helm_onboarder_chart_packaged'
             transitions:
-                clone_pim_enterprise_cloud_git_repository:
+                start_download_process:
                     from: 'tagging_process_started'
-                    to: 'pim_enterprise_cloud_git_repository_cloned'
-                clone_middleware_git_repository:
-                    from: 'tagging_process_started'
-                    to: 'middleware_git_repository_cloned'
-                clone_overseer_git_repository:
-                    from: 'tagging_process_started'
-                    to: 'overseer_git_repository_cloned'
-                clone_supplier_onboarder_git_repository:
-                    from: 'tagging_process_started'
-                    to: 'supplier_onboarder_git_repository_cloned'
+                    to:
+                        - 'pim_enterprise_cloud_download_process_started'
+                        - 'middleware_download_process_started'
+                        - 'overseer_download_process_started'
+                        - 'supplier_onboarder_download_process_started'
+                download_pim_enterprise_cloud_git_repository:
+                    from: 'pim_enterprise_cloud_download_process_started'
+                    to: 'pim_enterprise_cloud_git_repository_downloaded'
+                download_middleware_git_repository:
+                    from: 'middleware_download_process_started'
+                    to: 'middleware_git_repository_downloaded'
+                download_overseer_git_repository:
+                    from: 'overseer_download_process_started'
+                    to: 'overseer_git_repository_downloaded'
+                download_supplier_onboarder_git_repository:
+                    from: 'supplier_onboarder_download_process_started'
+                    to: 'supplier_onboarder_git_repository_downloaded'
                 prepare_pim_enterprise_cloud_for_dev:
-                    from: 'pim_enterprise_cloud_git_repository_cloned'
+                    from: 'pim_enterprise_cloud_git_repository_downloaded'
                     to: 'pim_enterprise_cloud_prepared_for_dev'
                 build_dev_middleware_docker_image:
-                    from: 'middleware_git_repository_cloned'
+                    from: 'middleware_git_repository_downloaded'
                     to: 'dev_middleware_docker_image_built'
                 build_dev_overseer_docker_image:
-                    from: 'overseer_git_repository_cloned'
+                    from: 'overseer_git_repository_downloaded'
                     to: 'dev_overseer_docker_image_built'
                 build_dev_supplier_onboarder_docker_image:
-                    from: 'supplier_onboarder_git_repository_cloned'
+                    from: 'supplier_onboarder_git_repository_downloaded'
                     to: 'dev_supplier_onboarder_docker_image_built'
                 push_dev_middleware_docker_image:
                     from: 'dev_middleware_docker_image_built'
@@ -73,34 +90,52 @@ framework:
                     from: 'dev_supplier_onboarder_docker_image_built'
                     to: 'dev_supplier_onboarder_docker_image_pushed'
                 deploy_dev_environment:
-                    from: ['pim_enterprise_cloud_prepared_for_dev', 'dev_middleware_docker_image_pushed', 'dev_overseer_docker_image_pushed', 'dev_supplier_onboarder_docker_image_pushed']
+                    from:
+                        - 'pim_enterprise_cloud_prepared_for_dev'
+                        - 'dev_middleware_docker_image_pushed'
+                        - 'dev_overseer_docker_image_pushed'
+                        - 'dev_supplier_onboarder_docker_image_pushed'
                     to: 'dev_environment_deployed'
-                reject_dev_environment:
+                start_validation_process:
                     from: 'dev_environment_deployed'
+                    to:
+                        - 'validation_process_started'
+                        - 'rejection_process_started'
+                reject_dev_environment:
+                    from: 'rejection_process_started'
                     to: 'dev_environment_rejected'
                 abort_pim_enterprise_cloud_preparation:
                     from: 'dev_environment_rejected'
                     to: 'pim_enterprise_cloud_preparation_aborted'
                 validate_dev_environment:
-                    from: 'dev_environment_deployed'
+                    from: 'validation_process_started'
                     to: 'dev_environment_validated'
-                clone_pim_onboarder_bundle_git_repository:
+                start_tagging_process:
                     from: 'dev_environment_validated'
-                    to: 'pim_onboarder_bundle_git_repository_cloned'
+                    to:
+                        - 'pim_onboarder_bundle_tagging_process_started'
+                        - 'middleware_tagging_process_started'
+                        - 'overseer_tagging_process_started'
+                        - 'supplier_onboarder_bundle_tagging_process_started'
+                download_pim_onboarder_bundle_git_repository:
+                    from: 'pim_onboarder_bundle_tagging_process_started'
+                    to: 'pim_onboarder_bundle_git_repository_downloaded'
                 tag_pim_onboarder_bundle:
-                    from: 'pim_onboarder_bundle_git_repository_cloned'
+                    from: 'pim_onboarder_bundle_git_repository_downloaded'
                     to: 'pim_onboarder_bundle_tagged'
                 update_pim_enterprise_cloud_for_prod:
-                    from: ['pim_onboarder_bundle_tagged', 'pim_enterprise_cloud_prepared_for_dev']
+                    from:
+                        - 'pim_onboarder_bundle_tagged'
+                        - 'pim_enterprise_cloud_prepared_for_dev'
                     to: 'pim_enterprise_cloud_updated_for_production'
                 tag_middleware:
-                    from: 'dev_environment_validated'
+                    from: 'middleware_tagging_process_started'
                     to: 'middleware_tagged'
                 tag_overseer:
-                    from: 'dev_environment_validated'
+                    from: 'overseer_tagging_process_started'
                     to: 'overseer_tagged'
                 tag_supplier_onboarder:
-                    from: 'dev_environment_validated'
+                    from: 'supplier_onboarder_bundle_tagging_process_started'
                     to: 'supplier_onboarder_tagged'
                 tag_middleware_docker_image_for_prod:
                     from: 'middleware_tagged'
@@ -112,7 +147,11 @@ framework:
                     from: 'supplier_onboarder_tagged'
                     to: 'supplier_onboarder_docker_image_tagged_for_prod'
                 update_helm_onboarder_values:
-                    from: ['pim_enterprise_cloud_updated_for_production', 'middleware_docker_image_tagged_for_prod', 'overseer_docker_image_tagged_for_prod', 'supplier_onboarder_docker_image_tagged_for_prod']
+                    from:
+                        - 'pim_enterprise_cloud_updated_for_production'
+                        - 'middleware_docker_image_tagged_for_prod'
+                        - 'overseer_docker_image_tagged_for_prod'
+                        - 'supplier_onboarder_docker_image_tagged_for_prod'
                     to: 'helm_onboarder_values_updated'
                 tag_helm_onboarder:
                     from: 'helm_onboarder_values_updated'

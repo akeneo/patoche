@@ -34,4 +34,5 @@ services:
     Akeneo\Infrastructure\IO\CommandLine\OnboarderRelease:
         arguments:
             - '@Akeneo\Application\Vcs\GetNextTagHandler'
+            - '@workflow.onboarder_release'
         tags: ['console.command']
