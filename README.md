@@ -1,6 +1,6 @@
-# Patrick Tag
+# Patoche
 
-Welcome to Patrick Tag, a tool to automatically tag the Onboarder.
+Welcome to Patoche, a tool to automatically tag and deploy the Onboarder.
 
 ![Patoche](patoche.jpg)
 
@@ -34,8 +34,9 @@ $ docker-compose run --rm php composer install
 
 Then run the application
 ```bash
-$ # COMING SOON
+$ docker-compose run --rm php akeneo:patoche:onboarder-release x.y [organization]
 ```
+where `x.y` is the branch you want to tag from. You can optionally chose an organization (default is `akeneo`) if you want to test Patoche from forked repositories.
 
 You can [dump the workflow](https://symfony.com/doc/current/workflow/dumping-workflows.html) and visualize it as a PNG graphic (other image format are available).
 You first need to install `xdot` on your machine. Then run
