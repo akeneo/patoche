@@ -11,17 +11,18 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Application\Vcs;
 
-use Akeneo\Application\Vcs\DownloadArchive;
-use Akeneo\Application\Vcs\DownloadArchiveHandler;
+use Akeneo\Application\Vcs\GetNextTag;
+use Akeneo\Application\Vcs\GetNextTagHandler;
 use Akeneo\Application\Vcs\VcsApiClient;
-use Akeneo\Domain\Common\WorkingDirectory;
+use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Domain\Vcs\Tags;
 use PhpSpec\ObjectBehavior;
 
-class DownloadArchiveHandlerSpec extends ObjectBehavior
+class GetNextTagHandlerSpec extends ObjectBehavior
 {
     function let(VcsApiClient $vcsApiClient)
     {
@@ -30,23 +31,21 @@ class DownloadArchiveHandlerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(DownloadArchiveHandler::class);
+        $this->shouldHaveType(GetNextTagHandler::class);
     }
 
-    function it_downloads_a_vcs_repository_archive($vcsApiClient)
+    function it_gets_the_next_tag($vcsApiClient)
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder');
         $branch = new Branch('4.2');
-        $workingDirectory = new WorkingDirectory('release-v4.2.0');
+        $repository = new Repository($organization, $project, $branch);
 
-        $downloadArchive = new DownloadArchive(
-            new Repository($organization, $project, $branch),
-            $workingDirectory
-        );
+        $tags = Tags::fromListTagsApiResponse([['name' => 'v4.2.1']]);
+        $vcsApiClient->listTags($organization, $project)->willReturn($tags);
 
-        $vcsApiClient->download($organization, $project, $branch, $workingDirectory)->shouldBeCalled();
-
-        $this->__invoke($downloadArchive);
+        $tag = $this->__invoke(new GetNextTag($repository));
+        $tag->shouldBeAnInstanceOf(Tag::class);
+        $tag->getVcsTag()->shouldReturn('v4.2.2');
     }
 }

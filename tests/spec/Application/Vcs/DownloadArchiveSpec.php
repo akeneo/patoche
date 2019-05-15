@@ -12,11 +12,11 @@ declare(strict_types=1);
 namespace spec\Akeneo\Application\Vcs;
 
 use Akeneo\Application\Vcs\DownloadArchive;
+use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
-use Akeneo\Domain\Common\WorkingDirectory;
 use PhpSpec\ObjectBehavior;
 
 class DownloadArchiveSpec extends ObjectBehavior

@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 return PhpCsFixer\Config::create()
     ->setRules([
+        '@PSR2' => true,
         '@Symfony' => true,
         'ordered_imports' => true,
         'visibility_required' => false,
@@ -18,5 +21,7 @@ return PhpCsFixer\Config::create()
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->name('*.php')
+            ->notName('*Spec.php')
             ->in(__DIR__ . '/src')
+            ->in(__DIR__ . '/tests')
     );

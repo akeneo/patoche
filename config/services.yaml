@@ -12,9 +12,17 @@ services:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
 
+    # Application services
+
     Akeneo\Application\Vcs\DownloadArchiveHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
+
+    Akeneo\Application\Vcs\GetNextTagHandler:
+        arguments:
+            - '@Akeneo\Application\Vcs\VcsApiClient'
+
+    # Infrastructure services
 
     Akeneo\Infrastructure\Vcs\Api\GitHubClient:
         arguments:
@@ -22,3 +30,8 @@ services:
             - '@League\Flysystem\Filesystem'
             - '%akeneo.filesystem.default.directory%'
     Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\GitHubClient'
+
+    Akeneo\Infrastructure\IO\CommandLine\OnboarderRelease:
+        arguments:
+            - '@Akeneo\Application\Vcs\GetNextTagHandler'
+        tags: ['console.command']

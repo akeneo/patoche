@@ -1,13 +1,13 @@
 framework:
     workflows:
-        tagging:
+        onboarder_release:
             type: 'workflow'
             marking_store:
                 type: 'multiple_state'
                 arguments:
                     - 'places'
             supports:
-                - 'Akeneo\Application\TaggingProcess'
+                - 'Akeneo\Application\ReleaseProcess'
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'
