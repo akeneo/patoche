@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Tests\Integration;
 
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -21,8 +21,7 @@ class TestCase extends KernelTestCase
     {
         static::$kernel = static::bootKernel(['debug' => false, 'environment' => 'integration']);
 
-        /** @var FilesystemInterface $filesystem */
-        $filesystem = $this->container()->get('League\Flysystem\Filesystem');
+        $filesystem = $this->container()->get(Filesystem::class);
 
         $rootDirectoryContents = $filesystem->listContents();
         foreach ($rootDirectoryContents as $content) {

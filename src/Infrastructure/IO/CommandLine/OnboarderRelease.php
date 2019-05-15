@@ -22,6 +22,7 @@ use Akeneo\Domain\Vcs\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -60,6 +61,12 @@ final class OnboarderRelease extends Command
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param ConsoleOutput  $output
+     *
+     * @return int|null
+     */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $releaseProcess = $this->startReleaseProcess($input, $output);
@@ -67,14 +74,16 @@ final class OnboarderRelease extends Command
             return 1;
         }
 
-        $output->writeln(sprintf(
-            '<info>Starting release process for version "%s"</info>',
-            $releaseProcess->getTag()->getDockerTag()
-        ));
-
         while ([] !== $enabledTransitions = $this->workflow->getEnabledTransitions($releaseProcess)) {
             foreach ($enabledTransitions as $transition) {
+                $section = $output->section();
+                $message = sprintf('Start "%s" transition...', $transition->getName());
+                $section->writeln($message);
+
                 $this->workflow->apply($releaseProcess, $transition->getName());
+
+                $section->clear();
+                $section->writeln(sprintf('%s Done.', $message));
             }
         }
 
@@ -113,7 +122,7 @@ final class OnboarderRelease extends Command
         $getNextTag = new GetNextTag($repository);
         $nextTag = ($this->getNextTagHandler)($getNextTag);
 
-        $output->writeln(sprintf('Proposed tag for this release is "%s".', $nextTag->getDockerTag()));
+        $output->writeln(sprintf('<info>Proposed tag for this release is "%s".</info>', $nextTag->getDockerTag()));
 
         $questionHelper = $this->getHelper('question');
         $confirmation = new ConfirmationQuestion('Is it OK? [Y/n] ', true);
@@ -132,6 +141,11 @@ final class OnboarderRelease extends Command
                 return null;
             }
         }
+
+        $output->writeln(sprintf(
+            '<info>Starting release process for version "%s"</info>',
+            $nextTag->getDockerTag()
+        ));
 
         return new ReleaseProcess($branch, $nextTag, $organization);
     }
