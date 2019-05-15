@@ -15,11 +15,14 @@ use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Domain\Vcs\Project;
 
 final class ReleaseProcess
 {
-    private const PIM_ENTERPRISE_CLOUD_2X_BRANCH = '2.3';
-    private const PIM_ENTERPRISE_CLOUD_3X_BRANCH = '3.1';
+    private const BRANCH_MAPPING = [
+        '1.2' => '2.3',
+        '2.0' => '3.0',
+    ];
 
     private $branch;
     private $tag;
@@ -46,14 +49,13 @@ final class ReleaseProcess
         return $this->branch;
     }
 
-    public function getPecBranch(): Branch
+    public function getBranchForProject(Project $project): Branch
     {
-        list($major) = explode('.', (string) $this->branch);
-        if ('1' === $major) {
-            return new Branch(static::PIM_ENTERPRISE_CLOUD_2X_BRANCH);
+        if (Project::PIM_ENTERPRISE_CLOUD === (string) $project) {
+            return new Branch(static::BRANCH_MAPPING[(string) $this->branch]);
         }
 
-        return new Branch(static::PIM_ENTERPRISE_CLOUD_3X_BRANCH);
+        return $this->branch;
     }
 
     public function getTag(): Tag

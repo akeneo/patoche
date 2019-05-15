@@ -64,14 +64,14 @@ final class DownloadArchiveSubscriber implements EventSubscriberInterface
         $this->downloadArchive(Project::PIM_ONBOARDER_BUNDLE, $event->getSubject());
     }
 
-    private function downloadArchive(string $project, ReleaseProcess $releaseProcess): void
+    private function downloadArchive(string $projectName, ReleaseProcess $releaseProcess): void
     {
-        $branch = Project::PIM_ENTERPRISE_CLOUD !== $project
-            ? $releaseProcess->getBranch()
-            : $releaseProcess->getPecBranch();
+        $organization = $releaseProcess->getOrganization();
+        $project = new Project($projectName);
+        $branch = $releaseProcess->getBranchForProject($project);
 
         $downloadArchive = new DownloadArchive(
-            new Repository($releaseProcess->getOrganization(), new Project($project), $branch),
+            new Repository($organization, $project, $branch),
             $releaseProcess->getWorkingDirectory()
         );
 

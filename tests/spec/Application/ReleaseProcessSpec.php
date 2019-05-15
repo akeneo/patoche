@@ -16,6 +16,7 @@ use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Domain\Vcs\Project;
 use PhpSpec\ObjectBehavior;
 
 class ReleaseProcessSpec extends ObjectBehavior
@@ -45,13 +46,13 @@ class ReleaseProcessSpec extends ObjectBehavior
 
     function it_knows_the_corresponding_pim_enterprise_2x_cloud_branch()
     {
-        $this->branch = new Branch('1.0');
-        $this->tag = Tag::fromGenericTag('1.0.0');
+        $this->branch = new Branch('1.2');
+        $this->tag = Tag::fromGenericTag('1.2.0');
         $this->organization = new Organization('akeneo');
 
         $this->beConstructedWith($this->branch, $this->tag, $this->organization);
 
-        $pecBranch = $this->getPecBranch();
+        $pecBranch = $this->getBranchForProject(new Project('pim-enterprise-cloud'));
         $pecBranch->shouldBeAnInstanceOf(Branch::class);
         $pecBranch->__toString()->shouldReturn('2.3');
     }
@@ -64,9 +65,22 @@ class ReleaseProcessSpec extends ObjectBehavior
 
         $this->beConstructedWith($this->branch, $this->tag, $this->organization);
 
-        $pecBranch = $this->getPecBranch();
+        $pecBranch = $this->getBranchForProject(new Project('pim-enterprise-cloud'));
         $pecBranch->shouldBeAnInstanceOf(Branch::class);
-        $pecBranch->__toString()->shouldReturn('3.1');
+        $pecBranch->__toString()->shouldReturn('3.0');
+    }
+
+    function it_returns_the_onboarder_projects_branch()
+    {
+        $this->branch = new Branch('2.0');
+        $this->tag = Tag::fromGenericTag('2.0.0');
+        $this->organization = new Organization('akeneo');
+
+        $this->beConstructedWith($this->branch, $this->tag, $this->organization);
+
+        $pecBranch = $this->getBranchForProject(new Project('onboarder'));
+        $pecBranch->shouldBeAnInstanceOf(Branch::class);
+        $pecBranch->__toString()->shouldReturn('2.0');
     }
 
     function it_returns_a_tag_to_create()

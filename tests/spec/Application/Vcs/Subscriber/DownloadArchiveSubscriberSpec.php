@@ -85,7 +85,7 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $organization = new Organization('akeneo');
         $project = new Project('pim-enterprise-cloud');
         $branch = new Branch('2.0');
-        $pecBranch = new Branch('3.1');
+        $pecBranch = new Branch('3.0');
         $workingDirectory = new WorkingDirectory('release-v2.0.1');
 
         $downloadArchive = new DownloadArchive(
