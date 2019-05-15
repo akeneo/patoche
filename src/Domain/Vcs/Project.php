@@ -15,6 +15,12 @@ use Webmozart\Assert\Assert;
 
 final class Project
 {
+    public const SUPPLIER_ONBOARDER = 'onboarder';
+    public const MIDDLEWARE = 'onboarder-middleware';
+    public const OVERSEER = 'onboarder-supplier-service';
+    public const PIM_ONBOARDER_BUNDLE = 'pim-onboarder';
+    public const PIM_ENTERPRISE_CLOUD = 'pim-enterprise-cloud';
+
     private $projectName;
 
     public function __construct(string $projectName)

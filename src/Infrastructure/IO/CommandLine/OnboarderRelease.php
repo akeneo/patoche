@@ -29,14 +29,6 @@ use Symfony\Component\Workflow\WorkflowInterface;
 
 final class OnboarderRelease extends Command
 {
-    private const REPOSITORIES = [
-        'onboarder',
-        'onboarder-middleware',
-        'onboarder-supplier-service',
-        'pim-onboarder',
-        'helm-onboarder',
-    ];
-
     private $getNextTagHandler;
     private $workflow;
 
@@ -96,7 +88,7 @@ final class OnboarderRelease extends Command
 
     /**
      * We get the last tag from one of the Onboarder repositories.
-     * The first repository is an arbitrary choice.
+     * Using the supplier-onboarder repository is an arbitrary choice.
      *
      * We need to validate that the inputs are strings and initialize them to satisfy PHPStan.
      * This wouldn't be needed if Symfony inputs could be typed :/.
@@ -114,7 +106,7 @@ final class OnboarderRelease extends Command
         }
 
         $organization = new Organization($organizationInput);
-        $project = new Project(static::REPOSITORIES[0]);
+        $project = new Project(Project::SUPPLIER_ONBOARDER);
         $branch = new Branch($branchInput);
         $repository = new Repository($organization, $project, $branch);
 

@@ -41,39 +41,40 @@ final class DownloadArchiveSubscriber implements EventSubscriberInterface
 
     public function downloadPec(Event $event): void
     {
-        $this->downloadArchive('pim-enterprise-cloud', $event->getSubject());
+        $this->downloadArchive(Project::PIM_ENTERPRISE_CLOUD, $event->getSubject());
     }
 
     public function downloadMiddleware(Event $event): void
     {
-        $this->downloadArchive('onboarder-middleware', $event->getSubject());
+        $this->downloadArchive(Project::MIDDLEWARE, $event->getSubject());
     }
 
     public function downloadOverseer(Event $event): void
     {
-        $this->downloadArchive('onboarder-supplier-service', $event->getSubject());
+        $this->downloadArchive(Project::OVERSEER, $event->getSubject());
     }
 
     public function downloadSupplierOnboarder(Event $event): void
     {
-        $this->downloadArchive('onboarder', $event->getSubject());
+        $this->downloadArchive(Project::SUPPLIER_ONBOARDER, $event->getSubject());
     }
 
     public function downloadPimOnboarder(Event $event): void
     {
-        $this->downloadArchive('pim-onboarder', $event->getSubject());
+        $this->downloadArchive(Project::PIM_ONBOARDER_BUNDLE, $event->getSubject());
     }
 
     private function downloadArchive(string $project, ReleaseProcess $releaseProcess): void
     {
+        $branch = Project::PIM_ENTERPRISE_CLOUD !== $project
+            ? $releaseProcess->getBranch()
+            : $releaseProcess->getPecBranch();
+
         $downloadArchive = new DownloadArchive(
-            new Repository(
-                $releaseProcess->getOrganization(),
-                new Project($project),
-                'pim-enterprise-cloud' !== $project ? $releaseProcess->getBranch() : $releaseProcess->getPecBranch()
-            ),
+            new Repository($releaseProcess->getOrganization(), new Project($project), $branch),
             $releaseProcess->getWorkingDirectory()
         );
+
         ($this->downloadArchiveHandler)($downloadArchive);
     }
 }
