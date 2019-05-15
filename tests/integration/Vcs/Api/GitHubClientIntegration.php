@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of Patrick Tag.
+ * This file is part of Patoche.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -24,7 +24,7 @@ use PHPUnit\Framework\Assert;
 class GitHubClientIntegration extends TestCase
 {
     private const TESTED_ORGANIZATION = 'akeneo';
-    private const TESTED_PROJECT = 'patrick-tag';
+    private const TESTED_PROJECT = 'patoche';
     private const TESTED_BRANCH = '0.0';
     private const TESTED_WORKING_DIRECTORY = 'release-v0.0.1';
 
@@ -65,7 +65,7 @@ class GitHubClientIntegration extends TestCase
 
         $downloadedRepositoryPath = '';
         foreach ($downloadedContents as $content) {
-            if ('dir' === $content['type'] && 1 === preg_match('/^akeneo-patrick-tag-.*/', $content['basename'])) {
+            if ('dir' === $content['type'] && 1 === preg_match('/^akeneo-patoche-.*/', $content['basename'])) {
                 $downloadedRepositoryPath = $content['path'];
             }
         }

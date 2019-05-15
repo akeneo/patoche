@@ -51,7 +51,7 @@ You can run the full test suite by running:
 $ docker-compose run --rm php composer tests
 ```
 
-Each kind of test can be also run individually, please look at the list in [composer.json](https://github.com/akeneo/patrick-tag/blob/master/composer.json).
+Each kind of test can be also run individually, please look at the list in [composer.json](https://github.com/akeneo/patoche/blob/master/composer.json).
 For instance, to run only `php-cs-fixer`, run:
 ```bash
 $ docker-compose run --rm php composer php-cs-fixer
