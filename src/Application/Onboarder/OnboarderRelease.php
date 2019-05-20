@@ -9,16 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application;
+namespace Akeneo\Application\Onboarder;
 
-use Akeneo\Application\Exception\BranchNotMapped;
+use Akeneo\Application\Onboarder\Exception\BranchNotMapped;
 use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 
-final class ReleaseProcess
+final class OnboarderRelease
 {
     private $branch;
     private $tag;
@@ -27,7 +27,7 @@ final class ReleaseProcess
     private $workingDirectory;
     private $places;
 
-    public function __construct(Branch $branch, Tag $tag, Organization $organization, array $mappedBranches)
+    public function __construct(Branch $branch, Tag $tag, Organization $organization, MappedBranches $mappedBranches)
     {
         $this->branch = $branch;
         $this->tag = $tag;
@@ -57,11 +57,7 @@ final class ReleaseProcess
     public function getBranchForProject(Project $project): Branch
     {
         if (Project::PIM_ENTERPRISE_CLOUD === (string) $project) {
-            if (!isset($this->mappedBranches[(string) $this->branch])) {
-                throw new BranchNotMapped($this->branch);
-            }
-
-            return new Branch($this->mappedBranches[(string) $this->branch]);
+            return $this->mappedBranches->getPecMappedBranched($this->branch);
         }
 
         return $this->branch;

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Exception;
+namespace Akeneo\Application\Onboarder\Exception;
 
 use Akeneo\Domain\Vcs\Branch;
 

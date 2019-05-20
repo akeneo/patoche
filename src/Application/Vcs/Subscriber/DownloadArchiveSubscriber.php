@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Application\Vcs\Subscriber;
 
-use Akeneo\Application\ReleaseProcess;
+use Akeneo\Application\Onboarder\OnboarderRelease;
 use Akeneo\Application\Vcs\DownloadArchive;
 use Akeneo\Application\Vcs\DownloadArchiveHandler;
 use Akeneo\Domain\Vcs\Project;
@@ -64,15 +64,15 @@ final class DownloadArchiveSubscriber implements EventSubscriberInterface
         $this->downloadArchive(Project::PIM_ONBOARDER_BUNDLE, $event->getSubject());
     }
 
-    private function downloadArchive(string $projectName, ReleaseProcess $releaseProcess): void
+    private function downloadArchive(string $projectName, OnboarderRelease $onboarderRelease): void
     {
-        $organization = $releaseProcess->getOrganization();
+        $organization = $onboarderRelease->getOrganization();
         $project = new Project($projectName);
-        $branch = $releaseProcess->getBranchForProject($project);
+        $branch = $onboarderRelease->getBranchForProject($project);
 
         $downloadArchive = new DownloadArchive(
             new Repository($organization, $project, $branch),
-            $releaseProcess->getWorkingDirectory()
+            $onboarderRelease->getWorkingDirectory()
         );
 
         ($this->downloadArchiveHandler)($downloadArchive);

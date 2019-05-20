@@ -9,9 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Application\Exception;
+namespace spec\Akeneo\Application\Onboarder\Exception;
 
-use Akeneo\Application\Exception\BranchNotMapped;
+use Akeneo\Application\Onboarder\Exception\BranchNotMapped;
 use Akeneo\Domain\Vcs\Branch;
 use PhpSpec\ObjectBehavior;
 

@@ -11,7 +11,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Infrastructure\IO\CommandLine;
 
-use Akeneo\Application\ReleaseProcess;
+use Akeneo\Application\Onboarder\MappedBranches;
+use Akeneo\Application\Onboarder\OnboarderRelease as Release;
 use Akeneo\Application\Vcs\GetNextTag;
 use Akeneo\Application\Vcs\GetNextTagHandler;
 use Akeneo\Domain\Common\Tag;
@@ -74,18 +75,18 @@ final class OnboarderRelease extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $releaseProcess = $this->startReleaseProcess($input, $output);
-        if (null === $releaseProcess) {
+        $onboarderRelease = $this->startOnboarderRelease($input, $output);
+        if (null === $onboarderRelease) {
             return 1;
         }
 
-        while ([] !== $enabledTransitions = $this->workflow->getEnabledTransitions($releaseProcess)) {
+        while ([] !== $enabledTransitions = $this->workflow->getEnabledTransitions($onboarderRelease)) {
             foreach ($enabledTransitions as $transition) {
                 $section = $output->section();
                 $message = sprintf('Start "%s" transition...', $transition->getName());
                 $section->writeln($message);
 
-                $this->workflow->apply($releaseProcess, $transition->getName());
+                $this->workflow->apply($onboarderRelease, $transition->getName());
 
                 $section->clear();
                 $section->writeln(sprintf('%s Done.', $message));
@@ -94,7 +95,7 @@ final class OnboarderRelease extends Command
 
         $output->writeln(sprintf(
             '<info>Process finished. Onboarder %s is released.</info>',
-            $releaseProcess->getTag()->getVcsTag()
+            $onboarderRelease->getTag()->getVcsTag()
         ));
 
         return 0;
@@ -107,7 +108,7 @@ final class OnboarderRelease extends Command
      * We need to validate that the inputs are strings and initialize them to satisfy PHPStan.
      * This wouldn't be needed if Symfony inputs could be typed :/.
      */
-    private function startReleaseProcess(InputInterface $input, OutputInterface $output): ?ReleaseProcess
+    private function startOnboarderRelease(InputInterface $input, OutputInterface $output): ?Release
     {
         $organizationInput = $input->getArgument('organization');
         if (!is_string($organizationInput)) {
@@ -152,6 +153,6 @@ final class OnboarderRelease extends Command
             $nextTag->getDockerTag()
         ));
 
-        return new ReleaseProcess($branch, $nextTag, $organization, $this->mappedBranches);
+        return new Release($branch, $nextTag, $organization, MappedBranches::fromRawMapping($this->mappedBranches));
     }
 }

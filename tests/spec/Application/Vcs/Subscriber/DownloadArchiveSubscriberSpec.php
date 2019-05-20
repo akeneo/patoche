@@ -11,7 +11,8 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Application\Vcs\Subscriber;
 
-use Akeneo\Application\ReleaseProcess;
+use Akeneo\Application\Onboarder\MappedBranches;
+use Akeneo\Application\Onboarder\OnboarderRelease;
 use Akeneo\Application\Vcs\DownloadArchive;
 use Akeneo\Application\Vcs\DownloadArchiveHandler;
 use Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber;
@@ -72,14 +73,14 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess(
+            new OnboarderRelease(
                 $branch,
                 Tag::fromGenericTag('1.2.0'),
                 $organization,
-                [
+                MappedBranches::fromRawMapping([
                     '1.2' => '2.3',
                     '2.0' => '3.0',
-                ]
+                ])
             ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
@@ -104,14 +105,14 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess(
+            new OnboarderRelease(
                 $branch,
                 Tag::fromGenericTag('2.0.1'),
                 $organization,
-                [
+                MappedBranches::fromRawMapping([
                     '1.2' => '2.3',
                     '2.0' => '3.0',
-                ]
+                ])
             ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
@@ -135,14 +136,14 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess(
+            new OnboarderRelease(
                 $branch,
                 Tag::fromGenericTag('1.2.0'),
                 $organization,
-                [
+                MappedBranches::fromRawMapping([
                     '1.2' => '2.3',
                     '2.0' => '3.0',
-                ]
+                ])
             ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
@@ -166,14 +167,14 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess(
+            new OnboarderRelease(
                 $branch,
                 Tag::fromGenericTag('1.2.0'),
                 $organization,
-                [
+                MappedBranches::fromRawMapping([
                     '1.2' => '2.3',
                     '2.0' => '3.0',
-                ]
+                ])
             ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
@@ -197,14 +198,14 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess(
+            new OnboarderRelease(
                 $branch,
                 Tag::fromGenericTag('1.2.0'),
                 $organization,
-                [
+                MappedBranches::fromRawMapping([
                     '1.2' => '2.3',
                     '2.0' => '3.0',
-                ]
+                ])
             ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
@@ -228,14 +229,14 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess(
+            new OnboarderRelease(
                 $branch,
                 Tag::fromGenericTag('1.2.0'),
                 $organization,
-                [
+                MappedBranches::fromRawMapping([
                     '1.2' => '2.3',
                     '2.0' => '3.0',
-                ]
+                ])
             ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),

@@ -11,7 +11,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Tests\Acceptance\Context;
 
-use Akeneo\Application\ReleaseProcess;
+use Akeneo\Application\Onboarder\MappedBranches;
+use Akeneo\Application\Onboarder\OnboarderRelease;
 use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
@@ -21,8 +22,8 @@ final class CommonContext implements Context
 {
     private $mappedBranches;
 
-    /** @var ReleaseProcess */
-    public static $releaseProcess;
+    /** @var OnboarderRelease */
+    public static $onboarderRelease;
 
     public function __construct(array $mappedBranches)
     {
@@ -34,11 +35,11 @@ final class CommonContext implements Context
      */
     public function newOnboarderRelease(): void
     {
-        static::$releaseProcess = new ReleaseProcess(
+        static::$onboarderRelease = new OnboarderRelease(
             new Branch('4.2'),
             Tag::fromGenericTag('4.2.0'),
             new Organization('akeneo'),
-            $this->mappedBranches
+            MappedBranches::fromRawMapping($this->mappedBranches)
         );
     }
 }
