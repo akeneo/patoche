@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Application;
 
+use Akeneo\Application\Exception\BranchNotMapped;
 use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
@@ -49,9 +50,20 @@ final class ReleaseProcess
         return $this->branch;
     }
 
+    /**
+     * @param Project $project
+     *
+     * @throws BranchNotMapped
+     *
+     * @return Branch
+     */
     public function getBranchForProject(Project $project): Branch
     {
         if (Project::PIM_ENTERPRISE_CLOUD === (string) $project) {
+            if (!isset(static::BRANCH_MAPPING[(string) $this->branch])) {
+                throw new BranchNotMapped($this->branch);
+            }
+
             return new Branch(static::BRANCH_MAPPING[(string) $this->branch]);
         }
 
