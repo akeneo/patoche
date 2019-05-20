@@ -32,15 +32,20 @@ final class OnboarderRelease extends Command
 {
     private $getNextTagHandler;
     private $workflow;
+    private $mappedBranches;
 
     protected static $defaultName = 'akeneo:patoche:onboarder-release';
 
-    public function __construct(GetNextTagHandler $getNextTagHandler, WorkflowInterface $workflow)
-    {
+    public function __construct(
+        GetNextTagHandler $getNextTagHandler,
+        WorkflowInterface $workflow,
+        array $mappedBranches
+    ) {
         parent::__construct();
 
         $this->getNextTagHandler = $getNextTagHandler;
         $this->workflow = $workflow;
+        $this->mappedBranches = $mappedBranches;
     }
 
     protected function configure(): void
@@ -147,6 +152,6 @@ final class OnboarderRelease extends Command
             $nextTag->getDockerTag()
         ));
 
-        return new ReleaseProcess($branch, $nextTag, $organization);
+        return new ReleaseProcess($branch, $nextTag, $organization, $this->mappedBranches);
     }
 }

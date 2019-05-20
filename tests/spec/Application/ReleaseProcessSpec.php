@@ -32,7 +32,15 @@ class ReleaseProcessSpec extends ObjectBehavior
         $this->tag = Tag::fromGenericTag('2.0.0');
         $this->organization = new Organization('akeneo');
 
-        $this->beConstructedWith($this->branch, $this->tag, $this->organization);
+        $this->beConstructedWith(
+            $this->branch,
+            $this->tag,
+            $this->organization,
+            [
+                '1.2' => '2.3',
+                '2.0' => '3.0',
+            ]
+        );
     }
 
     function it_is_initializable()
@@ -50,7 +58,11 @@ class ReleaseProcessSpec extends ObjectBehavior
         $this->beConstructedWith(
             new Branch('1.2'),
             Tag::fromGenericTag('1.2.0'),
-            new Organization('akeneo')
+            new Organization('akeneo'),
+            [
+                '1.2' => '2.3',
+                '2.0' => '3.0',
+            ]
         );
 
         $pecBranch = $this->getBranchForProject(new Project('pim-enterprise-cloud'));
@@ -107,7 +119,11 @@ class ReleaseProcessSpec extends ObjectBehavior
         $this->beConstructedWith(
             $branch,
             Tag::fromGenericTag('1.0.0'),
-            new Organization('akeneo')
+            new Organization('akeneo'),
+            [
+                '1.2' => '2.3',
+                '2.0' => '3.0',
+            ]
         );
 
         $exception = new BranchNotMapped($branch);

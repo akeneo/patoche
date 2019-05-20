@@ -20,22 +20,19 @@ use Akeneo\Domain\Vcs\Project;
 
 final class ReleaseProcess
 {
-    private const BRANCH_MAPPING = [
-        '1.2' => '2.3',
-        '2.0' => '3.0',
-    ];
-
     private $branch;
     private $tag;
     private $organization;
+    private $mappedBranches;
     private $workingDirectory;
     private $places;
 
-    public function __construct(Branch $branch, Tag $tag, Organization $organization)
+    public function __construct(Branch $branch, Tag $tag, Organization $organization, array $mappedBranches)
     {
         $this->branch = $branch;
         $this->tag = $tag;
         $this->organization = $organization;
+        $this->mappedBranches = $mappedBranches;
 
         $this->workingDirectory = new WorkingDirectory(sprintf(
             'release-%s',
@@ -60,11 +57,11 @@ final class ReleaseProcess
     public function getBranchForProject(Project $project): Branch
     {
         if (Project::PIM_ENTERPRISE_CLOUD === (string) $project) {
-            if (!isset(static::BRANCH_MAPPING[(string) $this->branch])) {
+            if (!isset($this->mappedBranches[(string) $this->branch])) {
                 throw new BranchNotMapped($this->branch);
             }
 
-            return new Branch(static::BRANCH_MAPPING[(string) $this->branch]);
+            return new Branch($this->mappedBranches[(string) $this->branch]);
         }
 
         return $this->branch;

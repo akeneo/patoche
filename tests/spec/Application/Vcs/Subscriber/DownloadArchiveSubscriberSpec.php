@@ -62,7 +62,7 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $project = new Project('pim-enterprise-cloud');
         $branch = new Branch('1.2');
         $pecBranch = new Branch('2.3');
-        $workingDirectory = new WorkingDirectory('release-v1.1.0');
+        $workingDirectory = new WorkingDirectory('release-v1.2.0');
 
         $downloadArchive = new DownloadArchive(
             new Repository($organization, $project, $pecBranch),
@@ -72,7 +72,15 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess($branch, Tag::fromGenericTag('1.1.0'), $organization),
+            new ReleaseProcess(
+                $branch,
+                Tag::fromGenericTag('1.2.0'),
+                $organization,
+                [
+                    '1.2' => '2.3',
+                    '2.0' => '3.0',
+                ]
+            ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
             'onboarder_release'
@@ -96,7 +104,15 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess($branch, Tag::fromGenericTag('2.0.1'), $organization),
+            new ReleaseProcess(
+                $branch,
+                Tag::fromGenericTag('2.0.1'),
+                $organization,
+                [
+                    '1.2' => '2.3',
+                    '2.0' => '3.0',
+                ]
+            ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
             'onboarder_release'
@@ -108,8 +124,8 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder-middleware');
-        $branch = new Branch('1.1');
-        $workingDirectory = new WorkingDirectory('release-v1.1.0');
+        $branch = new Branch('1.2');
+        $workingDirectory = new WorkingDirectory('release-v1.2.0');
 
         $downloadArchive = new DownloadArchive(
             new Repository($organization, $project, $branch),
@@ -119,7 +135,15 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess($branch, Tag::fromGenericTag('1.1.0'), $organization),
+            new ReleaseProcess(
+                $branch,
+                Tag::fromGenericTag('1.2.0'),
+                $organization,
+                [
+                    '1.2' => '2.3',
+                    '2.0' => '3.0',
+                ]
+            ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
             'onboarder_release'
@@ -131,8 +155,8 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder-supplier-service');
-        $branch = new Branch('1.1');
-        $workingDirectory = new WorkingDirectory('release-v1.1.0');
+        $branch = new Branch('1.2');
+        $workingDirectory = new WorkingDirectory('release-v1.2.0');
 
         $downloadArchive = new DownloadArchive(
             new Repository($organization, $project, $branch),
@@ -142,7 +166,15 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess($branch, Tag::fromGenericTag('1.1.0'), $organization),
+            new ReleaseProcess(
+                $branch,
+                Tag::fromGenericTag('1.2.0'),
+                $organization,
+                [
+                    '1.2' => '2.3',
+                    '2.0' => '3.0',
+                ]
+            ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
             'onboarder_release'
@@ -154,8 +186,8 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder');
-        $branch = new Branch('1.1');
-        $workingDirectory = new WorkingDirectory('release-v1.1.0');
+        $branch = new Branch('1.2');
+        $workingDirectory = new WorkingDirectory('release-v1.2.0');
 
         $downloadArchive = new DownloadArchive(
             new Repository($organization, $project, $branch),
@@ -165,7 +197,15 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess($branch, Tag::fromGenericTag('1.1.0'), $organization),
+            new ReleaseProcess(
+                $branch,
+                Tag::fromGenericTag('1.2.0'),
+                $organization,
+                [
+                    '1.2' => '2.3',
+                    '2.0' => '3.0',
+                ]
+            ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
             'onboarder_release'
@@ -177,8 +217,8 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
     {
         $organization = new Organization('akeneo');
         $project = new Project('pim-onboarder');
-        $branch = new Branch('1.1');
-        $workingDirectory = new WorkingDirectory('release-v1.1.0');
+        $branch = new Branch('1.2');
+        $workingDirectory = new WorkingDirectory('release-v1.2.0');
 
         $downloadArchive = new DownloadArchive(
             new Repository($organization, $project, $branch),
@@ -188,7 +228,15 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         $downloadArchiveHandler->__invoke(Argument::exact($downloadArchive))->shouldBeCalled();
 
         $event = new Event(
-            new ReleaseProcess($branch, Tag::fromGenericTag('1.1.0'), $organization),
+            new ReleaseProcess(
+                $branch,
+                Tag::fromGenericTag('1.2.0'),
+                $organization,
+                [
+                    '1.2' => '2.3',
+                    '2.0' => '3.0',
+                ]
+            ),
             new Marking(['original_place' => 1]),
             new Transition('transition_name', 'original_place', 'destination_place'),
             'onboarder_release'

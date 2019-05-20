@@ -3,7 +3,7 @@ oneup_flysystem:
     adapters:
         default_adapter:
             local:
-                directory: '%akeneo.filesystem.default.directory%'
+                directory: '%akeneo_patoche.infrastructure.default_filesystem.directory%'
     filesystems:
         default_filesystem:
             adapter: default_adapter

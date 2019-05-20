@@ -1,5 +1,5 @@
 parameters:
-    akeneo.filesystem.default.directory: '%kernel.project_dir%/data/tests'
+    akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data/tests'
 
 # TODO: Remove this file once the handler is used in an event subscriber
 services:

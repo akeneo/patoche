@@ -19,8 +19,15 @@ use Behat\Behat\Context\Context;
 
 final class CommonContext implements Context
 {
+    private $mappedBranches;
+
     /** @var ReleaseProcess */
     public static $releaseProcess;
+
+    public function __construct(array $mappedBranches)
+    {
+        $this->mappedBranches = $mappedBranches;
+    }
 
     /**
      * @Given a new version of the Onboarder is going to be released
@@ -30,7 +37,8 @@ final class CommonContext implements Context
         static::$releaseProcess = new ReleaseProcess(
             new Branch('4.2'),
             Tag::fromGenericTag('4.2.0'),
-            new Organization('akeneo')
+            new Organization('akeneo'),
+            $this->mappedBranches
         );
     }
 }
