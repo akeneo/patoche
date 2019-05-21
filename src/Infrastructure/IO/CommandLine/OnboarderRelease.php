@@ -11,7 +11,8 @@ declare(strict_types=1);
 
 namespace Akeneo\Infrastructure\IO\CommandLine;
 
-use Akeneo\Application\ReleaseProcess;
+use Akeneo\Application\Onboarder\MappedBranches;
+use Akeneo\Application\Onboarder\OnboarderRelease as Release;
 use Akeneo\Application\Vcs\GetNextTag;
 use Akeneo\Application\Vcs\GetNextTagHandler;
 use Akeneo\Domain\Common\Tag;
@@ -22,29 +23,30 @@ use Akeneo\Domain\Vcs\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 final class OnboarderRelease extends Command
 {
-    private const REPOSITORIES = [
-        'onboarder',
-        'onboarder-middleware',
-        'onboarder-supplier-service',
-        'pim-onboarder',
-        'helm-onboarder',
-    ];
-
     private $getNextTagHandler;
+    private $workflow;
+    private $mappedBranches;
 
     protected static $defaultName = 'akeneo:patoche:onboarder-release';
 
-    public function __construct(GetNextTagHandler $getNextTagHandler)
-    {
-        $this->getNextTagHandler = $getNextTagHandler;
-
+    public function __construct(
+        GetNextTagHandler $getNextTagHandler,
+        WorkflowInterface $workflow,
+        array $mappedBranches
+    ) {
         parent::__construct();
+
+        $this->getNextTagHandler = $getNextTagHandler;
+        $this->workflow = $workflow;
+        $this->mappedBranches = $mappedBranches;
     }
 
     protected function configure(): void
@@ -65,16 +67,35 @@ final class OnboarderRelease extends Command
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param ConsoleOutput  $output
+     *
+     * @return int|null
+     */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $releaseProcess = $this->startReleaseProcess($input, $output);
-        if (null === $releaseProcess) {
+        $onboarderRelease = $this->startOnboarderRelease($input, $output);
+        if (null === $onboarderRelease) {
             return 1;
         }
 
+        while ([] !== $enabledTransitions = $this->workflow->getEnabledTransitions($onboarderRelease)) {
+            foreach ($enabledTransitions as $transition) {
+                $section = $output->section();
+                $message = sprintf('Start "%s" transition...', $transition->getName());
+                $section->writeln($message);
+
+                $this->workflow->apply($onboarderRelease, $transition->getName());
+
+                $section->clear();
+                $section->writeln(sprintf('%s Done.', $message));
+            }
+        }
+
         $output->writeln(sprintf(
-            'Starting release process for version "%s"',
-            $releaseProcess->getTag()->getDockerTag()
+            '<info>Process finished. Onboarder %s is released.</info>',
+            $onboarderRelease->getTag()->getVcsTag()
         ));
 
         return 0;
@@ -82,12 +103,12 @@ final class OnboarderRelease extends Command
 
     /**
      * We get the last tag from one of the Onboarder repositories.
-     * The first repository is an arbitrary choice.
+     * Using the supplier-onboarder repository is an arbitrary choice.
      *
      * We need to validate that the inputs are strings and initialize them to satisfy PHPStan.
      * This wouldn't be needed if Symfony inputs could be typed :/.
      */
-    private function startReleaseProcess(InputInterface $input, OutputInterface $output): ?ReleaseProcess
+    private function startOnboarderRelease(InputInterface $input, OutputInterface $output): ?Release
     {
         $organizationInput = $input->getArgument('organization');
         if (!is_string($organizationInput)) {
@@ -100,14 +121,14 @@ final class OnboarderRelease extends Command
         }
 
         $organization = new Organization($organizationInput);
-        $project = new Project(static::REPOSITORIES[0]);
+        $project = new Project(Project::SUPPLIER_ONBOARDER);
         $branch = new Branch($branchInput);
         $repository = new Repository($organization, $project, $branch);
 
         $getNextTag = new GetNextTag($repository);
         $nextTag = ($this->getNextTagHandler)($getNextTag);
 
-        $output->writeln(sprintf('Proposed tag for this release is "%s".', $nextTag->getDockerTag()));
+        $output->writeln(sprintf('<info>Proposed tag for this release is "%s".</info>', $nextTag->getDockerTag()));
 
         $questionHelper = $this->getHelper('question');
         $confirmation = new ConfirmationQuestion('Is it OK? [Y/n] ', true);
@@ -120,13 +141,18 @@ final class OnboarderRelease extends Command
             try {
                 $nextTag = Tag::fromGenericTag($userDefinedTag);
             } catch (\InvalidArgumentException $exception) {
-                $output->writeln($exception->getMessage());
-                $output->writeln('Aborting release process.');
+                $output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
+                $output->writeln('<error>Aborting release process.</error>');
 
                 return null;
             }
         }
 
-        return new ReleaseProcess($branch, $nextTag, $organization);
+        $output->writeln(sprintf(
+            '<info>Starting release process for version "%s"</info>',
+            $nextTag->getDockerTag()
+        ));
+
+        return new Release($branch, $nextTag, $organization, MappedBranches::fromRawMapping($this->mappedBranches));
     }
 }

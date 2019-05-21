@@ -14,6 +14,8 @@ services:
 
     Akeneo\Tests\Acceptance\Context\CommonContext:
         public: true
+        arguments:
+            - '%akeneo_patoche.application.mapped_branches%'
 
     Akeneo\Tests\Acceptance\Context\VcsContext:
         public: true

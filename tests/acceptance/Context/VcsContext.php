@@ -44,14 +44,14 @@ final class VcsContext implements Context
     public function downloadArchive(string $projectName): void
     {
         $repository = new Repository(
-            CommonContext::$releaseProcess->getOrganization(),
+            CommonContext::$onboarderRelease->getOrganization(),
             new Project($projectName),
-            CommonContext::$releaseProcess->getBranch()
+            CommonContext::$onboarderRelease->getBranch()
         );
 
         ($this->downloadArchiveHandler)(new DownloadArchive(
             $repository,
-            CommonContext::$releaseProcess->getWorkingDirectory()
+            CommonContext::$onboarderRelease->getWorkingDirectory()
         ));
     }
 
@@ -62,12 +62,12 @@ final class VcsContext implements Context
     {
         $readContent = $this->filesystem->read(sprintf(
             '%s/%s/README.md',
-            CommonContext::$releaseProcess->getWorkingDirectory(),
+            CommonContext::$onboarderRelease->getWorkingDirectory(),
             $projectName
         ));
 
-        $organization = (string) CommonContext::$releaseProcess->getOrganization();
-        $branch = (string) CommonContext::$releaseProcess->getBranch();
+        $organization = (string) CommonContext::$onboarderRelease->getOrganization();
+        $branch = (string) CommonContext::$onboarderRelease->getBranch();
         $expectedContent = static::EXPECTED_DATA[$organization][$projectName][$branch];
 
         Assert::same($readContent, $expectedContent);

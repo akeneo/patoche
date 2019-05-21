@@ -73,15 +73,12 @@
             "@php-cs-fixer",
             "@phpstan",
             "@phpspec",
-            "@php-cs-fixer-spec",
             "@acceptance",
             "@integration"
         ],
-        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run -v --diff --config=.php_cs.php",
-        "php-cs-fixer-spec": "vendor/bin/php-cs-fixer fix --dry-run -v --diff --config=.php_cs.phpspec.php",
-        "php-cs-fixer-fix": "vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.php",
-        "php-cs-fixer-fix-spec": "vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.phpspec.php",
-        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon src tests -l 7",
+        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run -v --diff --config=.php_cs.php && vendor/bin/php-cs-fixer fix --dry-run -v --diff --config=.php_cs.phpspec.php",
+        "php-cs-fixer-fix": "vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.php && vendor/bin/php-cs-fixer fix -v --diff --config=.php_cs.phpspec.php",
+        "phpstan": "vendor/bin/phpstan analyse src tests/acceptance -l 7 && vendor/bin/phpstan analyse tests/integration -l 5",
         "phpspec": "vendor/bin/phpspec run",
         "acceptance": "vendor/bin/behat -p acceptance -f pretty -o std --colors",
         "integration": "vendor/bin/phpunit"

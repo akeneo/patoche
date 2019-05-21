@@ -4,7 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    akeneo.filesystem.default.directory: '%kernel.project_dir%/data'
+    akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data'
+    akeneo_patoche.application.mapped_branches:
+          '1.2': '2.3'
+          '2.0': '3.0'
 
 services:
     # default configuration for services in *this* file
@@ -14,13 +17,19 @@ services:
 
     # Application services
 
+    Akeneo\Application\Vcs\GetNextTagHandler:
+        arguments:
+            - '@Akeneo\Application\Vcs\VcsApiClient'
+
     Akeneo\Application\Vcs\DownloadArchiveHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
 
-    Akeneo\Application\Vcs\GetNextTagHandler:
+    Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
-            - '@Akeneo\Application\Vcs\VcsApiClient'
+            - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
+        tags: ['kernel.event_subscriber']
+
 
     # Infrastructure services
 
@@ -28,10 +37,12 @@ services:
         arguments:
             - '@Github\Client'
             - '@League\Flysystem\Filesystem'
-            - '%akeneo.filesystem.default.directory%'
+            - '%akeneo_patoche.infrastructure.default_filesystem.directory%'
     Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\GitHubClient'
 
     Akeneo\Infrastructure\IO\CommandLine\OnboarderRelease:
         arguments:
             - '@Akeneo\Application\Vcs\GetNextTagHandler'
+            - '@workflow.onboarder_release'
+            - '%akeneo_patoche.application.mapped_branches%'
         tags: ['console.command']
