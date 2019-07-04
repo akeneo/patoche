@@ -11,6 +11,8 @@ framework:
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'
+                - 'pim_enterprise_cloud_download_process_started'
+                - 'pim_enterprise_cloud_archive_downloaded'
                 - 'pim_enterprise_cloud_prepared_for_dev'
                 - 'pim_enterprise_cloud_preparation_aborted'
                 - 'dev_environment_deployed'
@@ -34,8 +36,14 @@ framework:
                 - 'helm_onboarder_tagged'
                 - 'helm_onboarder_chart_packaged'
             transitions:
-                prepare_pim_enterprise_cloud_for_dev:
+                start_download_process:
                     from: 'tagging_process_started'
+                    to: 'pim_enterprise_cloud_download_process_started'
+                download_pim_enterprise_cloud_archive:
+                    from: 'pim_enterprise_cloud_download_process_started'
+                    to: 'pim_enterprise_cloud_archive_downloaded'
+                prepare_pim_enterprise_cloud_for_dev:
+                    from: 'pim_enterprise_cloud_archive_downloaded'
                     to: 'pim_enterprise_cloud_prepared_for_dev'
                 deploy_dev_environment:
                     from: 'pim_enterprise_cloud_prepared_for_dev'
