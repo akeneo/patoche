@@ -11,21 +11,7 @@ framework:
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'
-                - 'pim_enterprise_cloud_download_process_started'
-                - 'middleware_download_process_started'
-                - 'overseer_download_process_started'
-                - 'supplier_onboarder_download_process_started'
-                - 'pim_enterprise_cloud_archive_downloaded'
-                - 'middleware_archive_downloaded'
-                - 'overseer_archive_downloaded'
-                - 'supplier_onboarder_archive_downloaded'
                 - 'pim_enterprise_cloud_prepared_for_dev'
-                - 'dev_middleware_docker_image_built'
-                - 'dev_overseer_docker_image_built'
-                - 'dev_supplier_onboarder_docker_image_built'
-                - 'dev_middleware_docker_image_pushed'
-                - 'dev_overseer_docker_image_pushed'
-                - 'dev_supplier_onboarder_docker_image_pushed'
                 - 'pim_enterprise_cloud_preparation_aborted'
                 - 'dev_environment_deployed'
                 - 'validation_process_started'
@@ -36,7 +22,6 @@ framework:
                 - 'middleware_tagging_process_started'
                 - 'overseer_tagging_process_started'
                 - 'supplier_onboarder_bundle_tagging_process_started'
-                - 'pim_onboarder_bundle_archive_downloaded'
                 - 'pim_onboarder_bundle_tagged'
                 - 'pim_enterprise_cloud_updated_for_production'
                 - 'middleware_tagged'
@@ -49,52 +34,11 @@ framework:
                 - 'helm_onboarder_tagged'
                 - 'helm_onboarder_chart_packaged'
             transitions:
-                start_download_process:
-                    from: 'tagging_process_started'
-                    to:
-                        - 'pim_enterprise_cloud_download_process_started'
-                        - 'middleware_download_process_started'
-                        - 'overseer_download_process_started'
-                        - 'supplier_onboarder_download_process_started'
-                download_pim_enterprise_cloud_archive:
-                    from: 'pim_enterprise_cloud_download_process_started'
-                    to: 'pim_enterprise_cloud_archive_downloaded'
-                download_middleware_archive:
-                    from: 'middleware_download_process_started'
-                    to: 'middleware_archive_downloaded'
-                download_overseer_archive:
-                    from: 'overseer_download_process_started'
-                    to: 'overseer_archive_downloaded'
-                download_supplier_onboarder_archive:
-                    from: 'supplier_onboarder_download_process_started'
-                    to: 'supplier_onboarder_archive_downloaded'
                 prepare_pim_enterprise_cloud_for_dev:
-                    from: 'pim_enterprise_cloud_archive_downloaded'
+                    from: 'tagging_process_started'
                     to: 'pim_enterprise_cloud_prepared_for_dev'
-                build_dev_middleware_docker_image:
-                    from: 'middleware_archive_downloaded'
-                    to: 'dev_middleware_docker_image_built'
-                build_dev_overseer_docker_image:
-                    from: 'overseer_archive_downloaded'
-                    to: 'dev_overseer_docker_image_built'
-                build_dev_supplier_onboarder_docker_image:
-                    from: 'supplier_onboarder_archive_downloaded'
-                    to: 'dev_supplier_onboarder_docker_image_built'
-                push_dev_middleware_docker_image:
-                    from: 'dev_middleware_docker_image_built'
-                    to: 'dev_middleware_docker_image_pushed'
-                push_dev_overseer_docker_image:
-                    from: 'dev_overseer_docker_image_built'
-                    to: 'dev_overseer_docker_image_pushed'
-                push_dev_supplier_onboarder_docker_image:
-                    from: 'dev_supplier_onboarder_docker_image_built'
-                    to: 'dev_supplier_onboarder_docker_image_pushed'
                 deploy_dev_environment:
-                    from:
-                        - 'pim_enterprise_cloud_prepared_for_dev'
-                        - 'dev_middleware_docker_image_pushed'
-                        - 'dev_overseer_docker_image_pushed'
-                        - 'dev_supplier_onboarder_docker_image_pushed'
+                    from: 'pim_enterprise_cloud_prepared_for_dev'
                     to: 'dev_environment_deployed'
                 start_validation_process:
                     from: 'dev_environment_deployed'
@@ -117,11 +61,8 @@ framework:
                         - 'middleware_tagging_process_started'
                         - 'overseer_tagging_process_started'
                         - 'supplier_onboarder_bundle_tagging_process_started'
-                download_pim_onboarder_bundle_archive:
-                    from: 'pim_onboarder_bundle_tagging_process_started'
-                    to: 'pim_onboarder_bundle_archive_downloaded'
                 tag_pim_onboarder_bundle:
-                    from: 'pim_onboarder_bundle_archive_downloaded'
+                    from: 'pim_onboarder_bundle_tagging_process_started'
                     to: 'pim_onboarder_bundle_tagged'
                 update_pim_enterprise_cloud_for_prod:
                     from:
