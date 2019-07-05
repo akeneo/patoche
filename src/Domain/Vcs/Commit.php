@@ -17,11 +17,19 @@ final class Commit
 {
     private $sha;
 
-    public function __construct(string $sha)
+    private function __construct(string $sha)
     {
         Assert::notEmpty($sha, 'A commit SHA cannot be empty.');
 
         $this->sha = $sha;
+    }
+
+    public static function fromBranchesApiResponse(array $branchesApiResponse)
+    {
+        Assert::keyExists($branchesApiResponse, 'commit', 'The branch doesn\'t have a last commit.');
+        Assert::keyExists($branchesApiResponse['commit'], 'sha', 'A branch commit must have a SHA.');
+
+        return new self($branchesApiResponse['commit']['sha']);
     }
 
     public function __toString(): string

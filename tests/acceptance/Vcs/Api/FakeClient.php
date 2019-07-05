@@ -14,6 +14,7 @@ namespace Akeneo\Tests\Acceptance\Vcs\Api;
 use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Commit;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Tags;
@@ -42,6 +43,13 @@ final class FakeClient implements VcsApiClient
         ],
     ];
 
+    private const FAKE_BRANCH = [
+        'name' => '4.2',
+        'commit' => [
+            'sha' => 'eb39d8227797b960796fc1662b24da234c5cda13',
+        ],
+    ];
+
     private $filesystem;
 
     public function __construct(FilesystemInterface $filesystem)
@@ -64,5 +72,10 @@ final class FakeClient implements VcsApiClient
     public function listTags(Organization $organization, Project $project): Tags
     {
         return Tags::fromListTagsApiResponse(static::FAKE_PREVIOUS_TAGS);
+    }
+
+    public function getLastCommitForBranch(Organization $organization, Project $project, Branch $branch): Commit
+    {
+        return Commit::fromBranchesApiResponse(static::FAKE_BRANCH);
     }
 }

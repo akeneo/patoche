@@ -14,6 +14,7 @@ namespace Akeneo\Infrastructure\Vcs\Api;
 use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Commit;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Tags;
@@ -63,6 +64,13 @@ final class GitHubClient implements VcsApiClient
         $apiResponse = $this->repositoryApi()->tags((string) $organization, (string) $project);
 
         return Tags::fromListTagsApiResponse($apiResponse);
+    }
+
+    public function getLastCommitForBranch(Organization $organization, Project $project, Branch $branch): Commit
+    {
+        $apiResponse = $this->repositoryApi()->branches((string) $organization, (string) $project, (string) $branch);
+
+        return Commit::fromBranchesApiResponse($apiResponse);
     }
 
     /**

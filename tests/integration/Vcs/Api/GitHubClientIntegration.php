@@ -13,6 +13,7 @@ namespace Akeneo\Tests\Integration\Vcs\Api;
 
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Commit;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Tags;
@@ -29,7 +30,7 @@ class GitHubClientIntegration extends TestCase
     private const TESTED_WORKING_DIRECTORY = 'release-v0.0.1';
 
     /** @test */
-    public function downloadGitHubRepositoryArchive(): void
+    public function itDownloadsTheGitHubRepositoryArchiveForAProvidedBranch(): void
     {
         $organization = new Organization(static::TESTED_ORGANIZATION);
         $project = new Project(static::TESTED_PROJECT);
@@ -43,7 +44,7 @@ class GitHubClientIntegration extends TestCase
     }
 
     /** @test */
-    public function getRepositoryTagList(): void
+    public function itGetTheListOfTheRepositoryTags(): void
     {
         $organization = new Organization(static::TESTED_ORGANIZATION);
         $project = new Project(static::TESTED_PROJECT);
@@ -53,6 +54,20 @@ class GitHubClientIntegration extends TestCase
 
         Assert::assertInstanceOf(Tags::class, $tags);
         Assert::assertSame($tags->nextTagForBranch(new Branch('0.0'))->getVcsTag(), 'v0.0.2');
+    }
+
+    /** @test */
+    public function itGetsTheLastCommitOfAProvidedBranch(): void
+    {
+        $organization = new Organization(static::TESTED_ORGANIZATION);
+        $project = new Project(static::TESTED_PROJECT);
+        $branch = new Branch(static::TESTED_BRANCH);
+
+        $client = $this->container()->get(GitHubClient::class);
+        $commit = $client->getLastCommitForBranch($organization, $project, $branch);
+
+        Assert::assertInstanceOf(Commit::class, $commit);
+        Assert::assertSame((string) $commit, 'eb39d8227797b960796fc1662b24da234c5cda13');
     }
 
     private function assertContentIsDownloaded(): void
