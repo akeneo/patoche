@@ -20,8 +20,8 @@ final class Tag
     private function __construct(string $genericTag)
     {
         Assert::notEmpty($genericTag, 'You must specify a tag for the release.');
-        Assert::regex($genericTag, '/^\d+.\d+.\d+$/', sprintf(
-            'The tag must correspond to a patch version (i.e. "4.2.1", "10.0.0"), "%s" provided.',
+        Assert::regex($genericTag, '/^\d+.\d+.\d+(-\d{2}|$)$/', sprintf(
+            'The tag must respect Semantic Versioning with, optionally, two digits metadata (6.6.6-01), "%s" provided.',
             $genericTag
         ));
 
@@ -52,8 +52,14 @@ final class Tag
 
     public function nextTag(): self
     {
-        list($major, $minor, $patch) = explode('.', $this->genericTag);
-        $nextTag = implode('.', [$major, $minor, ((int) $patch) + 1]);
+        list($major, $minor, $patchAndMetadata) = explode('.', $this->genericTag);
+
+        $nextTag = sprintf(
+            '%s.%s.%s',
+            $major,
+            $minor,
+            $this->incrementPatchAndMetadata($patchAndMetadata)
+        );
 
         return new self($nextTag);
     }
@@ -63,5 +69,23 @@ final class Tag
         preg_match('/\d+.\d+/', $this->getVcsTag(), $matches);
 
         return $matches[0];
+    }
+
+    private function incrementPatchAndMetadata(string $patchAndMetadata): string
+    {
+        if (false === strpos($patchAndMetadata, '-')) {
+            $incrementedPatch = (int) $patchAndMetadata + 1;
+
+            return (string) $incrementedPatch;
+        }
+
+        list($patch, $metadata) = explode('-', $patchAndMetadata);
+        $incrementedMetadata = (int) $metadata + 1;
+
+        return sprintf(
+            '%s-%s',
+            $patch,
+            str_pad((string) $incrementedMetadata, 2, '0', STR_PAD_LEFT)
+        );
     }
 }

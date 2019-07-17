@@ -54,6 +54,16 @@ class TagSpec extends ObjectBehavior
         $nextTag->getVcsTag()->shouldReturn('v4.2.2');
     }
 
+    function it_proposes_the_next_tag_with_metadata()
+    {
+        $this->beConstructedThrough('fromGenericTag', ['4.2.1-02']);
+
+        $nextTag = $this->nextTag();
+
+        $nextTag->shouldBeAnInstanceOf(Tag::class);
+        $nextTag->getVcsTag()->shouldReturn('v4.2.1-03');
+    }
+
     function it_returns_the_corresponding_vcs_branch()
     {
         $this->beConstructedThrough('fromGenericTag', ['4.2.1']);
@@ -92,16 +102,43 @@ class TagSpec extends ObjectBehavior
         $this->beConstructedThrough('fromGenericTag', ['foobar']);
 
         $this->shouldThrow(new \InvalidArgumentException(
-            'The tag must correspond to a patch version (i.e. "4.2.1", "10.0.0"), "foobar" provided.'
+            'The tag must respect Semantic Versioning with, optionally, two digits metadata (6.6.6-01), "foobar" provided.'
         ))->duringInstantiation();
     }
 
-    function it_throws_an_exception_if_the_branch_name_is_not_a_patch_version()
+    function it_throws_an_exception_if_the_tag_does_not_respect_semantic_versioning()
     {
         $this->beConstructedThrough('fromGenericTag', ['10']);
 
         $this->shouldThrow(new \InvalidArgumentException(
-            'The tag must correspond to a patch version (i.e. "4.2.1", "10.0.0"), "10" provided.'
+            'The tag must respect Semantic Versioning with, optionally, two digits metadata (6.6.6-01), "10" provided.'
+        ))->duringInstantiation();
+    }
+
+    function it_throws_an_exception_if_the_tag_metadata_are_less_than_two_digits()
+    {
+        $this->beConstructedThrough('fromGenericTag', ['4.2.0-1']);
+
+        $this->shouldThrow(new \InvalidArgumentException(
+            'The tag must respect Semantic Versioning with, optionally, two digits metadata (6.6.6-01), "4.2.0-1" provided.'
+        ))->duringInstantiation();
+    }
+
+    function it_throws_an_exception_if_the_tag_metadata_are_more_than_two_digits()
+    {
+        $this->beConstructedThrough('fromGenericTag', ['4.2.0-666']);
+
+        $this->shouldThrow(new \InvalidArgumentException(
+            'The tag must respect Semantic Versioning with, optionally, two digits metadata (6.6.6-01), "4.2.0-666" provided.'
+        ))->duringInstantiation();
+    }
+
+    function it_throws_an_exception_if_the_tag_metadata_are_not_digits()
+    {
+        $this->beConstructedThrough('fromGenericTag', ['4.2.0-beta']);
+
+        $this->shouldThrow(new \InvalidArgumentException(
+            'The tag must respect Semantic Versioning with, optionally, two digits metadata (6.6.6-01), "4.2.0-beta" provided.'
         ))->duringInstantiation();
     }
 }

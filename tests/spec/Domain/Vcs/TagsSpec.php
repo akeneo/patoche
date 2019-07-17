@@ -181,6 +181,24 @@ JSON;
         $tag->getVcsTag()->shouldReturn('v1.1.11');
     }
 
+    function it_uses_natural_sorting_to_find_the_next_tag_with_metadata()
+    {
+        $this->beConstructedThrough('fromListTagsApiResponse', [[
+            ['name' => 'v1.1.0-01'],
+            ['name' => 'v1.1.1-01'],
+            ['name' => 'v1.1.1-02'],
+            ['name' => 'v1.1.1-03'],
+            ['name' => 'v1.1.10-01'],
+            ['name' => 'v1.1.10-02'],
+            ['name' => 'v1.1.2-01'],
+        ]]);
+
+        $tag = $this->nextTagForBranch(new Branch('1.1'));
+
+        $tag->shouldBeAnInstanceOf(Tag::class);
+        $tag->getVcsTag()->shouldReturn('v1.1.10-03');
+    }
+
     function it_returns_the_first_tag_of_a_new_branch()
     {
         $this->beConstructedThrough('fromListTagsApiResponse', [
