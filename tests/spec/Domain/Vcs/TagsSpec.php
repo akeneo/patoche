@@ -19,7 +19,7 @@ use PhpSpec\ObjectBehavior;
 class TagsSpec extends ObjectBehavior
 {
     /**
-     * This is the real repsonse of the GitHub API for the "akeneo/onboarder" repository, as of May 13, 2019.
+     * This is the real response of the GitHub API for the "akeneo/onboarder" repository, as of May 13, 2019.
      */
     private const JSON_LIST_TAGS_API_RESPONSE = <<<JSON
 [

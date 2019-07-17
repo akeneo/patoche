@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace spec\Akeneo\Tests\Acceptance\Vcs\Api;
 
 use Akeneo\Application\Vcs\VcsApiClient;
+use Akeneo\Domain\Common\Tag;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Domain\Vcs\Commit;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Tags;
@@ -38,10 +40,10 @@ class FakeClientSpec extends ObjectBehavior
         $this->shouldImplement(VcsApiClient::class);
     }
 
-    function it_fakes_cloning_a_repository($filesystem)
+    function it_fakes_downloading_the_archive_of_a_repository($filesystem)
     {
         $filesystem->write(
-            'release-v4.2.2/onboarder/README.md',
+            'release-v4.2.1/onboarder/README.md',
             'Cloning akeneo/onboarder 4.2'
         )->shouldBeCalled();
 
@@ -49,16 +51,31 @@ class FakeClientSpec extends ObjectBehavior
             new Organization('akeneo'),
             new Project('onboarder'),
             new Branch('4.2'),
-            new WorkingDirectory('release-v4.2.2')
+            new WorkingDirectory('release-v4.2.1')
         );
     }
 
-    function it_gets_the_last_tag()
+    function it_get_the_list_of_the_repository_tags()
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder');
 
         $tags = $this->listTags($organization, $project);
         $tags->shouldBeAnInstanceOf(Tags::class);
+        $tag = $tags->nextTagForBranch(new Branch('4.2'));
+        $tag->shouldBeAnInstanceOf(Tag::class);
+        $tag->getVcsTag()->shouldReturn('v4.2.1');
+    }
+
+    function it_gets_the_last_commit_of_a_provided_branch()
+    {
+        $organization = new Organization('akeneo');
+        $project = new Project('onboarder');
+        $branch = new Branch('4.2');
+
+        $commit = $this->getLastCommitForBranch($organization, $project, $branch);
+
+        $commit->shouldBeAnInstanceOf(Commit::class);
+        $commit->__toString()->shouldReturn('eb39d8227797b960796fc1662b24da234c5cda13');
     }
 }
