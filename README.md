@@ -53,3 +53,13 @@ There is also a script to apply `php-cs-fixer` fixes (no dry-run) that is not ra
 ```bash
 $ make fix-code-style
 ```
+
+### Debugging
+
+Assuming your IDE is correctly configured for debugging, it is possible to debug the application using the Makefile.
+
+The command `onboarder-release` and all tests command can be debug by setting the environment variable `DEBUG` to true.
+For instance, if you want to debug a specification, run the following command:
+```bash
+$ make specification DEBUG=true
+```

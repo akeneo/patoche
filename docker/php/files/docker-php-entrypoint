@@ -11,12 +11,8 @@ function deactivateXdebug {
     echo "" > ${XDEBUG_PATH}
 }
 
-if [[ ! -z "${XDEBUG_ENABLED}" ]]; then
-    if [[ "1" == "${XDEBUG_ENABLED}" ]]; then
-        activateXdebug
-    elif [[ "0" == "${XDEBUG_ENABLED}" ]]; then
-        deactivateXdebug
-    fi
+if [ ! -z "${XDEBUG_ENABLED}" ] && [ true == "${XDEBUG_ENABLED}" ]; then
+    activateXdebug
 else
     deactivateXdebug
 fi
