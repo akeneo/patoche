@@ -10,9 +10,6 @@ jobs:
         steps:
             - checkout
             - run:
-                name: Build Docker image
-                command: docker-compose build --pull
-            - run:
                 name: Copy Docker Compose override
                 command: cp .circleci/docker-compose.override.yaml.dist docker-compose.override.yaml
             - run:
@@ -28,7 +25,7 @@ jobs:
                     - composer-v1-
             - run:
                 name: Install dependencies
-                command: docker-compose run --rm -T php composer install --prefer-dist --optimize-autoloader --no-interaction --no-scripts
+                command: make install
             - save_cache:
                 name: Save Composer cache
                 key: composer-v1-{{ checksum "composer.lock" }}
@@ -52,15 +49,11 @@ jobs:
             - attach_workspace:
                 at: ~/
             - run:
-                name: Execute static analysis
-                command: |
-                    docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.php
-                    docker-compose run --rm -T php vendor/bin/php-cs-fixer fix --diff --dry-run --config=.php_cs.phpspec.php
+                name: Check code style
+                command: make code-style
             - run:
-                name: PHPStan
-                command: |
-                  docker-compose run --rm -T php vendor/bin/phpstan analyse src tests/acceptance -l 7
-                  docker-compose run --rm -T php vendor/bin/phpstan analyse tests/integration -l 5
+                name: Execute static analysis
+                command: make static-analysis
             - run:
                 name: Run phpspec tests
                 command: docker-compose run --rm -T php vendor/bin/phpspec run --format=junit > var/tests/phpspec/specs.xml
