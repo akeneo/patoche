@@ -10,6 +10,17 @@ The following README assume you are using Docker and Docker Compose.
 
 However, it should be quite easy to use it without Docker: all commands listed below are Symfony ones and other PHP tools. Simply run them without `docker-compose run --rm php`.
 
+### Configure the GitHub API
+
+You need to configure two environment variables so Patoche can discuss with the GitHub API (using `knplabs/github-api`).
+```dotenv
+GITHUB_USERNAME=username
+GITHUB_SECRET=password_or_token
+```
+
+The easiest method is to set those two variables in a `.env.local` file. This way it will be directly used by Symfony,
+regardless of the environment (production, acceptance, integration, etc.) or of your usage of Docker or not.
+
 ### Run the application
 
 First, install the dependencies:
