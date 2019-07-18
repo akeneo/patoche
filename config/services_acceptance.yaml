@@ -17,7 +17,7 @@ services:
         arguments:
             - '%akeneo_patoche.application.mapped_branches%'
 
-    Akeneo\Tests\Acceptance\Context\VcsContext:
+    Akeneo\Tests\Acceptance\Context\DownloadArchiveContext:
         public: true
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
@@ -27,3 +27,6 @@ services:
         public: true
         arguments:
             - '@Akeneo\Application\Vcs\GetNextTagHandler'
+
+    Akeneo\Tests\Acceptance\Context\PrepareForDeploymentContext:
+        public: true

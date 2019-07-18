@@ -19,7 +19,7 @@ use Behat\Behat\Context\Context;
 use League\Flysystem\FilesystemInterface;
 use Webmozart\Assert\Assert;
 
-final class VcsContext implements Context
+final class DownloadArchiveContext implements Context
 {
     private const EXPECTED_DATA = [
         'akeneo' => [
