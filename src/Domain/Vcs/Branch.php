@@ -20,8 +20,8 @@ final class Branch
     public function __construct(string $branchName)
     {
         Assert::notEmpty($branchName, 'You must specify a branch to work on.');
-        Assert::regex($branchName, '/^\d+.\d+$/', sprintf(
-            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "%s" provided.',
+        Assert::regex($branchName, '/^\d+.\d+$|^master$/', sprintf(
+            'The branch name must be "master" or correspond to a minor version (i.e. "4.2", "10.0"), "%s" provided.',
             $branchName
         ));
 

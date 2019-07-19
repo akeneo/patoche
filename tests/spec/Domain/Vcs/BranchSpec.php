@@ -43,7 +43,7 @@ class BranchSpec extends ObjectBehavior
     {
         $this->beConstructedWith('foobar');
         $this->shouldThrow(new \InvalidArgumentException(
-            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "foobar" provided.'
+            'The branch name must be "master" or correspond to a minor version (i.e. "4.2", "10.0"), "foobar" provided.'
         ))->duringInstantiation();
     }
 
@@ -51,7 +51,7 @@ class BranchSpec extends ObjectBehavior
     {
         $this->beConstructedWith('10');
         $this->shouldThrow(new \InvalidArgumentException(
-            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "10" provided.'
+            'The branch name must be "master" or correspond to a minor version (i.e. "4.2", "10.0"), "10" provided.'
         ))->duringInstantiation();
     }
 
@@ -59,7 +59,13 @@ class BranchSpec extends ObjectBehavior
     {
         $this->beConstructedWith('4.2.1');
         $this->shouldThrow(new \InvalidArgumentException(
-            'The branch name must correspond to a minor version (i.e. "4.2", "10.0"), "4.2.1" provided.'
+            'The branch name must be "master" or correspond to a minor version (i.e. "4.2", "10.0"), "4.2.1" provided.'
         ))->duringInstantiation();
+    }
+
+    function it_accepts_master_as_a_branch_name()
+    {
+        $this->beConstructedWith('master');
+        $this->__toString()->shouldReturn('master');
     }
 }
