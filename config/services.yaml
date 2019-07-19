@@ -17,6 +17,11 @@ services:
 
     # Application handlers
 
+    Akeneo\Application\Deployment\PreparePimForDeploymentHandler:
+        arguments:
+            - '@Akeneo\Application\Vcs\VcsApiClient'
+            - '@Akeneo\Application\Deployment\DependencyManager'
+
     Akeneo\Application\Vcs\DownloadArchiveHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
@@ -33,6 +38,8 @@ services:
         tags: ['kernel.event_subscriber']
 
     # Infrastructure services
+
+    Akeneo\Application\Deployment\DependencyManager:
 
     Akeneo\Infrastructure\Vcs\Api\GitHubClient:
         arguments:

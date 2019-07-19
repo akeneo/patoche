@@ -67,7 +67,7 @@ class GitHubClientIntegration extends TestCase
         $commit = $client->getLastCommitForBranch($organization, $project, $branch);
 
         Assert::assertInstanceOf(Commit::class, $commit);
-        Assert::assertSame((string) $commit, 'eb39d8227797b960796fc1662b24da234c5cda13');
+        Assert::assertSame((string) $commit, '7757b6a0ee80313fbbc42c2b7013fa523929c8c3');
     }
 
     private function assertContentIsDownloaded(): void
