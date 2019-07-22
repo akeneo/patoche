@@ -8,6 +8,7 @@ parameters:
         '1.2': '2.3'
         '2.0': '3.0'
     akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data'
+    akeneo_patoche.infrastructure.path_to_composer_binary: '%env(PATH_TO_COMPOSER_BINARY)%'
 
 services:
     # default configuration for services in *this* file
@@ -35,11 +36,15 @@ services:
     Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
+            - '@Akeneo\Application\Deployment\DependencyManager'
         tags: ['kernel.event_subscriber']
 
     # Infrastructure services
 
-    Akeneo\Application\Deployment\DependencyManager:
+    Akeneo\Infrastructure\Deployment\DependencyManager\Composer:
+        arguments:
+            - '%akeneo_patoche.infrastructure.path_to_composer_binary%'
+    Akeneo\Application\Deployment\DependencyManager: '@Akeneo\Infrastructure\Deployment\DependencyManager\Composer'
 
     Akeneo\Infrastructure\Vcs\Api\GitHubClient:
         arguments:

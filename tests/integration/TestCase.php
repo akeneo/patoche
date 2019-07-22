@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TestCase extends KernelTestCase
 {
+    public const TESTED_WORKING_DIRECTORY = 'release-v0.0.2';
+
     public function setUp(): void
     {
         static::$kernel = static::bootKernel(['debug' => false, 'environment' => 'integration']);
@@ -40,5 +42,20 @@ class TestCase extends KernelTestCase
     protected function container(): ContainerInterface
     {
         return static::$container;
+    }
+
+    protected function pathToDownloadedPatoche(): string
+    {
+        $filesystem = $this->container()->get(Filesystem::class);
+        $downloadedContents = $filesystem->listContents(static::TESTED_WORKING_DIRECTORY);
+
+        $downloadedRepositoryPath = '';
+        foreach ($downloadedContents as $content) {
+            if ('dir' === $content['type'] && 1 === preg_match('/^akeneo-patoche-.*/', $content['basename'])) {
+                $downloadedRepositoryPath = $content['path'];
+            }
+        }
+
+        return $downloadedRepositoryPath;
     }
 }

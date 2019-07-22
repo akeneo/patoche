@@ -91,7 +91,7 @@ JSON
         $this->shouldHaveLockedNothing();
     }
 
-    function it_locked_dependencies()
+    function it_locks_dependencies()
     {
         $this->update();
 
@@ -101,7 +101,7 @@ JSON
         ]);
     }
 
-    function it_update_locked_dependencies()
+    function it_updates_locked_dependencies()
     {
         $this->update();
 
@@ -124,7 +124,7 @@ JSON
         ]);
     }
 
-    function it_add_locked_dependencies()
+    function it_adds_locked_dependencies()
     {
         $organization = new Organization('fake');
         $project = new Project('another-lib');

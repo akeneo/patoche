@@ -27,7 +27,6 @@ class GitHubClientIntegration extends TestCase
     private const TESTED_ORGANIZATION = 'akeneo';
     private const TESTED_PROJECT = 'patoche';
     private const TESTED_BRANCH = '0.0';
-    private const TESTED_WORKING_DIRECTORY = 'release-v0.0.1';
 
     /** @test */
     public function itDownloadsTheGitHubRepositoryArchiveForAProvidedBranch(): void
@@ -73,16 +72,10 @@ class GitHubClientIntegration extends TestCase
     private function assertContentIsDownloaded(): void
     {
         $fileSystem = $this->container()->get(Filesystem::class);
-        $downloadedContents = $fileSystem->listContents(static::TESTED_WORKING_DIRECTORY);
+        $downloadedRepositoryReadme = $fileSystem->read(
+            $this->pathToDownloadedPatoche() . DIRECTORY_SEPARATOR . 'README.md'
+        );
 
-        $downloadedRepositoryPath = '';
-        foreach ($downloadedContents as $content) {
-            if ('dir' === $content['type'] && 1 === preg_match('/^akeneo-patoche-.*/', $content['basename'])) {
-                $downloadedRepositoryPath = $content['path'];
-            }
-        }
-
-        $downloadedRepositoryReadme = $fileSystem->read($downloadedRepositoryPath . DIRECTORY_SEPARATOR . 'README.md');
         Assert::assertSame("# Testing Patoche with integration tests\n", $downloadedRepositoryReadme);
     }
 }
