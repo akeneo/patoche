@@ -4,10 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data'
     akeneo_patoche.application.mapped_branches:
-          '1.2': '2.3'
-          '2.0': '3.0'
+        '1.2': '2.3'
+        '2.0': '3.0'
+    akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data'
 
 services:
     # default configuration for services in *this* file
@@ -15,24 +15,31 @@ services:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
 
+    # Application handlers
 
-    # Application services
+    Akeneo\Application\Deployment\PreparePimForDeploymentHandler:
+        arguments:
+            - '@Akeneo\Application\Vcs\VcsApiClient'
+            - '@Akeneo\Application\Deployment\DependencyManager'
+
+    Akeneo\Application\Vcs\DownloadArchiveHandler:
+        arguments:
+            - '@Akeneo\Application\Vcs\VcsApiClient'
 
     Akeneo\Application\Vcs\GetNextTagHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
 
-    Akeneo\Application\Vcs\DownloadArchiveHandler:
-        arguments:
-            - '@Akeneo\Application\Vcs\VcsApiClient'
+    # Application subscribers
 
     Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
         tags: ['kernel.event_subscriber']
 
-
     # Infrastructure services
+
+    Akeneo\Application\Deployment\DependencyManager:
 
     Akeneo\Infrastructure\Vcs\Api\GitHubClient:
         arguments:
@@ -40,6 +47,8 @@ services:
             - '@League\Flysystem\Filesystem'
             - '%akeneo_patoche.infrastructure.default_filesystem.directory%'
     Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\GitHubClient'
+
+    # Symfony commands
 
     Akeneo\Infrastructure\IO\CommandLine\OnboarderRelease:
         arguments:

@@ -5,6 +5,11 @@ services:
 
     # - APPLICATION SERVICES OVERRIDDEN FOR ACCEPTANCE TESTS - #
 
+    Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer:
+        arguments:
+            - !php/const Akeneo\Tests\Acceptance\Context\PrepareForDeploymentContext::PEC_COMPOSER_JSON
+    Akeneo\Application\Deployment\DependencyManager: '@Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer'
+
     Akeneo\Tests\Acceptance\Vcs\Api\FakeClient:
         arguments:
             - '@League\Flysystem\Filesystem'
@@ -17,7 +22,7 @@ services:
         arguments:
             - '%akeneo_patoche.application.mapped_branches%'
 
-    Akeneo\Tests\Acceptance\Context\VcsContext:
+    Akeneo\Tests\Acceptance\Context\DownloadArchiveContext:
         public: true
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
@@ -27,3 +32,9 @@ services:
         public: true
         arguments:
             - '@Akeneo\Application\Vcs\GetNextTagHandler'
+
+    Akeneo\Tests\Acceptance\Context\PrepareForDeploymentContext:
+        public: true
+        arguments:
+            - '@Akeneo\Application\Deployment\PreparePimForDeploymentHandler'
+            - '@Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer'

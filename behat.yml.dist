@@ -5,7 +5,8 @@ acceptance:
                 - '%paths.base%/tests/features'
             contexts:
                 - Akeneo\Tests\Acceptance\Context\CommonContext
-                - Akeneo\Tests\Acceptance\Context\VcsContext
+                - Akeneo\Tests\Acceptance\Context\DownloadArchiveContext
+                - Akeneo\Tests\Acceptance\Context\PrepareForDeploymentContext
                 - Akeneo\Tests\Acceptance\Context\ProposeTagContext
 
     extensions:
