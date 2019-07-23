@@ -21,7 +21,7 @@ services:
     Akeneo\Application\Deployment\PreparePimForDeploymentHandler:
         arguments:
             - '@Akeneo\Application\Vcs\VcsApiClient'
-            - '@Akeneo\Application\Deployment\DependencyManager'
+            - '@Akeneo\Application\Deployment\DependencyManagerFactory'
 
     Akeneo\Application\Vcs\DownloadArchiveHandler:
         arguments:
@@ -36,15 +36,16 @@ services:
     Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
-            - '@Akeneo\Application\Deployment\DependencyManager'
+            - '@Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory'
         tags: ['kernel.event_subscriber']
 
     # Infrastructure services
 
-    Akeneo\Infrastructure\Deployment\DependencyManager\Composer:
+    Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory:
         arguments:
             - '%akeneo_patoche.infrastructure.path_to_composer_binary%'
-    Akeneo\Application\Deployment\DependencyManager: '@Akeneo\Infrastructure\Deployment\DependencyManager\Composer'
+            - '%akeneo_patoche.infrastructure.default_filesystem.directory%'
+    Akeneo\Application\Deployment\DependencyManagerFactory: '@Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory'
 
     Akeneo\Infrastructure\Vcs\Api\GitHubClient:
         arguments:

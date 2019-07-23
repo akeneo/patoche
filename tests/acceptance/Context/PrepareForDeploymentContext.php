@@ -17,8 +17,8 @@ use Akeneo\Domain\Vcs\Branch;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
-use Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer;
 use Behat\Behat\Context\Context;
+use League\Flysystem\FilesystemInterface;
 use Webmozart\Assert\Assert;
 
 final class PrepareForDeploymentContext implements Context
@@ -72,14 +72,16 @@ final class PrepareForDeploymentContext implements Context
 JSON;
 
     private $preparePimForDeploymentHandler;
-    private $fakeComposer;
+    private $filesystem;
 
     public function __construct(
         PreparePimForDeploymentHandler $preparePimForDeploymentHandler,
-        FakeComposer $fakeComposer
+        FilesystemInterface $filesystem
     ) {
         $this->preparePimForDeploymentHandler = $preparePimForDeploymentHandler;
-        $this->fakeComposer = $fakeComposer;
+        $this->filesystem = $filesystem;
+
+        $this->filesystem->write('composer.json', static::PEC_COMPOSER_JSON);
     }
 
     /**
@@ -113,8 +115,15 @@ JSON;
             'grpc/grpc' => '1.19.0',
         ];
 
+        $composerJsonAsArray = json_decode($this->filesystem->read('composer.json'), true);
         Assert::same(
-            $this->fakeComposer->getComposerLock(),
+            $composerJsonAsArray['require'],
+            $expectedDependencies
+        );
+
+        $composerLockAsArray = json_decode($this->filesystem->read('composer.lock'), true);
+        Assert::same(
+            $composerLockAsArray,
             $expectedDependencies
         );
     }

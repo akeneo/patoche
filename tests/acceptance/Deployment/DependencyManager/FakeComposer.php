@@ -13,40 +13,40 @@ namespace Akeneo\Tests\Acceptance\Deployment\DependencyManager;
 
 use Akeneo\Application\Deployment\DependencyManager;
 use Akeneo\Domain\Deployment\Dependency;
+use League\Flysystem\FilesystemInterface;
 
 final class FakeComposer implements DependencyManager
 {
-    private $composerJson;
-    private $composerLock = [];
+    private $filesystem;
 
-    public function __construct(string $composerJson)
+    public function __construct(FilesystemInterface $filesystem)
     {
-        $this->composerJson = $composerJson;
+        $this->filesystem = $filesystem;
     }
 
     public function require(Dependency $dependency): void
     {
+        $composerJson = $this->filesystem->read('composer.json');
+        $composerJsonAsArray = json_decode($composerJson, true);
+
         list($dependencyName, $dependencyVersion) = explode(':', (string) $dependency);
-        $composerJsonAsArray = json_decode($this->composerJson, true);
 
         $composerJsonAsArray['require'][$dependencyName] = $dependencyVersion;
 
-        $this->composerJson = json_encode($composerJsonAsArray);
+        $this->filesystem->update('composer.json', json_encode($composerJsonAsArray));
     }
 
     public function update(): void
     {
-        $composerJsonAsArray = json_decode($this->composerJson, true);
-        $this->composerLock = $composerJsonAsArray['require'];
-    }
+        $composerJson = $this->filesystem->read('composer.json');
 
-    public function getComposerJson(): string
-    {
-        return $this->composerJson;
-    }
+        $composerJsonAsArray = json_decode($composerJson, true);
+        $composerLock = $composerJsonAsArray['require'];
 
-    public function getComposerLock(): array
-    {
-        return $this->composerLock;
+        if ($this->filesystem->has('composer.lock')) {
+            $this->filesystem->update('composer.lock', json_encode($composerLock));
+        } else {
+            $this->filesystem->write('composer.lock', json_encode($composerLock));
+        }
     }
 }

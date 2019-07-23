@@ -17,28 +17,35 @@ use Akeneo\Domain\Deployment\Dependency;
 final class PreparePimForDeploymentHandler
 {
     private $vcsApiClient;
-    private $dependencyManager;
+    private $dependencyManagerFactory;
 
-    public function __construct(VcsApiClient $vcsApiClient, DependencyManager $dependencyManager)
+    public function __construct(VcsApiClient $vcsApiClient, DependencyManagerFactory $dependencyManagerFactory)
     {
         $this->vcsApiClient = $vcsApiClient;
-        $this->dependencyManager = $dependencyManager;
+        $this->dependencyManagerFactory = $dependencyManagerFactory;
     }
 
     public function __invoke(PreparePimForDeployment $preparePimForDeployment): void
     {
-        $this->dependencyManager->require($this->dependencyToRequire($preparePimForDeployment));
-        $this->dependencyManager->update();
-    }
-
-    private function dependencyToRequire(PreparePimForDeployment $preparePimForDeployment): Dependency
-    {
+        $workingDirectory = $preparePimForDeployment->getWorkingDirectory();
         $organization = $preparePimForDeployment->getRepository()->getOrganization();
         $project = $preparePimForDeployment->getRepository()->getProject();
         $branch = $preparePimForDeployment->getRepository()->getBranch();
-
         $commit = $this->vcsApiClient->getLastCommitForBranch($organization, $project, $branch);
 
-        return Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
+        $dependencyManager = $this->dependencyManagerFactory->create(
+            $workingDirectory,
+            $organization,
+            $project,
+            $commit
+        );
+
+        $dependencyManager->require(Dependency::fromBranchNameAndCommitReference(
+            $organization,
+            $project,
+            $branch,
+            $commit
+        ));
+        $dependencyManager->update();
     }
 }

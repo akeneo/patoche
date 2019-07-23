@@ -18,11 +18,13 @@ use Symfony\Component\Process\Process;
 final class Composer implements DependencyManager
 {
     private $pathToComposerBinary;
+    private $workingDirectory;
 
-    public function __construct(string $pathToComposerBinary)
+    public function __construct(string $pathToComposerBinary, string $workingDirectory)
     {
 //        Assert::fileExists($pathToComposerBinary, '');
         $this->pathToComposerBinary = $pathToComposerBinary;
+        $this->workingDirectory = $workingDirectory;
     }
 
     public function require(Dependency $dependency): void
@@ -32,9 +34,9 @@ final class Composer implements DependencyManager
                 $this->pathToComposerBinary,
                 'require',
                 '--no-update',
-                (string) $dependency
+                (string) $dependency,
             ],
-            '/srv/app/data/tests/release-v0.0.2/akeneo-patoche-7757b6a0ee80313fbbc42c2b7013fa523929c8c3'
+            $this->workingDirectory
         );
 
         $process->mustRun();

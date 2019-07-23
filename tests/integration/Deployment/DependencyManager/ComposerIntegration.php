@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Akeneo\Tests\Integration\Deployment\DependencyManager;
 
-use Akeneo\Application\Deployment\DependencyManager;
+use Akeneo\Application\Deployment\DependencyManagerFactory;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Deployment\Dependency;
 use Akeneo\Domain\Vcs\Branch;
@@ -28,22 +28,38 @@ final class ComposerIntegration extends TestCase
     private const TESTED_PROJECT = 'patoche';
     private const TESTED_BRANCH = '0.0';
 
+    private $organization;
+    private $project;
+    private $branch;
+    private $workingDirectory;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $organization = new Organization(static::TESTED_ORGANIZATION);
-        $project = new Project(static::TESTED_PROJECT);
-        $branch = new Branch(static::TESTED_BRANCH);
-        $workingDirectory = new WorkingDirectory(static::TESTED_WORKING_DIRECTORY);
+        $this->organization = new Organization(static::TESTED_ORGANIZATION);
+        $this->project = new Project(static::TESTED_PROJECT);
+        $this->branch = new Branch(static::TESTED_BRANCH);
+        $this->workingDirectory = new WorkingDirectory(static::TESTED_WORKING_DIRECTORY);
 
         $client = $this->container()->get(GitHubClient::class);
-        $client->download($organization, $project, $branch, $workingDirectory);
+        $client->download($this->organization, $this->project, $this->branch, $this->workingDirectory);
     }
 
     /** @test */
     public function itRequiresANewDependency(): void
     {
+        $composerFactory = $this->container()->get(DependencyManagerFactory::class);
+        $composer = $composerFactory->create(
+            $this->workingDirectory,
+            $this->organization,
+            $this->project,
+            Commit::fromBranchesApiResponse([
+                'commit' => [
+                    'sha' => '7757b6a0ee80313fbbc42c2b7013fa523929c8c3',
+                ],
+            ])
+        );
         $dependency = Dependency::fromBranchNameAndCommitReference(
             new Organization('symfony'),
             new Project('process'),
@@ -55,7 +71,6 @@ final class ComposerIntegration extends TestCase
             ])
         );
 
-        $composer = $this->container()->get(DependencyManager::class);
         $composer->require($dependency);
 
         $composerJsonAsArray = $this->getComposerJsonAsArray();
