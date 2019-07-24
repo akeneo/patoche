@@ -20,14 +20,14 @@ use Akeneo\Domain\Vcs\Project;
 
 final class ComposerFactory implements DependencyManagerFactory
 {
-    private $pathToComposerBinary;
+    private $pathToComposerExecutable;
     private $dataRootDirectory;
 
     public function __construct(
-        string $pathToComposerBinary,
+        string $pathToComposerExecutable,
         string $dataRootDirectory
     ) {
-        $this->pathToComposerBinary = $pathToComposerBinary;
+        $this->pathToComposerExecutable = $pathToComposerExecutable;
         $this->dataRootDirectory = $dataRootDirectory;
     }
 
@@ -45,7 +45,7 @@ final class ComposerFactory implements DependencyManagerFactory
         );
 
         return new Composer(
-            $this->pathToComposerBinary,
+            $this->pathToComposerExecutable,
             sprintf(
                 '%s/%s',
                 $this->dataRootDirectory,

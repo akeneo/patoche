@@ -161,6 +161,18 @@ JSON;
         $this->assertLockedDependenciesAreUpdated();
     }
 
+    /** @test */
+    public function itThrowsAnExceptionIfComposerExecutableIsNotAvailable(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Could not find composer executable "/there/is/no/composer".');
+
+        $_ENV['PATH_TO_COMPOSER_EXECUTABLE'] = '/there/is/no/composer';
+        static::$kernel = static::bootKernel(['debug' => false, 'environment' => 'integration']);
+
+        $this->instantiateComposer();
+    }
+
     private function dependency(string $organization, string $project, string $branch, string $commit): Dependency
     {
         return Dependency::fromBranchNameAndCommitReference(

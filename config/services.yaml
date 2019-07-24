@@ -8,7 +8,7 @@ parameters:
         '1.2': '2.3'
         '2.0': '3.0'
     akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data'
-    akeneo_patoche.infrastructure.path_to_composer_binary: '%env(PATH_TO_COMPOSER_BINARY)%'
+    akeneo_patoche.infrastructure.path_to_composer_executable: '%env(PATH_TO_COMPOSER_EXECUTABLE)%'
 
 services:
     # default configuration for services in *this* file
@@ -36,14 +36,13 @@ services:
     Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
-            - '@Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory'
         tags: ['kernel.event_subscriber']
 
     # Infrastructure services
 
     Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory:
         arguments:
-            - '%akeneo_patoche.infrastructure.path_to_composer_binary%'
+            - '%akeneo_patoche.infrastructure.path_to_composer_executable%'
             - '%akeneo_patoche.infrastructure.default_filesystem.directory%'
     Akeneo\Application\Deployment\DependencyManagerFactory: '@Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory'
 

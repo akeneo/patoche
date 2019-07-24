@@ -14,16 +14,21 @@ namespace Akeneo\Infrastructure\Deployment\DependencyManager;
 use Akeneo\Application\Deployment\DependencyManager;
 use Akeneo\Domain\Deployment\Dependency;
 use Symfony\Component\Process\Process;
+use Webmozart\Assert\Assert;
 
 final class Composer implements DependencyManager
 {
-    private $pathToComposerBinary;
+    private $pathToComposerExecutable;
     private $workingDirectory;
 
-    public function __construct(string $pathToComposerBinary, string $workingDirectory)
+    public function __construct(string $pathToComposerExecutable, string $workingDirectory)
     {
-//        Assert::fileExists($pathToComposerBinary, '');
-        $this->pathToComposerBinary = $pathToComposerBinary;
+        Assert::fileExists($pathToComposerExecutable, sprintf(
+            'Could not find composer executable "%s".',
+            $pathToComposerExecutable
+        ));
+
+        $this->pathToComposerExecutable = $pathToComposerExecutable;
         $this->workingDirectory = $workingDirectory;
     }
 
@@ -31,7 +36,7 @@ final class Composer implements DependencyManager
     {
         $process = new Process(
             [
-                $this->pathToComposerBinary,
+                $this->pathToComposerExecutable,
                 'require',
                 '--no-update',
                 (string) $dependency,
@@ -46,7 +51,7 @@ final class Composer implements DependencyManager
     {
         $process = new Process(
             [
-                $this->pathToComposerBinary,
+                $this->pathToComposerExecutable,
                 'update',
             ],
             $this->workingDirectory
