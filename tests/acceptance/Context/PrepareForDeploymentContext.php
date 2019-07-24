@@ -97,7 +97,7 @@ JSON;
     {
         $dependencyRepository = new Repository(
             CommonContext::$onboarderRelease->getOrganization(),
-            new Project('pim-onboarder'),
+            new Project(Project::PIM_ONBOARDER_BUNDLE),
             CommonContext::$onboarderRelease->getBranch()
         );
 

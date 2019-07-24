@@ -116,4 +116,19 @@ class DownloadArchiveSubscriberSpec extends ObjectBehavior
         );
         $this->downloadPec($event);
     }
+
+    function it_throws_an_exception_if_the_event_subject_is_not_an_onboarder_release()
+    {
+        $event = new Event(
+            new \stdClass(),
+            new Marking(['original_place' => 1]),
+            new Transition('transition_name', 'original_place', 'destination_place'),
+            'onboarder_release'
+        );
+
+        $exception = new \InvalidArgumentException(
+            'Event subject should be an instance of "OnboarderRelease", "stdClass" provided.'
+        );
+        $this->shouldThrow($exception)->during('downloadPec', [$event]);
+    }
 }

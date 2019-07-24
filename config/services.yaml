@@ -35,6 +35,11 @@ services:
 
     # Application subscribers
 
+    Akeneo\Application\Deployment\Subscriber\PreparePimForDeploymentSubscriber:
+        arguments:
+            - '@Akeneo\Application\Deployment\PreparePimForDeploymentHandler'
+        tags: ['kernel.event_subscriber']
+
     Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
             - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
@@ -43,7 +48,6 @@ services:
     # Infrastructure services
 
     Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory:
-        public: true # TO REMOVE ONCE THE PreparePimForDeploymentSubscriber EXISTS
         arguments:
             - '%akeneo_patoche.infrastructure.path_to_composer_executable%'
             - '%akeneo_patoche.infrastructure.default_filesystem.directory%'
