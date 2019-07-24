@@ -43,10 +43,6 @@ final class FakeComposer implements DependencyManager
         $composerJsonAsArray = json_decode($composerJson, true);
         $composerLock = $composerJsonAsArray['require'];
 
-        if ($this->filesystem->has('composer.lock')) {
-            $this->filesystem->update('composer.lock', json_encode($composerLock));
-        } else {
-            $this->filesystem->write('composer.lock', json_encode($composerLock));
-        }
+        $this->filesystem->put('composer.lock', json_encode($composerLock));
     }
 }

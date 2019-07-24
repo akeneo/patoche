@@ -44,5 +44,14 @@ final class Composer implements DependencyManager
 
     public function update(): void
     {
+        $process = new Process(
+            [
+                $this->pathToComposerBinary,
+                'update',
+            ],
+            $this->workingDirectory
+        );
+
+        $process->mustRun();
     }
 }

@@ -98,20 +98,7 @@ JSON;
     {
         $filesystem->read('composer.json')->willReturn(static::COMPOSER_JSON);
 
-        $filesystem->has('composer.lock')->willReturn(false);
-
-        $filesystem->write('composer.lock', '{"php":"7.3.*","fake\/lib":"^1.0.0"}')->shouldBeCalled();
-
-        $this->update();
-    }
-
-    function it_updates_locked_dependencies($filesystem)
-    {
-        $filesystem->read('composer.json')->willReturn(static::COMPOSER_JSON);
-
-        $filesystem->has('composer.lock')->willReturn(true);
-
-        $filesystem->update('composer.lock', '{"php":"7.3.*","fake\/lib":"^1.0.0"}')->shouldBeCalled();
+        $filesystem->put('composer.lock', '{"php":"7.3.*","fake\/lib":"^1.0.0"}')->shouldBeCalled();
 
         $this->update();
     }

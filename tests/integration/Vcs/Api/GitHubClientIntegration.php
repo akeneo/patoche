@@ -24,6 +24,7 @@ use PHPUnit\Framework\Assert;
 
 class GitHubClientIntegration extends TestCase
 {
+    private const TESTED_WORKING_DIRECTORY = 'release-v0.0.2';
     private const TESTED_ORGANIZATION = 'akeneo';
     private const TESTED_PROJECT = 'patoche';
     private const TESTED_BRANCH = '0.0';
@@ -77,5 +78,20 @@ class GitHubClientIntegration extends TestCase
         );
 
         Assert::assertSame("# Testing Patoche with integration tests\n", $downloadedRepositoryReadme);
+    }
+
+    protected function pathToDownloadedPatoche(): string
+    {
+        $filesystem = $this->container()->get(Filesystem::class);
+        $downloadedContents = $filesystem->listContents(static::TESTED_WORKING_DIRECTORY);
+
+        $downloadedRepositoryPath = '';
+        foreach ($downloadedContents as $content) {
+            if ('dir' === $content['type'] && 1 === preg_match('/^akeneo-patoche-.*/', $content['basename'])) {
+                $downloadedRepositoryPath = $content['path'];
+            }
+        }
+
+        return $downloadedRepositoryPath;
     }
 }
