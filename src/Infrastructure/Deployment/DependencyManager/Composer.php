@@ -20,8 +20,9 @@ final class Composer implements DependencyManager
 {
     private $pathToComposerExecutable;
     private $workingDirectory;
+    private $timeout;
 
-    public function __construct(string $pathToComposerExecutable, string $workingDirectory)
+    public function __construct(string $pathToComposerExecutable, string $workingDirectory, int $timeout)
     {
         Assert::fileExists($pathToComposerExecutable, sprintf(
             'Could not find composer executable "%s".',
@@ -30,6 +31,7 @@ final class Composer implements DependencyManager
 
         $this->pathToComposerExecutable = $pathToComposerExecutable;
         $this->workingDirectory = $workingDirectory;
+        $this->timeout = $timeout;
     }
 
     public function require(Dependency $dependency): void
@@ -39,10 +41,15 @@ final class Composer implements DependencyManager
                 $this->pathToComposerExecutable,
                 'require',
                 '--no-update',
+                '--no-interaction',
+                '--no-scripts',
+                '--prefer-dist',
                 (string) $dependency,
             ],
             $this->workingDirectory
         );
+
+        $process->setTimeout($this->timeout);
 
         $process->mustRun();
     }
@@ -53,9 +60,14 @@ final class Composer implements DependencyManager
             [
                 $this->pathToComposerExecutable,
                 'update',
+                '--no-interaction',
+                '--no-scripts',
+                '--prefer-dist',
             ],
             $this->workingDirectory
         );
+
+        $process->setTimeout($this->timeout);
 
         $process->mustRun();
     }
