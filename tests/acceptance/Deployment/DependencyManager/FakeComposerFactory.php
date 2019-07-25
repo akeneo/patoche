@@ -34,6 +34,16 @@ final class FakeComposerFactory implements DependencyManagerFactory
         Project $project,
         Commit $commit
     ): DependencyManager {
-        return new FakeComposer($this->filesystem);
+        $projectDirectoryName = sprintf(
+            '%s-%s-%s',
+            $organization,
+            $project,
+            $commit
+        );
+
+        return new FakeComposer(
+            $this->filesystem,
+            $workingDirectory . DIRECTORY_SEPARATOR . $projectDirectoryName
+        );
     }
 }

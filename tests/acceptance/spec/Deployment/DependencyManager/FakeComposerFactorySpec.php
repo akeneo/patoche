@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Tests\Acceptance\Deployment\DependencyManager;
 
-use Akeneo\Application\Deployment\DependencyManager;
 use Akeneo\Application\Deployment\DependencyManagerFactory;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Commit;
@@ -35,20 +34,22 @@ class FakeComposerFactorySpec extends ObjectBehavior
         $this->shouldImplement(DependencyManagerFactory::class);
     }
 
-    function it_instantiate_a_dependency_manager()
+    function it_instantiate_a_dependency_manager($filesystem)
     {
-        $workingDirectory = new WorkingDirectory('release-v0.0.2');
-        $organization = new Organization('symfony');
-        $project = new Project('process');
+        $workingDirectory = new WorkingDirectory('release-v0.0.0');
+        $organization = new Organization('fake');
+        $project = new Project('project');
         $commit = Commit::fromBranchesApiResponse([
             'commit' => [
-                'sha' => '856d35814cf287480465bb7a6c413bb7f5f5e69c',
+                'sha' => '7757b6a0ee80313fbbc42c2b7013fa523929c8c3',
             ],
         ]);
 
         $dependencyManager = $this->create($workingDirectory, $organization, $project, $commit);
 
-        $dependencyManager->shouldImplement(DependencyManager::class);
-        $dependencyManager->shouldBeAnInstanceOf(FakeComposer::class);
+        $dependencyManager->shouldBeLike(new FakeComposer(
+            $filesystem->getWrappedObject(),
+            'release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3'
+        ));
     }
 }

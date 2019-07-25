@@ -13,10 +13,9 @@ namespace Akeneo\Tests\Acceptance\Context;
 
 use Akeneo\Application\Deployment\PreparePimForDeployment;
 use Akeneo\Application\Deployment\PreparePimForDeploymentHandler;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Tests\Acceptance\Vcs\Api\FakeClient;
 use Behat\Behat\Context\Context;
 use League\Flysystem\FilesystemInterface;
 use Webmozart\Assert\Assert;
@@ -73,6 +72,7 @@ JSON;
 
     private $preparePimForDeploymentHandler;
     private $filesystem;
+    private $pathToProject;
 
     public function __construct(
         PreparePimForDeploymentHandler $preparePimForDeploymentHandler,
@@ -81,7 +81,13 @@ JSON;
         $this->preparePimForDeploymentHandler = $preparePimForDeploymentHandler;
         $this->filesystem = $filesystem;
 
-        $this->filesystem->write('composer.json', static::PEC_COMPOSER_JSON);
+        $this->pathToProject = 'release-v2.2.0' . DIRECTORY_SEPARATOR . 'akeneo-pim-enterprise-cloud-'
+            . FakeClient::FAKE_BRANCHES['akeneo']['pim-enterprise-cloud']['3.0']['commit']['sha'];
+
+        $this->filesystem->write(
+            $this->pathToProject . DIRECTORY_SEPARATOR . 'composer.json',
+            static::PEC_COMPOSER_JSON
+        );
     }
 
     /**
@@ -89,13 +95,15 @@ JSON;
      */
     public function testPimOnboarderBundle(): void
     {
-        $organization = new Organization('akeneo');
-        $project = new Project('pim-onboarder');
-        $branch = new Branch('4.2');
-        $repository = new Repository($organization, $project, $branch);
+        $dependencyRepository = new Repository(
+            CommonContext::$onboarderRelease->getOrganization(),
+            new Project('pim-onboarder'),
+            CommonContext::$onboarderRelease->getBranch()
+        );
 
         ($this->preparePimForDeploymentHandler)(new PreparePimForDeployment(
-            $repository,
+            $dependencyRepository,
+            CommonContext::$onboarderRelease->getBranchForProject(new Project(Project::PIM_ENTERPRISE_CLOUD)),
             CommonContext::$onboarderRelease->getWorkingDirectory()
         ));
     }
@@ -103,11 +111,11 @@ JSON;
     /**
      * @Then the PIM Enterprise Cloud dependencies are updated accordingly
      */
-    public function pecDependenciesUpdated(): void
+    public function pecDependenciesAreUpdated(): void
     {
         $expectedDependencies = [
             'php' => '7.2.*',
-            'akeneo/pim-onboarder' => '4.2.x-dev#eb39d8227797b960796fc1662b24da234c5cda13@dev',
+            'akeneo/pim-onboarder' => '2.2.x-dev#7757b6a0ee80313fbbc42c2b7013fa523929c8c3@dev',
             'akeneo/pim-community-dev' => '3.0.31',
             'akeneo/pim-enterprise-dev' => '3.0.31',
             'doctrine/collections' => '1.5.0',
@@ -115,13 +123,19 @@ JSON;
             'grpc/grpc' => '1.19.0',
         ];
 
-        $composerJsonAsArray = json_decode($this->filesystem->read('composer.json'), true);
+        $composerJsonAsArray = json_decode(
+            $this->filesystem->read($this->pathToProject . DIRECTORY_SEPARATOR . 'composer.json'),
+            true
+        );
         Assert::same(
             $composerJsonAsArray['require'],
             $expectedDependencies
         );
 
-        $composerLockAsArray = json_decode($this->filesystem->read('composer.lock'), true);
+        $composerLockAsArray = json_decode(
+            $this->filesystem->read($this->pathToProject . DIRECTORY_SEPARATOR . 'composer.lock'),
+            true
+        );
         Assert::same(
             $composerLockAsArray,
             $expectedDependencies

@@ -18,31 +18,39 @@ use League\Flysystem\FilesystemInterface;
 final class FakeComposer implements DependencyManager
 {
     private $filesystem;
+    private $relativePathToProject;
 
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(FilesystemInterface $filesystem, string $relativePathToProject)
     {
         $this->filesystem = $filesystem;
+        $this->relativePathToProject = $relativePathToProject;
     }
 
     public function require(Dependency $dependency): void
     {
-        $composerJson = $this->filesystem->read('composer.json');
+        $composerJson = $this->filesystem->read($this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.json');
         $composerJsonAsArray = json_decode($composerJson, true);
 
         list($dependencyName, $dependencyVersion) = explode(':', (string) $dependency);
 
         $composerJsonAsArray['require'][$dependencyName] = $dependencyVersion;
 
-        $this->filesystem->update('composer.json', json_encode($composerJsonAsArray));
+        $this->filesystem->update(
+            $this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.json',
+            json_encode($composerJsonAsArray)
+        );
     }
 
     public function update(): void
     {
-        $composerJson = $this->filesystem->read('composer.json');
+        $composerJson = $this->filesystem->read($this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.json');
 
         $composerJsonAsArray = json_decode($composerJson, true);
         $composerLock = $composerJsonAsArray['require'];
 
-        $this->filesystem->put('composer.lock', json_encode($composerLock));
+        $this->filesystem->put(
+            $this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.lock',
+            json_encode($composerLock)
+        );
     }
 }

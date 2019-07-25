@@ -40,7 +40,10 @@ JSON;
 
     function let(FilesystemInterface $filesystem)
     {
-        $this->beConstructedWith($filesystem);
+        $this->beConstructedWith(
+            $filesystem,
+            'release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3'
+        );
     }
 
     function it_is_initializable()
@@ -50,7 +53,9 @@ JSON;
 
     function it_requires_a_new_dependency($filesystem)
     {
-        $filesystem->read('composer.json')->willReturn(static::COMPOSER_JSON);
+        $filesystem
+            ->read('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json')
+            ->willReturn(static::COMPOSER_JSON);
 
         $organization = new Organization('fake');
         $project = new Project('another-lib');
@@ -65,7 +70,7 @@ JSON;
         $dependency = Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
 
         $filesystem->update(
-            'composer.json',
+            'release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json',
             '{"name":"fake\/project","authors":[{"name":"Patoche","email":"patoche@akeneo.com"}],"require":{"php":"7.3.*","fake\/lib":"^1.0.0","fake\/another-lib":"0.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev"}}'
         )->shouldBeCalled();
 
@@ -74,7 +79,9 @@ JSON;
 
     function it_updates_a_already_present_dependency($filesystem)
     {
-        $filesystem->read('composer.json')->willReturn(static::COMPOSER_JSON);
+        $filesystem
+            ->read('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json')
+            ->willReturn(static::COMPOSER_JSON);
 
         $organization = new Organization('fake');
         $project = new Project('lib');
@@ -87,7 +94,7 @@ JSON;
         $dependency = Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
 
         $filesystem->update(
-            'composer.json',
+            'release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json',
             '{"name":"fake\/project","authors":[{"name":"Patoche","email":"patoche@akeneo.com"}],"require":{"php":"7.3.*","fake\/lib":"1.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev"}}'
         )->shouldBeCalled();
 
@@ -96,9 +103,13 @@ JSON;
 
     function it_locks_dependencies($filesystem)
     {
-        $filesystem->read('composer.json')->willReturn(static::COMPOSER_JSON);
+        $filesystem
+            ->read('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json')
+            ->willReturn(static::COMPOSER_JSON);
 
-        $filesystem->put('composer.lock', '{"php":"7.3.*","fake\/lib":"^1.0.0"}')->shouldBeCalled();
+        $filesystem
+            ->put('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.lock', '{"php":"7.3.*","fake\/lib":"^1.0.0"}')
+            ->shouldBeCalled();
 
         $this->update();
     }

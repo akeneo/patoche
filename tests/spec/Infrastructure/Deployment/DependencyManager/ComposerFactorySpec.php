@@ -37,11 +37,11 @@ class ComposerFactorySpec extends ObjectBehavior
     function it_instantiate_a_dependency_manager()
     {
         $workingDirectory = new WorkingDirectory('release-v0.0.2');
-        $organization = new Organization('symfony');
-        $project = new Project('process');
+        $organization = new Organization('akeneo');
+        $project = new Project('patoche');
         $commit = Commit::fromBranchesApiResponse([
             'commit' => [
-                'sha' => '856d35814cf287480465bb7a6c413bb7f5f5e69c',
+                'sha' => '7757b6a0ee80313fbbc42c2b7013fa523929c8c3',
             ],
         ]);
 

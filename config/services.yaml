@@ -7,6 +7,8 @@ parameters:
     akeneo_patoche.application.mapped_branches:
         '1.2': '2.3'
         '2.0': '3.0'
+        '2.1': '3.0'
+        '2.2': '3.0'
     akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data'
     akeneo_patoche.infrastructure.path_to_composer_executable: '%env(PATH_TO_COMPOSER_EXECUTABLE)%'
 
@@ -41,6 +43,7 @@ services:
     # Infrastructure services
 
     Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory:
+        public: true # TO REMOVE ONCE THE PreparePimForDeploymentSubscriber EXISTS
         arguments:
             - '%akeneo_patoche.infrastructure.path_to_composer_executable%'
             - '%akeneo_patoche.infrastructure.default_filesystem.directory%'

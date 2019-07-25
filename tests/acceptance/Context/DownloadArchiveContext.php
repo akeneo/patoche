@@ -24,7 +24,7 @@ final class DownloadArchiveContext implements Context
     private const EXPECTED_DATA = [
         'akeneo' => [
             'onboarder' => [
-                '4.2' => 'Cloning akeneo/onboarder 4.2',
+                '2.2' => 'Cloning akeneo/onboarder 2.2',
             ],
         ],
     ];

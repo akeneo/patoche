@@ -13,6 +13,7 @@ namespace Akeneo\Application\Deployment;
 
 use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Deployment\Dependency;
+use Akeneo\Domain\Vcs\Project;
 
 final class PreparePimForDeploymentHandler
 {
@@ -30,21 +31,27 @@ final class PreparePimForDeploymentHandler
         $workingDirectory = $preparePimForDeployment->getWorkingDirectory();
         $organization = $preparePimForDeployment->getRepository()->getOrganization();
         $project = $preparePimForDeployment->getRepository()->getProject();
-        $branch = $preparePimForDeployment->getRepository()->getBranch();
-        $commit = $this->vcsApiClient->getLastCommitForBranch($organization, $project, $branch);
+        $dependencyBranch = $preparePimForDeployment->getRepository()->getBranch();
+        $pecBranch = $preparePimForDeployment->getPecBranch();
 
+        $pecCommit = $this->vcsApiClient->getLastCommitForBranch(
+            $organization,
+            new Project(Project::PIM_ENTERPRISE_CLOUD),
+            $pecBranch
+        );
         $dependencyManager = $this->dependencyManagerFactory->create(
             $workingDirectory,
             $organization,
-            $project,
-            $commit
+            new Project(Project::PIM_ENTERPRISE_CLOUD),
+            $pecCommit
         );
 
+        $dependencyCommit = $this->vcsApiClient->getLastCommitForBranch($organization, $project, $dependencyBranch);
         $dependencyManager->require(Dependency::fromBranchNameAndCommitReference(
             $organization,
             $project,
-            $branch,
-            $commit
+            $dependencyBranch,
+            $dependencyCommit
         ));
         $dependencyManager->update();
     }
