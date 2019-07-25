@@ -5,10 +5,10 @@ services:
 
     # - APPLICATION SERVICES OVERRIDDEN FOR ACCEPTANCE TESTS - #
 
-    Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer:
+    Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposerFactory:
         arguments:
-            - !php/const Akeneo\Tests\Acceptance\Context\PrepareForDeploymentContext::PEC_COMPOSER_JSON
-    Akeneo\Application\Deployment\DependencyManager: '@Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer'
+            - '@League\Flysystem\Filesystem'
+    Akeneo\Application\Deployment\DependencyManagerFactory: '@Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposerFactory'
 
     Akeneo\Tests\Acceptance\Vcs\Api\FakeClient:
         arguments:
@@ -37,4 +37,4 @@ services:
         public: true
         arguments:
             - '@Akeneo\Application\Deployment\PreparePimForDeploymentHandler'
-            - '@Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer'
+            - '@League\Flysystem\Filesystem'

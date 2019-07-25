@@ -17,14 +17,12 @@ use Akeneo\Domain\Vcs\Commit;
 use Akeneo\Domain\Vcs\Organization;
 use Akeneo\Domain\Vcs\Project;
 use Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer;
+use League\Flysystem\FilesystemInterface;
 use PhpSpec\ObjectBehavior;
 
 class FakeComposerSpec extends ObjectBehavior
 {
-    function let()
-    {
-        $this->beConstructedWith(
-            <<<JSON
+    private const COMPOSER_JSON = <<<JSON
 {
     "name": "fake/project",
     "authors": [
@@ -38,7 +36,13 @@ class FakeComposerSpec extends ObjectBehavior
         "fake/lib": "^1.0.0"
     }
 }
-JSON
+JSON;
+
+    function let(FilesystemInterface $filesystem)
+    {
+        $this->beConstructedWith(
+            $filesystem,
+            'release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3'
         );
     }
 
@@ -47,63 +51,37 @@ JSON
         $this->shouldHaveType(FakeComposer::class);
     }
 
-    function it_requires_a_new_dependency()
+    function it_requires_a_new_dependency($filesystem)
     {
+        $filesystem
+            ->read('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json')
+            ->willReturn(static::COMPOSER_JSON);
+
         $organization = new Organization('fake');
         $project = new Project('another-lib');
         $branch = new Branch('0.0');
-        $commit = Commit::fromBranchesApiResponse([
-            'commit' => [
-                'sha' => 'c0b506049ba79bc41ca1bb2be62a8c8b7b329954',
-            ],
-        ]);
+        $commit = Commit::fromBranchesApiResponse(
+            [
+                'commit' => [
+                    'sha' => 'c0b506049ba79bc41ca1bb2be62a8c8b7b329954',
+                ],
+            ]
+        );
         $dependency = Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
 
-        $this->require($dependency);
-
-        $this->shouldHaveDependenciesRequiredCount(3);
-        $this->shouldHaveRequiredDependency(
-            'fake/another-lib',
-            '0.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev'
-        );
-        $this->shouldHaveLockedNothing();
-    }
-
-    function it_updates_a_already_present_dependency()
-    {
-        $organization = new Organization('fake');
-        $project = new Project('lib');
-        $branch = new Branch('1.0');
-        $commit = Commit::fromBranchesApiResponse([
-            'commit' => [
-                'sha' => 'c0b506049ba79bc41ca1bb2be62a8c8b7b329954',
-            ],
-        ]);
-        $dependency = Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
+        $filesystem->update(
+            'release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json',
+            '{"name":"fake\/project","authors":[{"name":"Patoche","email":"patoche@akeneo.com"}],"require":{"php":"7.3.*","fake\/lib":"^1.0.0","fake\/another-lib":"0.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev"}}'
+        )->shouldBeCalled();
 
         $this->require($dependency);
-
-        $this->shouldHaveDependenciesRequiredCount(2);
-        $this->shouldHaveRequiredDependency(
-            'fake/lib',
-            '1.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev'
-        );
-        $this->shouldHaveLockedNothing();
     }
 
-    function it_locked_dependencies()
+    function it_updates_a_already_present_dependency($filesystem)
     {
-        $this->update();
-
-        $this->shouldHaveLocked([
-            'php' => '7.3.*',
-            'fake/lib' => '^1.0.0',
-        ]);
-    }
-
-    function it_update_locked_dependencies()
-    {
-        $this->update();
+        $filesystem
+            ->read('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json')
+            ->willReturn(static::COMPOSER_JSON);
 
         $organization = new Organization('fake');
         $project = new Project('lib');
@@ -115,61 +93,24 @@ JSON
         ]);
         $dependency = Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
 
-        $this->require($dependency);
-        $this->update();
-
-        $this->shouldHaveLocked([
-            'php' => '7.3.*',
-            'fake/lib' => '1.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev',
-        ]);
-    }
-
-    function it_add_locked_dependencies()
-    {
-        $organization = new Organization('fake');
-        $project = new Project('another-lib');
-        $branch = new Branch('1.0');
-        $commit = Commit::fromBranchesApiResponse([
-            'commit' => [
-                'sha' => 'c0b506049ba79bc41ca1bb2be62a8c8b7b329954',
-            ],
-        ]);
-        $dependency = Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
+        $filesystem->update(
+            'release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json',
+            '{"name":"fake\/project","authors":[{"name":"Patoche","email":"patoche@akeneo.com"}],"require":{"php":"7.3.*","fake\/lib":"1.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev"}}'
+        )->shouldBeCalled();
 
         $this->require($dependency);
-        $this->update();
-
-        $this->shouldHaveLocked([
-            'php' => '7.3.*',
-            'fake/lib' => '^1.0.0',
-            'fake/another-lib' => '1.0.x-dev#c0b506049ba79bc41ca1bb2be62a8c8b7b329954@dev',
-        ]);
     }
 
-    public function getMatchers(): array
+    function it_locks_dependencies($filesystem)
     {
-        return [
-            'haveDependenciesRequiredCount' => function (FakeComposer $fakeComposer, int $count) {
-                $decodedContent = json_decode($fakeComposer->getComposerJson(), true);
+        $filesystem
+            ->read('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.json')
+            ->willReturn(static::COMPOSER_JSON);
 
-                return count($decodedContent['require']) === $count;
-            },
-            'haveRequiredDependency' => function (
-                FakeComposer $fakeComposer,
-                string $dependencyName,
-                string $dependencyVersion
-            ) {
-                $decodedContent = json_decode($fakeComposer->getComposerJson(), true);
+        $filesystem
+            ->put('release-v0.0.0/fake-project-7757b6a0ee80313fbbc42c2b7013fa523929c8c3/composer.lock', '{"php":"7.3.*","fake\/lib":"^1.0.0"}')
+            ->shouldBeCalled();
 
-                return isset($decodedContent['require'][$dependencyName])
-                    && $decodedContent['require'][$dependencyName] === $dependencyVersion;
-            },
-            'haveLockedNothing' => function (FakeComposer $fakeComposer) {
-                return $fakeComposer->getComposerLock() === [];
-            },
-            'haveLocked' => function (FakeComposer $fakeComposer, array $lockedDependencies) {
-                return $fakeComposer->getComposerLock() === $lockedDependencies;
-            },
-        ];
+        $this->update();
     }
 }

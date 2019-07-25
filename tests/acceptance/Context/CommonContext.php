@@ -36,8 +36,8 @@ final class CommonContext implements Context
     public function newOnboarderRelease(): void
     {
         static::$onboarderRelease = new OnboarderRelease(
-            new Branch('4.2'),
-            Tag::fromGenericTag('4.2.0'),
+            new Branch('2.2'),
+            Tag::fromGenericTag('2.2.0'),
             new Organization('akeneo'),
             MappedBranches::fromRawMapping($this->mappedBranches)
         );

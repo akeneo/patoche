@@ -41,7 +41,7 @@ final class ProposeTagContext implements Context
         $repository = new Repository(
             new Organization('akeneo'),
             new Project('onboarder'),
-            new Branch('4.2')
+            new Branch('2.2')
         );
         $this->nextTag = ($this->getNextTagHandler)(new GetNextTag($repository));
     }
@@ -77,7 +77,7 @@ final class ProposeTagContext implements Context
      */
     public function thenANewPatchTagIsProposed(): void
     {
-        Assert::same($this->nextTag->getVcsTag(), 'v4.2.1');
+        Assert::same($this->nextTag->getVcsTag(), 'v2.2.1');
     }
 
     /**

@@ -13,40 +13,44 @@ namespace Akeneo\Tests\Acceptance\Deployment\DependencyManager;
 
 use Akeneo\Application\Deployment\DependencyManager;
 use Akeneo\Domain\Deployment\Dependency;
+use League\Flysystem\FilesystemInterface;
 
 final class FakeComposer implements DependencyManager
 {
-    private $composerJson;
-    private $composerLock = [];
+    private $filesystem;
+    private $relativePathToProject;
 
-    public function __construct(string $composerJson)
+    public function __construct(FilesystemInterface $filesystem, string $relativePathToProject)
     {
-        $this->composerJson = $composerJson;
+        $this->filesystem = $filesystem;
+        $this->relativePathToProject = $relativePathToProject;
     }
 
     public function require(Dependency $dependency): void
     {
+        $composerJson = $this->filesystem->read($this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.json');
+        $composerJsonAsArray = json_decode($composerJson, true);
+
         list($dependencyName, $dependencyVersion) = explode(':', (string) $dependency);
-        $composerJsonAsArray = json_decode($this->composerJson, true);
 
         $composerJsonAsArray['require'][$dependencyName] = $dependencyVersion;
 
-        $this->composerJson = json_encode($composerJsonAsArray);
+        $this->filesystem->update(
+            $this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.json',
+            json_encode($composerJsonAsArray)
+        );
     }
 
     public function update(): void
     {
-        $composerJsonAsArray = json_decode($this->composerJson, true);
-        $this->composerLock = $composerJsonAsArray['require'];
-    }
+        $composerJson = $this->filesystem->read($this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.json');
 
-    public function getComposerJson(): string
-    {
-        return $this->composerJson;
-    }
+        $composerJsonAsArray = json_decode($composerJson, true);
+        $composerLock = $composerJsonAsArray['require'];
 
-    public function getComposerLock(): array
-    {
-        return $this->composerLock;
+        $this->filesystem->put(
+            $this->relativePathToProject . DIRECTORY_SEPARATOR . 'composer.lock',
+            json_encode($composerLock)
+        );
     }
 }

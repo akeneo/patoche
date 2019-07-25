@@ -43,15 +43,15 @@ class FakeClientSpec extends ObjectBehavior
     function it_fakes_downloading_the_archive_of_a_repository($filesystem)
     {
         $filesystem->write(
-            'release-v4.2.1/onboarder/README.md',
-            'Cloning akeneo/onboarder 4.2'
+            'release-v2.2.1/onboarder/README.md',
+            'Cloning akeneo/onboarder 2.2'
         )->shouldBeCalled();
 
         $this->download(
             new Organization('akeneo'),
             new Project('onboarder'),
-            new Branch('4.2'),
-            new WorkingDirectory('release-v4.2.1')
+            new Branch('2.2'),
+            new WorkingDirectory('release-v2.2.1')
         );
     }
 
@@ -62,16 +62,16 @@ class FakeClientSpec extends ObjectBehavior
 
         $tags = $this->listTags($organization, $project);
         $tags->shouldBeAnInstanceOf(Tags::class);
-        $tag = $tags->nextTagForBranch(new Branch('4.2'));
+        $tag = $tags->nextTagForBranch(new Branch('2.2'));
         $tag->shouldBeAnInstanceOf(Tag::class);
-        $tag->getVcsTag()->shouldReturn('v4.2.1');
+        $tag->getVcsTag()->shouldReturn('v2.2.1');
     }
 
     function it_gets_the_last_commit_of_a_provided_branch()
     {
         $organization = new Organization('akeneo');
         $project = new Project('onboarder');
-        $branch = new Branch('4.2');
+        $branch = new Branch('2.2');
 
         $commit = $this->getLastCommitForBranch($organization, $project, $branch);
 

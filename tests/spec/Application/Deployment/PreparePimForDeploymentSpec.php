@@ -21,19 +21,25 @@ use PhpSpec\ObjectBehavior;
 
 class PreparePimForDeploymentSpec extends ObjectBehavior
 {
-    private $repository;
+    private $dependencyRepository;
+    private $pecBranch;
     private $workingDirectory;
 
     function let()
     {
-        $this->repository = new Repository(
+        $this->dependencyRepository = new Repository(
             new Organization('akeneo'),
-            new Project('pim-enterprise-cloud'),
-            new Branch('3.0')
+            new Project('pim-onboarder'),
+            new Branch('2.2')
         );
-        $this->workingDirectory = new WorkingDirectory('release-v4.2.0');
+        $this->pecBranch = new Branch('3.0');
+        $this->workingDirectory = new WorkingDirectory('release-v2.2.0');
 
-        $this->beConstructedWith($this->repository, $this->workingDirectory);
+        $this->beConstructedWith(
+            $this->dependencyRepository,
+            $this->pecBranch,
+            $this->workingDirectory
+        );
     }
 
     function it_is_initializable()
@@ -41,9 +47,14 @@ class PreparePimForDeploymentSpec extends ObjectBehavior
         $this->shouldHaveType(PreparePimForDeployment::class);
     }
 
-    function it_returns_the_repository()
+    function it_returns_the_dependencyRepository()
     {
-        $this->getRepository()->shouldReturn($this->repository);
+        $this->getRepository()->shouldReturn($this->dependencyRepository);
+    }
+
+    function it_returns_the_pim_enterprise_cloud_branch()
+    {
+        $this->getPecBranch()->shouldReturn($this->pecBranch);
     }
 
     function it_returns_the_working_directory()

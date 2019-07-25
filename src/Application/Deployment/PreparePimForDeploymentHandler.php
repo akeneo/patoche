@@ -13,32 +13,46 @@ namespace Akeneo\Application\Deployment;
 
 use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Deployment\Dependency;
+use Akeneo\Domain\Vcs\Project;
 
 final class PreparePimForDeploymentHandler
 {
     private $vcsApiClient;
-    private $dependencyManager;
+    private $dependencyManagerFactory;
 
-    public function __construct(VcsApiClient $vcsApiClient, DependencyManager $dependencyManager)
+    public function __construct(VcsApiClient $vcsApiClient, DependencyManagerFactory $dependencyManagerFactory)
     {
         $this->vcsApiClient = $vcsApiClient;
-        $this->dependencyManager = $dependencyManager;
+        $this->dependencyManagerFactory = $dependencyManagerFactory;
     }
 
     public function __invoke(PreparePimForDeployment $preparePimForDeployment): void
     {
-        $this->dependencyManager->require($this->dependencyToRequire($preparePimForDeployment));
-        $this->dependencyManager->update();
-    }
-
-    private function dependencyToRequire(PreparePimForDeployment $preparePimForDeployment): Dependency
-    {
+        $workingDirectory = $preparePimForDeployment->getWorkingDirectory();
         $organization = $preparePimForDeployment->getRepository()->getOrganization();
         $project = $preparePimForDeployment->getRepository()->getProject();
-        $branch = $preparePimForDeployment->getRepository()->getBranch();
+        $dependencyBranch = $preparePimForDeployment->getRepository()->getBranch();
+        $pecBranch = $preparePimForDeployment->getPecBranch();
 
-        $commit = $this->vcsApiClient->getLastCommitForBranch($organization, $project, $branch);
+        $pecCommit = $this->vcsApiClient->getLastCommitForBranch(
+            $organization,
+            new Project(Project::PIM_ENTERPRISE_CLOUD),
+            $pecBranch
+        );
+        $dependencyManager = $this->dependencyManagerFactory->create(
+            $workingDirectory,
+            $organization,
+            new Project(Project::PIM_ENTERPRISE_CLOUD),
+            $pecCommit
+        );
 
-        return Dependency::fromBranchNameAndCommitReference($organization, $project, $branch, $commit);
+        $dependencyCommit = $this->vcsApiClient->getLastCommitForBranch($organization, $project, $dependencyBranch);
+        $dependencyManager->require(Dependency::fromBranchNameAndCommitReference(
+            $organization,
+            $project,
+            $dependencyBranch,
+            $dependencyCommit
+        ));
+        $dependencyManager->update();
     }
 }
