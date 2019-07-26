@@ -1,6 +1,7 @@
 # Patoche
 
-Welcome to Patoche, a tool to automatically tag and deploy the Onboarder.
+Welcome to Patoche, a tool to automatically release and deploy the Onboarder.
+The whole release process is documented [here](./doc/release_process.md).
 
 ![Patoche](patoche.jpg)
 
@@ -8,7 +9,7 @@ Welcome to Patoche, a tool to automatically tag and deploy the Onboarder.
 
 The following README assume you are using Docker and Docker Compose.
 
-However, it should be quite easy to use it without Docker: all commands listed below are Symfony ones and other PHP tools. Simply run them without `docker-compose run --rm php`.
+However, it should be quite easy to use it without Docker: all commands used in the Makefile are Symfony commands and other PHP tools. Just run them without `docker-compose run --rm php`.
 
 ### Configure the GitHub API
 
