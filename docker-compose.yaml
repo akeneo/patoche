@@ -5,6 +5,7 @@ services:
         build: './docker/php/'
         image: 'akeneo/patoche/php:7.3'
         environment:
+            COMPOSER_PROCESS_TIMEOUT: '${SYMFONY_PROCESS_TIMEOUT}'
             PHP_IDE_CONFIG: 'serverName=onboarder-tagging'
             XDEBUG_CONFIG: 'remote_host=172.17.0.1'
             COMPOSER_CACHE_DIR: '/home/composer/.cache/composer'

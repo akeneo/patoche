@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace spec\Akeneo\Infrastructure\Deployment\DependencyManager;
 
-use Akeneo\Application\Deployment\DependencyManager;
 use Akeneo\Application\Deployment\DependencyManagerFactory;
 use Akeneo\Domain\Common\WorkingDirectory;
 use Akeneo\Domain\Vcs\Commit;
@@ -25,7 +24,7 @@ class ComposerFactorySpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('/usr/local/bin/composer', '/project_root/data/tests');
+        $this->beConstructedWith('/usr/local/bin/composer', '/project_root/data/tests', 300);
     }
 
     function it_is_initializable()
@@ -47,7 +46,10 @@ class ComposerFactorySpec extends ObjectBehavior
 
         $dependencyManager = $this->create($workingDirectory, $organization, $project, $commit);
 
-        $dependencyManager->shouldImplement(DependencyManager::class);
-        $dependencyManager->shouldReturnAnInstanceOf(Composer::class);
+        $dependencyManager->shouldBeLike(new Composer(
+            '/usr/local/bin/composer',
+            '/project_root/data/tests/release-v0.0.2/akeneo-patoche-7757b6a0ee80313fbbc42c2b7013fa523929c8c3',
+            300
+        ));
     }
 }

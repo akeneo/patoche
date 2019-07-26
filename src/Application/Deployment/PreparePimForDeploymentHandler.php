@@ -15,7 +15,7 @@ use Akeneo\Application\Vcs\VcsApiClient;
 use Akeneo\Domain\Deployment\Dependency;
 use Akeneo\Domain\Vcs\Project;
 
-final class PreparePimForDeploymentHandler
+class PreparePimForDeploymentHandler
 {
     private $vcsApiClient;
     private $dependencyManagerFactory;

@@ -18,6 +18,7 @@ use Akeneo\Domain\Vcs\Project;
 use Akeneo\Domain\Vcs\Repository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
+use Webmozart\Assert\Assert;
 
 final class DownloadArchiveSubscriber implements EventSubscriberInterface
 {
@@ -37,7 +38,13 @@ final class DownloadArchiveSubscriber implements EventSubscriberInterface
 
     public function downloadPec(Event $event): void
     {
-        $this->downloadArchive(Project::PIM_ENTERPRISE_CLOUD, $event->getSubject());
+        $onboarderRelease = $event->getSubject();
+        Assert::isInstanceOf($onboarderRelease, OnboarderRelease::class, sprintf(
+            'Event subject should be an instance of "OnboarderRelease", "%s" provided.',
+            get_class($onboarderRelease)
+        ));
+
+        $this->downloadArchive(Project::PIM_ENTERPRISE_CLOUD, $onboarderRelease);
     }
 
     private function downloadArchive(string $projectName, OnboarderRelease $onboarderRelease): void

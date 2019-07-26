@@ -22,13 +22,16 @@ final class ComposerFactory implements DependencyManagerFactory
 {
     private $pathToComposerExecutable;
     private $dataRootDirectory;
+    private $timeout;
 
     public function __construct(
         string $pathToComposerExecutable,
-        string $dataRootDirectory
+        string $dataRootDirectory,
+        int $timeout
     ) {
         $this->pathToComposerExecutable = $pathToComposerExecutable;
         $this->dataRootDirectory = $dataRootDirectory;
+        $this->timeout = $timeout;
     }
 
     public function create(
@@ -50,7 +53,8 @@ final class ComposerFactory implements DependencyManagerFactory
                 '%s/%s',
                 $this->dataRootDirectory,
                 $workingDirectory . DIRECTORY_SEPARATOR . $projectDirectory
-            )
+            ),
+            $this->timeout
         );
     }
 }
