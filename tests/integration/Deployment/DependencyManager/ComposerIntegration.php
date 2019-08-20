@@ -267,7 +267,7 @@ JSON;
 
     private function assertDependenciesAreLockedWithSemanticVersion(): void
     {
-        $composerLock = <<<JSON
+        $expectedComposerLock = <<<JSON
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
@@ -340,12 +340,17 @@ JSON;
 
 JSON;
 
-        $this->assertSame($composerLock, $this->getComposerLock());
+        $actualComposerLock = $this->getComposerLock();
+
+        $this->assertSame(
+            $this->removeContentThatChangeThroughTime(json_decode($expectedComposerLock, true)),
+            $this->removeContentThatChangeThroughTime(json_decode($actualComposerLock, true))
+        );
     }
 
     private function assertLockedDependenciesAreUpdated(): void
     {
-        $composerLock = <<<JSON
+        $expectedComposerLock = <<<JSON
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
@@ -420,7 +425,34 @@ JSON;
 
 JSON;
 
-        $this->assertSame($composerLock, $this->getComposerLock());
+        $actualComposerLock = $this->getComposerLock();
+
+        $this->assertSame(
+            $this->removeContentThatChangeThroughTime(json_decode($expectedComposerLock, true)),
+            $this->removeContentThatChangeThroughTime(json_decode($actualComposerLock, true))
+        );
+    }
+
+    /**
+     * The lock file contains a reference to the last commit of the branch used as the package version,
+     * and also the time of this commit was released.
+     * These values will change each time a new tag is done on this branch, so we need to clean them
+     * before doing an assertion.
+     */
+    private function removeContentThatChangeThroughTime(array $composerLock): array
+    {
+        $filteredPackages = array_map(function ($package) {
+            $package['source']['reference'] = '';
+            $package['dist']['url'] = '';
+            $package['dist']['reference'] = '';
+            $package['time'] = '';
+
+            return $package;
+        }, $composerLock['packages']);
+
+        $composerLock['packages'] = $filteredPackages;
+
+        return $composerLock;
     }
 
     private function getComposerJson(): string
