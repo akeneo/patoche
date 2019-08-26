@@ -110,7 +110,7 @@ Assuming we are tagging the release `x.y.z` from the `prod_master` development t
 gcloud container images add-tag eu.gcr.io/aob-dev/onboarder-middleware:prod_master eu.gcr.io/akeneo-cloud/onboarder-middleware:x.y.z
 gcloud container images add-tag eu.gcr.io/aob-dev/overseer:prod_master eu.gcr.io/akeneo-cloud/overseer:x.y.z
 gcloud container images add-tag eu.gcr.io/aob-dev/onboarder:prod_master eu.gcr.io/akeneo-cloud/onboarder:x.y.z
-gcloud container images add-tag eu.gcr.io/aob-dev/onboarder:prod_master-fpm eu.gcr.io/akeneo-cloud/onboarder:x.y.z
+gcloud container images add-tag eu.gcr.io/aob-dev/onboarder:prod_master-fpm eu.gcr.io/akeneo-cloud/onboarder:x.y.z-fpm
 ```
 
 ## 8. Updating the PEC pull request to use the recently tagged PIM Onboarder bundle
