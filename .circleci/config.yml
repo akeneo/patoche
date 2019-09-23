@@ -4,7 +4,6 @@ jobs:
     setup:
         machine:
             enabled: true
-            docker_layer_caching: true
         environment:
             CURRENT_IDS: "1001:1002"
         steps:
@@ -42,7 +41,6 @@ jobs:
     test:
         machine:
             enabled: true
-            docker_layer_caching: true
         environment:
             CURRENT_IDS: "1001:1002"
         steps:
