@@ -3,7 +3,7 @@ version: 2
 jobs:
     setup:
         machine:
-            enabled: true
+            image: ubuntu-1604:201903-01
         environment:
             CURRENT_IDS: "1001:1002"
         steps:
@@ -33,19 +33,26 @@ jobs:
             - run:
                 name: Create directories for tests results
                 command: mkdir -p var/tests/phpspec var/tests/behat var/tests/integration
+            - run:
+                name: Archive Docker image
+                command: docker save -o patoche.tar akeneo/patoche/dev:master
             - persist_to_workspace:
                 root: ~/
                 paths:
                     - project
+                    - patoche.tar
 
     test:
         machine:
-            enabled: true
+            image: ubuntu-1604:201903-01
         environment:
             CURRENT_IDS: "1001:1002"
         steps:
             - attach_workspace:
                 at: ~/
+            - run:
+                name: Load archived Docker image
+                command: docker load -i patoche.tar
             - run:
                 name: Check code style
                 command: make code-style
