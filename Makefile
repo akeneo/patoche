@@ -3,7 +3,8 @@ DEBUG ?= false
 .PHONY: build
 build:
 	docker-compose build --pull
-	docker rmi php:7.3-alpine
+	docker rmi debian:buster-slim
+	docker rmi composer:latest
 
 .PHONY: update
 update: build

@@ -3,9 +3,14 @@ version: '3'
 services:
     php:
         build: './docker/php/'
-        image: 'akeneo/patoche/php:7.3'
+        image: 'akeneo/patoche/dev:master'
         environment:
             COMPOSER_PROCESS_TIMEOUT: '${SYMFONY_PROCESS_TIMEOUT}'
+            PHP_CONF_DISPLAY_ERRORS: 1
+            PHP_CONF_DISPLAY_STARTUP_ERRORS: 1
+            PHP_CONF_ERROR_REPORTING: 32767
+            PHP_CONF_OPCACHE_VALIDATE_TIMESTAMP: 1
+            PHP_CONF_ZEND_ASSERTIONS: 1
             PHP_IDE_CONFIG: 'serverName=onboarder-tagging'
             XDEBUG_CONFIG: 'remote_host=172.17.0.1'
             COMPOSER_CACHE_DIR: '/home/composer/.cache/composer'
