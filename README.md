@@ -1,7 +1,7 @@
 # Patoche
 
 Welcome to Patoche, a tool to automatically release and deploy the Onboarder.
-The whole release process is documented [here](./doc/release_process.md).
+The whole release process is documented [here](https://github.com/akeneo/onboarder/blob/master/doc/release-process.md).
 
 ![Patoche](patoche.jpg)
 
