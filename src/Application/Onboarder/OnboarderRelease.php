@@ -48,11 +48,7 @@ final class OnboarderRelease
     }
 
     /**
-     * @param Project $project
-     *
      * @throws BranchNotMapped
-     *
-     * @return Branch
      */
     public function getBranchForProject(Project $project): Branch
     {

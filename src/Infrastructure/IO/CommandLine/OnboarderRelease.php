@@ -68,10 +68,7 @@ final class OnboarderRelease extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param ConsoleOutput  $output
-     *
-     * @return int|null
+     * @param ConsoleOutput $output
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
