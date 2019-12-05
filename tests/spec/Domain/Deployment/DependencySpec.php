@@ -9,13 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Domain\Deployment;
+namespace spec\Akeneo\Patoche\Domain\Deployment;
 
-use Akeneo\Domain\Deployment\Dependency;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Commit;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Deployment\Dependency;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Commit;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
 use PhpSpec\ObjectBehavior;
 
 class DependencySpec extends ObjectBehavior

@@ -9,16 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Application\Onboarder;
+namespace spec\Akeneo\Patoche\Application\Onboarder;
 
-use Akeneo\Application\Onboarder\Exception\BranchNotMapped;
-use Akeneo\Application\Onboarder\MappedBranches;
-use Akeneo\Application\Onboarder\OnboarderRelease;
-use Akeneo\Domain\Common\Tag;
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
+use Akeneo\Patoche\Application\Onboarder\Exception\BranchNotMapped;
+use Akeneo\Patoche\Application\Onboarder\MappedBranches;
+use Akeneo\Patoche\Application\Onboarder\OnboarderRelease;
+use Akeneo\Patoche\Domain\Common\Tag;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
 use PhpSpec\ObjectBehavior;
 
 class OnboarderReleaseSpec extends ObjectBehavior

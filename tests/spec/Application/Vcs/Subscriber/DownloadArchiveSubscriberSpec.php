@@ -9,19 +9,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Application\Vcs\Subscriber;
+namespace spec\Akeneo\Patoche\Application\Vcs\Subscriber;
 
-use Akeneo\Application\Onboarder\MappedBranches;
-use Akeneo\Application\Onboarder\OnboarderRelease;
-use Akeneo\Application\Vcs\DownloadArchive;
-use Akeneo\Application\Vcs\DownloadArchiveHandler;
-use Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber;
-use Akeneo\Domain\Common\Tag;
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Patoche\Application\Onboarder\MappedBranches;
+use Akeneo\Patoche\Application\Onboarder\OnboarderRelease;
+use Akeneo\Patoche\Application\Vcs\DownloadArchive;
+use Akeneo\Patoche\Application\Vcs\DownloadArchiveHandler;
+use Akeneo\Patoche\Application\Vcs\Subscriber\DownloadArchiveSubscriber;
+use Akeneo\Patoche\Domain\Common\Tag;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Repository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

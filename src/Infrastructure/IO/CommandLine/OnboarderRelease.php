@@ -9,17 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Infrastructure\IO\CommandLine;
+namespace Akeneo\Patoche\Infrastructure\IO\CommandLine;
 
-use Akeneo\Application\Onboarder\MappedBranches;
-use Akeneo\Application\Onboarder\OnboarderRelease as Release;
-use Akeneo\Application\Vcs\GetNextTag;
-use Akeneo\Application\Vcs\GetNextTagHandler;
-use Akeneo\Domain\Common\Tag;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Patoche\Application\Onboarder\MappedBranches;
+use Akeneo\Patoche\Application\Onboarder\OnboarderRelease as Release;
+use Akeneo\Patoche\Application\Vcs\GetNextTag;
+use Akeneo\Patoche\Application\Vcs\GetNextTagHandler;
+use Akeneo\Patoche\Domain\Common\Tag;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -68,10 +68,7 @@ final class OnboarderRelease extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param ConsoleOutput  $output
-     *
-     * @return int|null
+     * @param ConsoleOutput $output
      */
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {

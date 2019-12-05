@@ -9,12 +9,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Deployment;
+namespace Akeneo\Patoche\Application\Deployment;
 
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Commit;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Vcs\Commit;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
 
 interface DependencyManagerFactory
 {

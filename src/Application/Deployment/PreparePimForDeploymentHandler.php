@@ -9,11 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Deployment;
+namespace Akeneo\Patoche\Application\Deployment;
 
-use Akeneo\Application\Vcs\VcsApiClient;
-use Akeneo\Domain\Deployment\Dependency;
-use Akeneo\Domain\Vcs\Project;
+use Akeneo\Patoche\Application\Vcs\VcsApiClient;
+use Akeneo\Patoche\Domain\Deployment\Dependency;
+use Akeneo\Patoche\Domain\Vcs\Project;
 
 class PreparePimForDeploymentHandler
 {

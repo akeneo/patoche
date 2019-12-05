@@ -38,6 +38,7 @@ RUN echo 'APT::Install-Recommends "0" ; APT::Install-Suggests "0" ;' > /etc/apt/
         git \
         php7.3-apcu \
         php7.3-cli \
+        php7.3-curl \
         php7.3-intl \
         php7.3-mbstring \
         php7.3-opcache \

@@ -9,10 +9,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Tests\Acceptance\Deployment\DependencyManager;
+namespace Akeneo\Patoche\Tests\Acceptance\Deployment\DependencyManager;
 
-use Akeneo\Application\Deployment\DependencyManager;
-use Akeneo\Domain\Deployment\Dependency;
+use Akeneo\Patoche\Application\Deployment\DependencyManager;
+use Akeneo\Patoche\Domain\Deployment\Dependency;
 use League\Flysystem\FilesystemInterface;
 
 final class FakeComposer implements DependencyManager

@@ -9,14 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Onboarder;
+namespace Akeneo\Patoche\Application\Onboarder;
 
-use Akeneo\Application\Onboarder\Exception\BranchNotMapped;
-use Akeneo\Domain\Common\Tag;
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
+use Akeneo\Patoche\Application\Onboarder\Exception\BranchNotMapped;
+use Akeneo\Patoche\Domain\Common\Tag;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
 
 final class OnboarderRelease
 {
@@ -48,11 +48,7 @@ final class OnboarderRelease
     }
 
     /**
-     * @param Project $project
-     *
      * @throws BranchNotMapped
-     *
-     * @return Branch
      */
     public function getBranchForProject(Project $project): Branch
     {

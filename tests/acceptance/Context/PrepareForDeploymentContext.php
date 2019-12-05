@@ -9,13 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Tests\Acceptance\Context;
+namespace Akeneo\Patoche\Tests\Acceptance\Context;
 
-use Akeneo\Application\Deployment\PreparePimForDeployment;
-use Akeneo\Application\Deployment\PreparePimForDeploymentHandler;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Repository;
-use Akeneo\Tests\Acceptance\Vcs\Api\FakeClient;
+use Akeneo\Patoche\Application\Deployment\PreparePimForDeployment;
+use Akeneo\Patoche\Application\Deployment\PreparePimForDeploymentHandler;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Repository;
+use Akeneo\Patoche\Tests\Acceptance\Vcs\Api\FakeClient;
 use Behat\Behat\Context\Context;
 use League\Flysystem\FilesystemInterface;
 use Webmozart\Assert\Assert;

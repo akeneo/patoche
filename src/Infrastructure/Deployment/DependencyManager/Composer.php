@@ -9,10 +9,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Infrastructure\Deployment\DependencyManager;
+namespace Akeneo\Patoche\Infrastructure\Deployment\DependencyManager;
 
-use Akeneo\Application\Deployment\DependencyManager;
-use Akeneo\Domain\Deployment\Dependency;
+use Akeneo\Patoche\Application\Deployment\DependencyManager;
+use Akeneo\Patoche\Domain\Deployment\Dependency;
 use Symfony\Component\Process\Process;
 use Webmozart\Assert\Assert;
 

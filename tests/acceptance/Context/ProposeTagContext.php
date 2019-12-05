@@ -9,15 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Tests\Acceptance\Context;
+namespace Akeneo\Patoche\Tests\Acceptance\Context;
 
-use Akeneo\Application\Vcs\GetNextTag;
-use Akeneo\Application\Vcs\GetNextTagHandler;
-use Akeneo\Domain\Common\Tag;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Patoche\Application\Vcs\GetNextTag;
+use Akeneo\Patoche\Application\Vcs\GetNextTagHandler;
+use Akeneo\Patoche\Domain\Common\Tag;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Repository;
 use Behat\Behat\Context\Context;
 use Webmozart\Assert\Assert;
 

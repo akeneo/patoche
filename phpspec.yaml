@@ -1,7 +1,7 @@
 suites:
     acceptance:
-        namespace: Akeneo\Tests\Acceptance
-        psr4_prefix: Akeneo\Tests\Acceptance
+        namespace: Akeneo\Patoche\Tests\Acceptance
+        psr4_prefix: Akeneo\Patoche\Tests\Acceptance
         src_path: tests/acceptance
         spec_path: tests/acceptance
 

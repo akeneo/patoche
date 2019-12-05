@@ -9,9 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Deployment;
+namespace Akeneo\Patoche\Application\Deployment;
 
-use Akeneo\Domain\Deployment\Dependency;
+use Akeneo\Patoche\Domain\Deployment\Dependency;
 
 interface DependencyManager
 {

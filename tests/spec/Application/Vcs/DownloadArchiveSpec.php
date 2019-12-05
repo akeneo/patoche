@@ -9,14 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Application\Vcs;
+namespace spec\Akeneo\Patoche\Application\Vcs;
 
-use Akeneo\Application\Vcs\DownloadArchive;
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Patoche\Application\Vcs\DownloadArchive;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Repository;
 use PhpSpec\ObjectBehavior;
 
 class DownloadArchiveSpec extends ObjectBehavior

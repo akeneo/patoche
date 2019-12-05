@@ -4,13 +4,13 @@ acceptance:
             paths:
                 - '%paths.base%/tests/features'
             contexts:
-                - Akeneo\Tests\Acceptance\Context\CommonContext
-                - Akeneo\Tests\Acceptance\Context\DownloadArchiveContext
-                - Akeneo\Tests\Acceptance\Context\PrepareForDeploymentContext
-                - Akeneo\Tests\Acceptance\Context\ProposeTagContext
+                - Akeneo\Patoche\Tests\Acceptance\Context\CommonContext
+                - Akeneo\Patoche\Tests\Acceptance\Context\DownloadArchiveContext
+                - Akeneo\Patoche\Tests\Acceptance\Context\PrepareForDeploymentContext
+                - Akeneo\Patoche\Tests\Acceptance\Context\ProposeTagContext
 
     extensions:
         FriendsOfBehat\SymfonyExtension:
             kernel:
-                class: Akeneo\Kernel
+                class: Akeneo\Patoche\Kernel
                 environment: acceptance

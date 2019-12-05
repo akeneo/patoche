@@ -9,11 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Domain\Vcs;
+namespace spec\Akeneo\Patoche\Domain\Vcs;
 
-use Akeneo\Domain\Common\Tag;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Tags;
+use Akeneo\Patoche\Domain\Common\Tag;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Tags;
 use PhpSpec\ObjectBehavior;
 
 class TagsSpec extends ObjectBehavior

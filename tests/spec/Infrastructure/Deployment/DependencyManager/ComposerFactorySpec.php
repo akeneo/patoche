@@ -9,15 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Infrastructure\Deployment\DependencyManager;
+namespace spec\Akeneo\Patoche\Infrastructure\Deployment\DependencyManager;
 
-use Akeneo\Application\Deployment\DependencyManagerFactory;
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Commit;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Infrastructure\Deployment\DependencyManager\Composer;
-use Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory;
+use Akeneo\Patoche\Application\Deployment\DependencyManagerFactory;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Vcs\Commit;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Infrastructure\Deployment\DependencyManager\Composer;
+use Akeneo\Patoche\Infrastructure\Deployment\DependencyManager\ComposerFactory;
 use PhpSpec\ObjectBehavior;
 
 class ComposerFactorySpec extends ObjectBehavior

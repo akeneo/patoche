@@ -7,7 +7,7 @@ framework:
                 arguments:
                     - 'places'
             supports:
-                - 'Akeneo\Application\Onboarder\OnboarderRelease'
+                - 'Akeneo\Patoche\Application\Onboarder\OnboarderRelease'
             initial_place: 'tagging_process_started'
             places:
                 - 'tagging_process_started'

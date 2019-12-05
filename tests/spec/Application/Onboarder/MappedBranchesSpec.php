@@ -9,11 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Application\Onboarder;
+namespace spec\Akeneo\Patoche\Application\Onboarder;
 
-use Akeneo\Application\Onboarder\Exception\BranchNotMapped;
-use Akeneo\Application\Onboarder\MappedBranches;
-use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Patoche\Application\Onboarder\Exception\BranchNotMapped;
+use Akeneo\Patoche\Application\Onboarder\MappedBranches;
+use Akeneo\Patoche\Domain\Vcs\Branch;
 use PhpSpec\ObjectBehavior;
 
 class MappedBranchesSpec extends ObjectBehavior

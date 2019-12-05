@@ -9,12 +9,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Tests\Acceptance\Context;
+namespace Akeneo\Patoche\Tests\Acceptance\Context;
 
-use Akeneo\Application\Vcs\DownloadArchive;
-use Akeneo\Application\Vcs\DownloadArchiveHandler;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Patoche\Application\Vcs\DownloadArchive;
+use Akeneo\Patoche\Application\Vcs\DownloadArchiveHandler;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Repository;
 use Behat\Behat\Context\Context;
 use League\Flysystem\FilesystemInterface;
 use Webmozart\Assert\Assert;
