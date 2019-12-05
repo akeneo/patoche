@@ -9,16 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Tests\Integration\Vcs\Api;
+namespace Akeneo\Patoche\Tests\Integration\Vcs\Api;
 
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Commit;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Tags;
-use Akeneo\Infrastructure\Vcs\Api\GitHubClient;
-use Akeneo\Tests\Integration\TestCase;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Commit;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Tags;
+use Akeneo\Patoche\Infrastructure\Vcs\Api\GitHubClient;
+use Akeneo\Patoche\Tests\Integration\TestCase;
 use League\Flysystem\Filesystem;
 use PHPUnit\Framework\Assert;
 

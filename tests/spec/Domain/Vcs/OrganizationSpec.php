@@ -9,9 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Domain\Vcs;
+namespace spec\Akeneo\Patoche\Domain\Vcs;
 
-use Akeneo\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Organization;
 use PhpSpec\ObjectBehavior;
 
 class OrganizationSpec extends ObjectBehavior

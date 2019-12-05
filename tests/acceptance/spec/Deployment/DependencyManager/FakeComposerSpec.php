@@ -9,14 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Tests\Acceptance\Deployment\DependencyManager;
+namespace spec\Akeneo\Patoche\Tests\Acceptance\Deployment\DependencyManager;
 
-use Akeneo\Domain\Deployment\Dependency;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Commit;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposer;
+use Akeneo\Patoche\Domain\Deployment\Dependency;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Commit;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Tests\Acceptance\Deployment\DependencyManager\FakeComposer;
 use League\Flysystem\FilesystemInterface;
 use PhpSpec\ObjectBehavior;
 

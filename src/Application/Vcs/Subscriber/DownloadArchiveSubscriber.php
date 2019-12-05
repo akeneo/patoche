@@ -9,13 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Vcs\Subscriber;
+namespace Akeneo\Patoche\Application\Vcs\Subscriber;
 
-use Akeneo\Application\Onboarder\OnboarderRelease;
-use Akeneo\Application\Vcs\DownloadArchive;
-use Akeneo\Application\Vcs\DownloadArchiveHandler;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Domain\Vcs\Repository;
+use Akeneo\Patoche\Application\Onboarder\OnboarderRelease;
+use Akeneo\Patoche\Application\Vcs\DownloadArchive;
+use Akeneo\Patoche\Application\Vcs\DownloadArchiveHandler;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Domain\Vcs\Repository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
 use Webmozart\Assert\Assert;

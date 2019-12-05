@@ -9,9 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Domain\Vcs;
+namespace spec\Akeneo\Patoche\Domain\Vcs;
 
-use Akeneo\Domain\Vcs\Commit;
+use Akeneo\Patoche\Domain\Vcs\Commit;
 use PhpSpec\ObjectBehavior;
 
 class CommitSpec extends ObjectBehavior

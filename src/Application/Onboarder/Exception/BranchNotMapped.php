@@ -9,9 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Onboarder\Exception;
+namespace Akeneo\Patoche\Application\Onboarder\Exception;
 
-use Akeneo\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Branch;
 
 final class BranchNotMapped extends \RuntimeException
 {

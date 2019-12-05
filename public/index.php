@@ -1,6 +1,6 @@
 <?php
 
-use Akeneo\Kernel;
+use Akeneo\Patoche\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 

@@ -21,52 +21,52 @@ services:
 
     # Application handlers
 
-    Akeneo\Application\Deployment\PreparePimForDeploymentHandler:
+    Akeneo\Patoche\Application\Deployment\PreparePimForDeploymentHandler:
         arguments:
-            - '@Akeneo\Application\Vcs\VcsApiClient'
-            - '@Akeneo\Application\Deployment\DependencyManagerFactory'
+            - '@Akeneo\Patoche\Application\Vcs\VcsApiClient'
+            - '@Akeneo\Patoche\Application\Deployment\DependencyManagerFactory'
 
-    Akeneo\Application\Vcs\DownloadArchiveHandler:
+    Akeneo\Patoche\Application\Vcs\DownloadArchiveHandler:
         arguments:
-            - '@Akeneo\Application\Vcs\VcsApiClient'
+            - '@Akeneo\Patoche\Application\Vcs\VcsApiClient'
 
-    Akeneo\Application\Vcs\GetNextTagHandler:
+    Akeneo\Patoche\Application\Vcs\GetNextTagHandler:
         arguments:
-            - '@Akeneo\Application\Vcs\VcsApiClient'
+            - '@Akeneo\Patoche\Application\Vcs\VcsApiClient'
 
     # Application subscribers
 
-    Akeneo\Application\Deployment\Subscriber\PreparePimForDeploymentSubscriber:
+    Akeneo\Patoche\Application\Deployment\Subscriber\PreparePimForDeploymentSubscriber:
         arguments:
-            - '@Akeneo\Application\Deployment\PreparePimForDeploymentHandler'
+            - '@Akeneo\Patoche\Application\Deployment\PreparePimForDeploymentHandler'
         tags: ['kernel.event_subscriber']
 
-    Akeneo\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
+    Akeneo\Patoche\Application\Vcs\Subscriber\DownloadArchiveSubscriber:
         arguments:
-            - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
+            - '@Akeneo\Patoche\Application\Vcs\DownloadArchiveHandler'
         tags: ['kernel.event_subscriber']
 
     # Infrastructure services
 
-    Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory:
+    Akeneo\Patoche\Infrastructure\Deployment\DependencyManager\ComposerFactory:
         arguments:
             - '%akeneo_patoche.infrastructure.path_to_composer_executable%'
             - '%akeneo_patoche.infrastructure.default_filesystem.directory%'
             - '%akeneo_patoche.infrastructure.symfony_process.timeout%'
-    Akeneo\Application\Deployment\DependencyManagerFactory: '@Akeneo\Infrastructure\Deployment\DependencyManager\ComposerFactory'
+    Akeneo\Patoche\Application\Deployment\DependencyManagerFactory: '@Akeneo\Patoche\Infrastructure\Deployment\DependencyManager\ComposerFactory'
 
-    Akeneo\Infrastructure\Vcs\Api\GitHubClient:
+    Akeneo\Patoche\Infrastructure\Vcs\Api\GitHubClient:
         arguments:
             - '@Github\Client'
             - '@League\Flysystem\Filesystem'
             - '%akeneo_patoche.infrastructure.default_filesystem.directory%'
-    Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Infrastructure\Vcs\Api\GitHubClient'
+    Akeneo\Patoche\Application\Vcs\VcsApiClient: '@Akeneo\Patoche\Infrastructure\Vcs\Api\GitHubClient'
 
     # Symfony commands
 
-    Akeneo\Infrastructure\IO\CommandLine\OnboarderRelease:
+    Akeneo\Patoche\Infrastructure\IO\CommandLine\OnboarderRelease:
         arguments:
-            - '@Akeneo\Application\Vcs\GetNextTagHandler'
+            - '@Akeneo\Patoche\Application\Vcs\GetNextTagHandler'
             - '@workflow.onboarder_release'
             - '%akeneo_patoche.application.mapped_branches%'
         tags: ['console.command']

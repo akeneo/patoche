@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Domain\Vcs;
+namespace Akeneo\Patoche\Domain\Vcs;
 
 use Webmozart\Assert\Assert;
 

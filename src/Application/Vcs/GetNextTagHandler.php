@@ -9,9 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Application\Vcs;
+namespace Akeneo\Patoche\Application\Vcs;
 
-use Akeneo\Domain\Common\Tag;
+use Akeneo\Patoche\Domain\Common\Tag;
 
 final class GetNextTagHandler
 {

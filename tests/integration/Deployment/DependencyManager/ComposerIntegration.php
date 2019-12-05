@@ -9,17 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Tests\Integration\Deployment\DependencyManager;
+namespace Akeneo\Patoche\Tests\Integration\Deployment\DependencyManager;
 
-use Akeneo\Application\Deployment\DependencyManagerFactory;
-use Akeneo\Domain\Common\WorkingDirectory;
-use Akeneo\Domain\Deployment\Dependency;
-use Akeneo\Domain\Vcs\Branch;
-use Akeneo\Domain\Vcs\Commit;
-use Akeneo\Domain\Vcs\Organization;
-use Akeneo\Domain\Vcs\Project;
-use Akeneo\Infrastructure\Deployment\DependencyManager\Composer;
-use Akeneo\Tests\Integration\TestCase;
+use Akeneo\Patoche\Application\Deployment\DependencyManagerFactory;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Deployment\Dependency;
+use Akeneo\Patoche\Domain\Vcs\Branch;
+use Akeneo\Patoche\Domain\Vcs\Commit;
+use Akeneo\Patoche\Domain\Vcs\Organization;
+use Akeneo\Patoche\Domain\Vcs\Project;
+use Akeneo\Patoche\Infrastructure\Deployment\DependencyManager\Composer;
+use Akeneo\Patoche\Tests\Integration\TestCase;
 use League\Flysystem\Filesystem;
 
 final class ComposerIntegration extends TestCase
@@ -51,7 +51,7 @@ final class ComposerIntegration extends TestCase
     },
     "autoload": {
         "psr-4": {
-            "Akeneo\\\\": "src/"
+            "Akeneo\\\\Patoche\\\\": "src/"
         }
     }
 }

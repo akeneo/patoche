@@ -9,9 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\Akeneo\Domain\Common;
+namespace spec\Akeneo\Patoche\Domain\Common;
 
-use Akeneo\Domain\Common\WorkingDirectory;
+use Akeneo\Patoche\Domain\Common\WorkingDirectory;
 use PhpSpec\ObjectBehavior;
 
 class WorkingDirectorySpec extends ObjectBehavior

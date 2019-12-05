@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Akeneo\Tests\Integration;
+namespace Akeneo\Patoche\Tests\Integration;
 
 use League\Flysystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

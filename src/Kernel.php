@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Akeneo;
+namespace Akeneo\Patoche;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

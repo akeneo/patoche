@@ -5,36 +5,36 @@ services:
 
     # - APPLICATION SERVICES OVERRIDDEN FOR ACCEPTANCE TESTS - #
 
-    Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposerFactory:
+    Akeneo\Patoche\Tests\Acceptance\Deployment\DependencyManager\FakeComposerFactory:
         arguments:
             - '@League\Flysystem\Filesystem'
-    Akeneo\Application\Deployment\DependencyManagerFactory: '@Akeneo\Tests\Acceptance\Deployment\DependencyManager\FakeComposerFactory'
+    Akeneo\Patoche\Application\Deployment\DependencyManagerFactory: '@Akeneo\Patoche\Tests\Acceptance\Deployment\DependencyManager\FakeComposerFactory'
 
-    Akeneo\Tests\Acceptance\Vcs\Api\FakeClient:
+    Akeneo\Patoche\Tests\Acceptance\Vcs\Api\FakeClient:
         arguments:
             - '@League\Flysystem\Filesystem'
-    Akeneo\Application\Vcs\VcsApiClient: '@Akeneo\Tests\Acceptance\Vcs\Api\FakeClient'
+    Akeneo\Patoche\Application\Vcs\VcsApiClient: '@Akeneo\Patoche\Tests\Acceptance\Vcs\Api\FakeClient'
 
     # - BEHAT CONTEXTS FOR ACCEPTANCE TESTS - #
 
-    Akeneo\Tests\Acceptance\Context\CommonContext:
+    Akeneo\Patoche\Tests\Acceptance\Context\CommonContext:
         public: true
         arguments:
             - '%akeneo_patoche.application.mapped_branches%'
 
-    Akeneo\Tests\Acceptance\Context\DownloadArchiveContext:
+    Akeneo\Patoche\Tests\Acceptance\Context\DownloadArchiveContext:
         public: true
         arguments:
-            - '@Akeneo\Application\Vcs\DownloadArchiveHandler'
+            - '@Akeneo\Patoche\Application\Vcs\DownloadArchiveHandler'
             - '@League\Flysystem\Filesystem'
 
-    Akeneo\Tests\Acceptance\Context\ProposeTagContext:
+    Akeneo\Patoche\Tests\Acceptance\Context\ProposeTagContext:
         public: true
         arguments:
-            - '@Akeneo\Application\Vcs\GetNextTagHandler'
+            - '@Akeneo\Patoche\Application\Vcs\GetNextTagHandler'
 
-    Akeneo\Tests\Acceptance\Context\PrepareForDeploymentContext:
+    Akeneo\Patoche\Tests\Acceptance\Context\PrepareForDeploymentContext:
         public: true
         arguments:
-            - '@Akeneo\Application\Deployment\PreparePimForDeploymentHandler'
+            - '@Akeneo\Patoche\Application\Deployment\PreparePimForDeploymentHandler'
             - '@League\Flysystem\Filesystem'

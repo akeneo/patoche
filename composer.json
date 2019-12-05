@@ -42,13 +42,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Akeneo\\": "src/"
+            "Akeneo\\Patoche\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Akeneo\\Tests\\Acceptance\\": "tests/acceptance",
-            "Akeneo\\Tests\\Integration\\": "tests/integration"
+            "Akeneo\\Patoche\\Tests\\Acceptance\\": "tests/acceptance",
+            "Akeneo\\Patoche\\Tests\\Integration\\": "tests/integration"
         }
     },
     "replace": {
