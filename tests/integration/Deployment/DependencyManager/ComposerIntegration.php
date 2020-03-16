@@ -257,7 +257,8 @@ JSON;
     "platform": {
         "php": "7.3.*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
 
 JSON;
@@ -335,7 +336,8 @@ JSON;
     "platform": {
         "php": "7.3.*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
 
 JSON;
@@ -420,7 +422,8 @@ JSON;
     "platform": {
         "php": "7.3.*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
 
 JSON;
