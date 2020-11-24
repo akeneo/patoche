@@ -1,3 +1,0 @@
-#index:
-#    path: /
-#    controller: Akeneo\Patoche\Patoche\Controller\DefaultController::index

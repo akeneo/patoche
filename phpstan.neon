@@ -1,4 +1,0 @@
-parameters:
-	excludes_analyse:
-		- '%currentWorkingDirectory%/tests/spec/*'
-		- '%currentWorkingDirectory%/tests/acceptance/spec/*'

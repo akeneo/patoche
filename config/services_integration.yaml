@@ -1,2 +1,0 @@
-parameters:
-    akeneo_patoche.infrastructure.default_filesystem.directory: '%kernel.project_dir%/data/tests'
