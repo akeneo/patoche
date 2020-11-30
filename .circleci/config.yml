@@ -2,11 +2,8 @@ version: 2.1
 
 jobs:
     test:
-        machine:
-            docker_layer_caching: true
-            image: ubuntu-2004:202010-01
-        environment:
-            CURRENT_USER_IDS: "1001:1002"
+        docker:
+            - image: cimg/node:current
         steps:
             - checkout
             - store_test_results:
