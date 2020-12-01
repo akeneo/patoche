@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --mode production",
-    "serve": "webpack serve --progress --mode development"
+    "serve": "webpack serve --progress --mode development",
+    "eslint": "eslint src/**/*.{js,jsx}"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,12 @@
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-react": "^7.12.7",
     "babel-loader": "^8.2.1",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
     "html-webpack-plugin": "^4.5.0",
+    "prettier": "2.2.1",
     "webpack": "^5.7.0",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"

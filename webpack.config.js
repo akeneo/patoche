@@ -9,12 +9,13 @@ module.exports = {
     open: true,
     watchContentBase: true,
   },
+  entry: './src/index.jsx',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: { loader: 'babel-loader' },
+        use: 'babel-loader',
       },
     ],
   },
@@ -24,4 +25,7 @@ module.exports = {
       filename: 'index.html',
     }),
   ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
 };

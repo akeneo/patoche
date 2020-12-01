@@ -1,25 +1,25 @@
 version: 2.1
 
 jobs:
-    test:
-        docker:
-            - image: cimg/node:current
-        steps:
-            - checkout
-            - store_test_results:
-                path: var/tests
-            - store_artifacts:
-                path: var/tests
+  test:
+    docker:
+      - image: cimg/node:current
+    steps:
+      - checkout
+      - store_test_results:
+          path: var/tests
+      - store_artifacts:
+          path: var/tests
 
 workflows:
-    pull_request:
-        jobs:
-            - wait_for_user_approval:
-                type: approval
-                filters:
-                    branches:
-                        ignore:
-                            - "master"
-            - test:
-                requires:
-                    - wait_for_user_approval
+  pull_request:
+    jobs:
+      - wait_for_user_approval:
+          type: approval
+          filters:
+            branches:
+              ignore:
+                - "master"
+      - test:
+          requires:
+            - wait_for_user_approval
