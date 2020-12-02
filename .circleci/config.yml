@@ -6,9 +6,18 @@ jobs:
       - image: cimg/node:current
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - node_modules-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+            - node_modules-{{ .Environment.CACHE_VERSION }}
+            - node_modules
       - run:
           name: Install dependencies
           command: yarn install --frozen-lockfile --check-files
+      - save_cache:
+          key: node_modules-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
       - run:
           name: Create the "reports" folder
           command: mkdir reports
