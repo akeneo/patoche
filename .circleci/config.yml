@@ -6,6 +6,18 @@ jobs:
       - image: cimg/node:current
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: yarn install --frozen-lockfile --check-files
+      - run:
+          name: Create the "reports" folder
+          command: mkdir reports
+      - run:
+          name: Lint JavaScript code with Eslint
+          command: yarn eslint -f junit > reports/eslint.xml
+      - run:
+          name: Try to build the application
+          command: yarn build
       - store_test_results:
           path: var/tests
       - store_artifacts:
@@ -14,12 +26,12 @@ jobs:
 workflows:
   pull_request:
     jobs:
-      - wait_for_user_approval:
+      - ready_to_build?:
           type: approval
           filters:
             branches:
               ignore:
-                - "master"
+                - 'master'
       - test:
           requires:
-            - wait_for_user_approval
+            - ready_to_build?
