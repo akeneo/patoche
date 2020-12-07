@@ -9,7 +9,7 @@ module.exports = {
     open: true,
     watchContentBase: true,
   },
-  entry: './src/index.jsx',
+  entry: ['@babel/polyfill', './src/index.jsx'],
   module: {
     rules: [
       {

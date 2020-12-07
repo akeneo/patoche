@@ -13,6 +13,9 @@ module.exports = {
   },
   plugins: ['react'],
   root: true,
+  rules: {
+    'newline-before-return': 'error',
+  },
   settings: {
     react: {
       version: 'detect',
