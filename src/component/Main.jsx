@@ -5,17 +5,18 @@ const Main = () => {
   const [workflowIdsWithActiveDeployment, setWorkflowIdsWithActiveDeployment] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const workflowIds = [];
+  const circleCiToken = localStorage.getItem('circle-token');
 
   const getWorkflowIdsWithActiveDeployment = async () => {
     const pipelinesResponse = await fetch(
-      'https://circleci.com/api/v2/project/gh/akeneo/onboarder/pipeline?circle-token=9c86222bd6eea4f14fe22ec4f179e0ea8c0d7efd'
+      `https://circleci.com/api/v2/project/gh/akeneo/onboarder/pipeline?circle-token=${circleCiToken}`
     );
     await pipelinesResponse
       .json()
       .then(async (pipelines) => {
         for (const pipeline of pipelines.items) {
           const pipelineWorkflowsResponse = await fetch(
-            `https://circleci.com/api/v2/pipeline/${pipeline.id}/workflow?circle-token=9c86222bd6eea4f14fe22ec4f179e0ea8c0d7efd`
+            `https://circleci.com/api/v2/pipeline/${pipeline.id}/workflow?circle-token=${circleCiToken}`
           );
 
           pipelineWorkflowsResponse
@@ -23,7 +24,7 @@ const Main = () => {
             .then(async (workflows) => {
               for (const workflow of workflows.items) {
                 const workflowJobsResponse = await fetch(
-                  `https://circleci.com/api/v2/workflow/${workflow.id}/job?circle-token=9c86222bd6eea4f14fe22ec4f179e0ea8c0d7efd`
+                  `https://circleci.com/api/v2/workflow/${workflow.id}/job?circle-token=${circleCiToken}`
                 );
 
                 workflowJobsResponse
