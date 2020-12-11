@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CircleCiTokenForm from './component/CircleCiTokenForm';
 import Main from './component/Main';
 
 const App = () => {
-  if (null === localStorage.getItem('circle-token') || '' === localStorage.getItem('circle-token')) {
+  const [circleToken, setCircleToken] = useState(localStorage.getItem('circle-token'));
+
+  if (null === circleToken || '' === circleToken) {
     return (
       <div>
-        <CircleCiTokenForm />
+        <CircleCiTokenForm state={{ circleToken: setCircleToken }} />
       </div>
     );
   } else {
     return (
       <div>
-        <Main />
+        <Main circleToken={circleToken} />
       </div>
     );
   }

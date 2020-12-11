@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
 
-const CircleCiTokenForm = () => {
+const CircleCiTokenForm = (props) => {
+  const { circleToken: setCircleToken } = {
+    circleToken: useState(''),
+    ...props.state,
+  };
+
   const { register, handleSubmit, errors } = useForm();
   const onSubmit = (data) => {
     localStorage.setItem('circle-token', data.token);
+    setCircleToken(data.token);
   };
 
   return (
@@ -14,6 +21,10 @@ const CircleCiTokenForm = () => {
       <input type="submit" value="Save" />
     </form>
   );
+};
+
+CircleCiTokenForm.propTypes = {
+  state: PropTypes.objet,
 };
 
 export default CircleCiTokenForm;

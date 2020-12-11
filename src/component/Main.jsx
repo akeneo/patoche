@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Workflows from './Worflows';
+import PropTypes from 'prop-types';
 
-const Main = () => {
-  const [workflowIdsWithActiveDeployment, setWorkflowIdsWithActiveDeployment] = useState([]);
+const Main = (props) => {
+  const [workflowIdsWithActiveDeployment, setWorkflowIdsWithActiveDeployment] = useState({ ids: [], isLoading: true });
   const [errorMessage, setErrorMessage] = useState('');
   const workflowIds = [];
-  const circleCiToken = localStorage.getItem('circle-token');
+  const circleCiToken = props.circleToken;
 
   const getWorkflowIdsWithActiveDeployment = async () => {
     const pipelinesResponse = await fetch(
@@ -44,7 +45,7 @@ const Main = () => {
       })
       .catch((error) => setErrorMessage(error.message));
 
-    setWorkflowIdsWithActiveDeployment(workflowIds);
+    setWorkflowIdsWithActiveDeployment({ ids: workflowIds, isLoading: false });
   };
 
   useEffect(() => {
@@ -57,11 +58,19 @@ const Main = () => {
         <p>Encountered error: &quot{errorMessage}&quot</p>
       ) : (
         <div>
-          <Workflows workflowIds={workflowIdsWithActiveDeployment} />
+          {workflowIdsWithActiveDeployment.isLoading ? (
+            <p>Loading data from CircleCI</p>
+          ) : (
+            <Workflows workflowIds={workflowIdsWithActiveDeployment.ids} />
+          )}
         </div>
       )}
     </div>
   );
+};
+
+Main.propTypes = {
+  circleToken: PropTypes.string,
 };
 
 export default Main;
