@@ -24,7 +24,7 @@ const CircleCiTokenForm = (props) => {
 };
 
 CircleCiTokenForm.propTypes = {
-  state: PropTypes.objet,
+  state: PropTypes.object,
 };
 
 export default CircleCiTokenForm;
