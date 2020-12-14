@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Workflows from './Worflows';
 import PropTypes from 'prop-types';
+import './Main.css';
 
 const Main = (props) => {
   const [workflowIdsWithActiveDeployment, setWorkflowIdsWithActiveDeployment] = useState({ ids: [], isLoading: true });
@@ -61,7 +62,7 @@ const Main = (props) => {
       ) : (
         <div>
           {workflowIdsWithActiveDeployment.isLoading ? (
-            <p>Loading data from CircleCI</p>
+            <div className="loading-spinner"></div>
           ) : (
             <Workflows workflowIds={workflowIdsWithActiveDeployment.ids} />
           )}
