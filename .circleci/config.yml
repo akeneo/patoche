@@ -22,6 +22,9 @@ jobs:
           name: Create the "reports" folder
           command: mkdir reports
       - run:
+          name: Lint CSS code with Stylelint
+          command: yarn stylelint
+      - run:
           name: Lint JavaScript code with Eslint
           command: yarn eslint -f junit > reports/eslint.xml
       - run:

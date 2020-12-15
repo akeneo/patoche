@@ -6,7 +6,7 @@ li {
   margin-bottom: 10px;
 }
 
-ul li:before {
+li::before {
   content: '';
   display: inline-block;
   height: 15px;
