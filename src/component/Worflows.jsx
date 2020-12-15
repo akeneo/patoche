@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Workflows.css';
 
 const Workflows = (props) => {
   const workflowIds = props.workflowIds;
