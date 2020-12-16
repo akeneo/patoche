@@ -1,16 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Workflows.css';
+import Workflow from './Workflow';
 
 const Workflows = (props) => {
-  const workflowIds = props.workflowIds;
-  const listItems = workflowIds.map((workflowId) => <li key={workflowId.toString()}>{workflowId}</li>);
+  const workflows = props.workflows;
+  const listItems = workflows.map((workflow) => (
+    <li key={workflow.id.toString()}>
+      <Workflow workflow={workflow} />
+    </li>
+  ));
 
   return <ul>{listItems}</ul>;
 };
 
 Workflows.propTypes = {
-  workflowIds: PropTypes.array,
+  workflows: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, pipelineNumber: PropTypes.number })),
 };
 
 export default Workflows;

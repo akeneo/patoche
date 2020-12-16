@@ -8,7 +8,7 @@ const Main = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    const workflowIds = [];
+    const workflowData = [];
     const circleCiToken = props.circleToken;
     const circleCiApiBaseUrl = 'https://circleci.com/api/v2';
 
@@ -37,7 +37,7 @@ const Main = (props) => {
                     .then((result) => {
                       result.items.forEach((job) => {
                         if ('clean-up-upgraded-environment?' === job.name && 'on_hold' === job.status) {
-                          workflowIds.push(workflow.id);
+                          workflowData.push({ id: workflow.id, pipelineNumber: workflow.pipeline_number });
                         }
                       });
                     })
@@ -49,7 +49,7 @@ const Main = (props) => {
         })
         .catch((error) => setErrorMessage(error.message));
 
-      setWorkflowIdsWithActiveDeployment({ ids: workflowIds, isLoading: false });
+      setWorkflowIdsWithActiveDeployment({ workflows: workflowData, isLoading: false });
     };
 
     getWorkflowIdsWithActiveDeployment();
@@ -64,7 +64,7 @@ const Main = (props) => {
           {workflowIdsWithActiveDeployment.isLoading ? (
             <div className="loading-spinner"></div>
           ) : (
-            <Workflows workflowIds={workflowIdsWithActiveDeployment.ids} />
+            <Workflows workflows={workflowIdsWithActiveDeployment.workflows} />
           )}
         </div>
       )}
