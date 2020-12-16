@@ -4,8 +4,7 @@ import './Workflows.css';
 import Workflow from './Workflow';
 
 const Workflows = (props) => {
-  const workflows = props.workflows;
-  const listItems = workflows.map((workflow) => (
+  const listItems = props.workflows.map((workflow) => (
     <li key={workflow.id.toString()}>
       <Workflow workflow={workflow} />
     </li>
