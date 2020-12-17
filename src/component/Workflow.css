@@ -1,0 +1,11 @@
+span {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+img {
+  width: 35px;
+  height: auto;
+  margin-right: 10px;
+}
