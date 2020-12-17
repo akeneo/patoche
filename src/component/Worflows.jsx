@@ -14,7 +14,13 @@ const Workflows = (props) => {
 };
 
 Workflows.propTypes = {
-  workflows: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, pipelineNumber: PropTypes.number })),
+  workflows: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      pipelineNumber: PropTypes.number,
+      triggeredBy: PropTypes.shape({ login: PropTypes.string, avatar_url: PropTypes.string }),
+    })
+  ),
 };
 
 export default Workflows;

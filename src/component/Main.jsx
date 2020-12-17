@@ -37,7 +37,11 @@ const Main = (props) => {
                     .then((result) => {
                       result.items.forEach((job) => {
                         if ('clean-up-upgraded-environment?' === job.name && 'on_hold' === job.status) {
-                          workflowData.push({ id: workflow.id, pipelineNumber: workflow.pipeline_number });
+                          workflowData.push({
+                            id: workflow.id,
+                            pipelineNumber: workflow.pipeline_number,
+                            triggeredBy: pipeline.trigger.actor,
+                          });
                         }
                       });
                     })
