@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  gh-pages: sugarshin/gh-pages@0.0.6
+
 jobs:
   test:
     docker:
@@ -28,8 +31,18 @@ jobs:
           name: Lint JavaScript code with Eslint
           command: yarn eslint -f junit > reports/eslint.xml
       - run:
-          name: Try to build the application
+          name: Build the application
           command: yarn build
+      - run:
+          name: Configure Git to use a specific SSH key
+          command: |
+            export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_1f25f8bb595295f6e2f2972f30d4e966 -o UserKnownHostsFile=~/.ssh/known_hosts -o IdentitiesOnly=Yes'
+            echo "export GIT_SSH_COMMAND=${GIT_SSH_COMMAND}" >> $BASH_ENV
+      - gh-pages/deploy:
+          git-email: 'circle-ci@akeneo.com'
+          git-user: 'akeneo-circle-ci'
+          ssh-fingerprints: '1f:25:f8:bb:59:52:95:f6:e2:f2:97:2f:30:d4:e9:66'
+          workspace-root: ~/project
       - store_test_results:
           path: var/tests
       - store_artifacts:
@@ -47,3 +60,12 @@ workflows:
       - test:
           requires:
             - ready_to_build?
+
+  after_merge:
+    jobs:
+      - ready_to_build?:
+          type: approval
+          filters:
+            branches:
+              only:
+                - 'master'
