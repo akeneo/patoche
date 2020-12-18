@@ -1,15 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Workflow.css';
+import styled from 'styled-components';
 
 const Workflow = (props) => {
   const url = `https://app.circleci.com/pipelines/github/akeneo/onboarder/${props.workflow.pipelineNumber}/workflows/${props.workflow.id}`;
 
+  const Span = styled.span`
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  `;
+
+  const Image = styled.img`
+    width: 35px;
+    height: auto;
+    margin-right: 10px;
+  `;
+
   return (
-    <span>
-      <img src={props.workflow.triggeredBy.avatar_url} alt={props.workflow.triggeredBy.login} />
+    <Span>
+      <Image src={props.workflow.triggeredBy.avatar_url} alt={props.workflow.triggeredBy.login} />
       <a href={url}>{props.workflow.id}</a>
-    </span>
+    </Span>
   );
 };
 

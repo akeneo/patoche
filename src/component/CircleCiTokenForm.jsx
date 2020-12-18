@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-import './CircleCiTokenForm.css';
+import styled from 'styled-components';
 
 const CircleCiTokenForm = (props) => {
   const { circleToken: setCircleToken } = {
@@ -17,19 +17,59 @@ const CircleCiTokenForm = (props) => {
 
   const url = `https://app.circleci.com/settings/user/tokens`;
 
+  const Form = styled.form`
+    margin-bottom: 40px;
+  `;
+
+  const TokenInput = styled.input`
+    height: 20px;
+    width: 280px;
+  `;
+
+  const SubmitInput = styled.input`
+    background-color: #4ca8e0;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 60px;
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: bold;
+    }
+  `;
+
+  const Paragraphe = styled.p`
+    margin: 10px 0;
+  `;
+
+  const Url = styled.a`
+    color: #4ca8e0;
+  `;
+
+  const WarningParagraphe = styled.p`
+    margin-top: 40px;
+    font-weight: bold;
+  `;
+
   return (
     <div className="circle-ci-token-form">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input className="token" name="token" type="text" ref={register({ required: true })} />
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TokenInput name="token" type="text" ref={register({ required: true })} />
         {errors.exampleRequired && <span>This field is required</span>}
-        <input className="submit" type="submit" value="Save" />
-      </form>
-      <p>Please enter your CircleCI token to access the application.</p>
-      <p>
-        Please follow <a href={url}>these instructions</a> to generate your personal CircleCI token and copy it here.
-      </p>
-      <p className="warning">Warning!</p>
-      <p>You can only use this application if you have access to the Onboader repository on Github.</p>
+        <SubmitInput type="submit" value="Save" />
+      </Form>
+      <Paragraphe>Please enter your CircleCI token to access the application.</Paragraphe>
+      <Paragraphe>
+        Please follow <Url href={url}>these instructions</Url> to generate your personal CircleCI token and copy it
+        here.
+      </Paragraphe>
+      <WarningParagraphe>Warning!</WarningParagraphe>
+      <Paragraphe>
+        You can only use this application if you have access to the Onboader repository on Github.
+      </Paragraphe>
     </div>
   );
 };
