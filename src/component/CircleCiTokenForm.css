@@ -1,0 +1,40 @@
+div {
+  text-align: center;
+}
+
+p {
+  margin: 10px;
+}
+
+.warning {
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+form {
+  margin-bottom: 40px;
+}
+
+.token {
+  height: 20px;
+  width: 280px;
+}
+
+.submit {
+  background-color: #4ca8e0;
+  color: white;
+  border: none;
+  height: 30px;
+  width: 60px;
+  border-radius: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.submit:hover {
+  font-weight: bold;
+}
+
+.circle-ci-token-form a {
+  color: #4ca8e0;
+}
