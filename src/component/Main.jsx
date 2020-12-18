@@ -12,11 +12,14 @@ const Main = (props) => {
     const circleCiToken = props.circleToken;
     const circleCiApiBaseUrl = 'https://circleci.com/api/v2';
 
-    const getWorkflowIdsWithActiveDeployment = async () => {
-      const pipelinesResponse = await fetch(
-        `${circleCiApiBaseUrl}/project/gh/akeneo/onboarder/pipeline?circle-token=${circleCiToken}`
-      );
-      await pipelinesResponse
+    const getWorkflowIdsWithActiveDeploymentByPage = async (nextPageToken) => {
+      let pipelineApiUrl = `${circleCiApiBaseUrl}/project/gh/akeneo/onboarder/pipeline?circle-token=${circleCiToken}`;
+      if ('' !== nextPageToken) {
+        pipelineApiUrl = `${pipelineApiUrl}&page-token=${nextPageToken}`;
+      }
+      const pipelinesResponse = await fetch(pipelineApiUrl);
+
+      return await pipelinesResponse
         .json()
         .then(async (pipelines) => {
           for (const pipeline of pipelines.items) {
@@ -50,8 +53,18 @@ const Main = (props) => {
               })
               .catch((error) => setErrorMessage(error.message));
           }
+
+          return pipelines.next_page_token;
         })
         .catch((error) => setErrorMessage(error.message));
+    };
+
+    const getWorkflowIdsWithActiveDeployment = async () => {
+      let nextPageToken = '';
+
+      for (let page = 0; page < 5; page++) {
+        nextPageToken = await getWorkflowIdsWithActiveDeploymentByPage(nextPageToken);
+      }
 
       setWorkflowIdsWithActiveDeployment({ workflows: workflowData, isLoading: false });
     };
