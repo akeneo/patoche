@@ -41,7 +41,7 @@ const CircleCiTokenForm = (props) => {
     }
   `;
 
-  const Paragraphe = styled.p`
+  const Paragraph = styled.p`
     margin: 10px 0;
   `;
 
@@ -49,7 +49,7 @@ const CircleCiTokenForm = (props) => {
     color: #4ca8e0;
   `;
 
-  const WarningParagraphe = styled.p`
+  const WarningParagraph = styled.p`
     margin-top: 40px;
     font-weight: bold;
   `;
@@ -61,15 +61,13 @@ const CircleCiTokenForm = (props) => {
         {errors.exampleRequired && <span>This field is required</span>}
         <SubmitInput type="submit" value="Save" />
       </Form>
-      <Paragraphe>Please enter your CircleCI token to access the application.</Paragraphe>
-      <Paragraphe>
+      <Paragraph>Please enter your CircleCI token to access the application.</Paragraph>
+      <Paragraph>
         Please follow <Url href={url}>these instructions</Url> to generate your personal CircleCI token and copy it
         here.
-      </Paragraphe>
-      <WarningParagraphe>Warning!</WarningParagraphe>
-      <Paragraphe>
-        You can only use this application if you have access to the Onboader repository on Github.
-      </Paragraphe>
+      </Paragraph>
+      <WarningParagraph>Warning!</WarningParagraph>
+      <Paragraph>You can only use this application if you have access to the Onboader repository on Github.</Paragraph>
     </div>
   );
 };
