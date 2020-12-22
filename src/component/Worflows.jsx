@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Workflows.css';
 import Workflow from './Workflow';
+import styled from 'styled-components';
 
 const Workflows = (props) => {
+  const Li = styled.li`
+    list-style: none;
+  `;
+
+  const Ul = styled.ul`
+    list-style-type: none;
+    padding: 0;
+  `;
+
   const listItems = props.workflows.map((workflow) => (
-    <li key={workflow.id.toString()}>
+    <Li key={workflow.id.toString()}>
       <Workflow workflow={workflow} />
-    </li>
+    </Li>
   ));
 
-  return <ul>{listItems}</ul>;
+  return <Ul>{listItems}</Ul>;
 };
 
 Workflows.propTypes = {
