@@ -22,37 +22,43 @@ const Main = (props) => {
       return await pipelinesResponse
         .json()
         .then(async (pipelines) => {
-          for (const pipeline of pipelines.items) {
-            const pipelineWorkflowsResponse = await fetch(
-              `${circleCiApiBaseUrl}/pipeline/${pipeline.id}/workflow?circle-token=${circleCiToken}`
-            );
+          await Promise.all(
+            pipelines.items.map(async (pipeline) => {
+              const pipelineWorkflowsResponse = await fetch(
+                `${circleCiApiBaseUrl}/pipeline/${pipeline.id}/workflow?circle-token=${circleCiToken}`
+              );
 
-            pipelineWorkflowsResponse
-              .json()
-              .then(async (workflows) => {
-                for (const workflow of workflows.items) {
-                  const workflowJobsResponse = await fetch(
-                    `${circleCiApiBaseUrl}/workflow/${workflow.id}/job?circle-token=${circleCiToken}`
-                  );
+              pipelineWorkflowsResponse
+                .json()
+                .then(async (workflows) => {
+                  await Promise.all(
+                    workflows.items.map(async (workflow) => {
+                      const workflowJobsResponse = await fetch(
+                        `${circleCiApiBaseUrl}/workflow/${workflow.id}/job?circle-token=${circleCiToken}`
+                      );
 
-                  workflowJobsResponse
-                    .json()
-                    .then((result) => {
-                      result.items.forEach((job) => {
-                        if ('clean-up-upgraded-environment?' === job.name && 'on_hold' === job.status) {
-                          workflowData.push({
-                            id: workflow.id,
-                            pipelineNumber: workflow.pipeline_number,
-                            triggeredBy: pipeline.trigger.actor,
-                          });
-                        }
-                      });
+                      workflowJobsResponse
+                        .json()
+                        .then(async (jobs) => {
+                          await Promise.all(
+                            jobs.items.map(async (job) => {
+                              if ('clean-up-upgraded-environment?' === job.name && 'on_hold' === job.status) {
+                                workflowData.push({
+                                  id: workflow.id,
+                                  pipelineNumber: workflow.pipeline_number,
+                                  triggeredBy: pipeline.trigger.actor,
+                                });
+                              }
+                            })
+                          );
+                        })
+                        .catch((error) => setErrorMessage(error.message));
                     })
-                    .catch((error) => setErrorMessage(error.message));
-                }
-              })
-              .catch((error) => setErrorMessage(error.message));
-          }
+                  );
+                })
+                .catch((error) => setErrorMessage(error.message));
+            })
+          );
 
           return pipelines.next_page_token;
         })
