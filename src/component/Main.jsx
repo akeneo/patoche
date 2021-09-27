@@ -49,7 +49,7 @@ const Main = (props) => {
                                   triggeredBy: pipeline.trigger.actor,
                                 });
                               } else {
-                                  console.info('Job name and status not relevant');
+                                console.info('Job name and status not relevant');
                               }
                             })
                           );
