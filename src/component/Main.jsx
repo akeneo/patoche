@@ -42,12 +42,14 @@ const Main = (props) => {
                         .then(async (jobs) => {
                           await Promise.all(
                             jobs.items.map(async (job) => {
-                              if ('clean-up-upgraded-environment?' === job.name && 'on_hold' === job.status) {
+                              if ('cleanup-all-environment?' === job.name && 'on_hold' === job.status) {
                                 workflowData.push({
                                   id: workflow.id,
                                   pipelineNumber: workflow.pipeline_number,
                                   triggeredBy: pipeline.trigger.actor,
                                 });
+                              } else {
+                                console.info('Job name and status not relevant');
                               }
                             })
                           );
